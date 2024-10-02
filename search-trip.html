@@ -1,114 +1,398 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search Location</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/main.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Location Search Bar</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        box-sizing: border-box;
+        margin: 0;
+        width: 100vw;
+        background-color: #f0f0f0;
+        overflow-x: hidden;
+      }
+
+      body::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      body::-webkit-scrollbar-thumb {
+        background-color: #888;
+        border-radius: 10px;
+      }
+
+      body::-webkit-scrollbar-thumb:hover {
+        background-color: #555;
+      }
+
+      body::-webkit-scrollbar-track {
+        background: #f0f0f0;
+        border-radius: 10px;
+      }
+
+      h1 {
+        text-align: center;
+        color: #333;
+        font-size: 28px;
+        font-weight: 800;
+      }
+
+      p {
+        text-align: center;
+        color: #666;
+        margin-bottom: 20px;
+      }
+
+      .main {
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      .search-container {
+        width: 100%;
+        max-width: 500px;
+        margin: auto;
+        position: relative;
+        z-index: 1001;
+      }
+
+      .search-wrapper {
+        position: relative;
+        width: 100%;
+      }
+
+      .search-bar {
+        width: 100%;
+        height: 50px;
+        padding: 10px 40px 10px 40px;
+        border: 1px solid #ddd;
+        border-radius: 20px;
+        font-size: 16px;
+        outline: none;
+        box-sizing: border-box;
+        transition: border-radius 0.3s ease;
+      }
+
+      .search-bar.active {
+        border-top-right-radius: 20px;
+        border-top-left-radius: 20px;
+        border-bottom: 2px solid black;
+        border-bottom-left-radius: 0px;
+        border-bottom-right-radius: 0px;
+      }
+
+      .search-icon {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #888;
+        pointer-events: none;
+      }
+
+      .search-results {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: white;
+        border-radius: 0 0 20px 20px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        max-height: 300px;
+        overflow-y: auto;
+        display: none;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+      }
+
+      .search-results::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      .search-results::-webkit-scrollbar-thumb {
+        background-color: #888;
+        border-radius: 10px;
+      }
+
+      .result-item {
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        align-items: center;
+      }
+
+      .result-item:last-child {
+        border-bottom: none;
+      }
+
+      .result-item:hover {
+        background-color: #f5f5f5;
+      }
+
+      .location-icon {
+        margin-right: 10px;
+        color: #666;
+        flex-shrink: 0;
+        padding: 10px;
+        border: 2px solid grey;
+        border-radius: 5px;
+        background-color: #f0f0f0;
+      }
+
+      .location-info {
+        flex-grow: 1;
+        min-width: 0;
+      }
+
+      .location-name {
+        font-weight: bold;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .location-details {
+        font-size: 12px;
+        color: #666;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .destinations {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 20px;
+        justify-content: center;
+        max-width: 600px;
+        margin: auto;
+      }
+
+      .destination {
+        text-align: center;
+      }
+
+      .destination img {
+        width: 100%;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 10px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .destination img:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .destination h3 {
+        margin: 10px 0 5px;
+        font-size: 16px;
+        color: #333;
+      }
+
+      .destination p {
+        margin: 0;
+        font-size: 14px;
+        color: #666;
+      }
+
+      .spacer-top-bottom {
+        margin-bottom: 20px;
+      }
+
+      .button-container {
+        position: fixed;
+        bottom: 20px;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: space-between;
+        padding: 0 20px;
+      }
+
+      .button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .button-back {
+        background-color: #f0f0f0;
+        color: #333;
+      }
+
+      .button-next {
+        background-color: #007bff;
+        color: white;
+        border-radius: 17px;
+      }
+
+      .search-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(5px);
+        display: none;
+        justify-content: center;
+        align-items: flex-start;
+        padding-top: 100px;
+        z-index: 1000;
+      }
+
+      @media (max-width: 480px) {
+        .search-bar {
+          font-size: 14px;
+        }
+        .result-item {
+          padding: 8px;
+        }
+        .location-name {
+          font-size: 14px;
+        }
+        .location-details {
+          font-size: 11px;
+        }
+        h1 {
+          font-size: 24px;
+        }
+      }
+    </style>
+  </head>
+  <body>
     <div class="main">
-        <h1>Where do you want to go?</h1>
-        <p>Search or get inspired by popular destinations.</p>
-    <div class="search-container">
+      <h1>Where do you want to go?</h1>
+      <p>Search or get inspired by popular destinations.</p>
+      <div class="search-container">
         <div class="search-wrapper">
-            <i class="fas fa-search search-icon"></i>
-            <input type="text" class="search-bar" placeholder="Search by city or town">
+          <i class="fas fa-search search-icon"></i>
+          <input
+            type="text"
+            class="search-bar"
+            placeholder="Search by city or town"
+          />
         </div>
         <div class="search-results"></div>
+      </div>
+
+      <div class="spacer-top-bottom"></div>
+
+      <div class="destinations">
+        <div class="destination">
+          <img src="assets/images/caption1.jpg" alt="Puerto Morelos" />
+          <h3>Puerto Morelos</h3>
+          <p>Mexico</p>
+        </div>
+        <div class="destination">
+          <img src="assets/images/caption2.jpg" alt="Paris" />
+          <h3>Paris</h3>
+          <p>France</p>
+        </div>
+        <div class="destination">
+          <img src="assets/images/caption3.jpg" alt="Providenciales" />
+          <h3>Providenciales</h3>
+          <p>Caribbean</p>
+        </div>
+        <div class="destination">
+          <img src="assets/images/caption4.jpg" alt="Hurghada" />
+          <h3>Hurghada</h3>
+          <p>Egypt</p>
+        </div>
+        <div class="destination">
+          <img src="assets/images/caption5.jpg" alt="London" />
+          <h3>London</h3>
+          <p>United Kingdom</p>
+        </div>
+        <div class="destination">
+          <img src="assets/images/caption2.jpg" alt="Cozumel" />
+          <h3>Cozumel</h3>
+          <p>Mexico</p>
+        </div>
+      </div>
     </div>
 
-    <div class="spacer-top-bottom">
+    <div class="search-overlay"></div>
 
-    </div>
-
-    <div class="destinations">
-        <div class="destination">
-            <img src="assets/images/caption1.jpg" alt="Puerto Morelos">
-            <h3>Puerto Morelos</h3>
-            <p>Mexico</p>
-        </div>
-        <div class="destination">
-            <img src="assets/images/caption2.jpg" alt="Paris">
-            <h3>Paris</h3>
-            <p>France</p>
-        </div>
-        <div class="destination">
-            <img src="assets/images/caption3.jpg" alt="Providenciales">
-            <h3>Providenciales</h3>
-            <p>Caribbean</p>
-        </div>
-        <div class="destination">
-            <img src="assets/images/caption4.jpg" alt="Hurghada">
-            <h3>Hurghada</h3>
-            <p>Egypt</p>
-        </div>
-        <div class="destination">
-            <img src="assets/images/caption5.jpg" alt="London">
-            <h3>London</h3>
-            <p>United Kingdom</p>
-        </div>
-        <div class="destination">
-            <img src="assets/images/caption2.jpg" alt="Cozumel">
-            <h3>Cozumel</h3>
-            <p>Mexico</p>
-        </div>
-    </div>
-
-
-
-    <!-- next and previous -->
-    <div class="button-container">
-        <button class="button button-back">Back</button>
-        <button class="button button-next">Next</button>
-    </div>
-
-</div>
     <script>
-        const searchBar = document.querySelector('.search-bar');
-        const searchResults = document.querySelector('.search-results');
+      const searchBar = document.querySelector(".search-bar");
+      const searchResults = document.querySelector(".search-results");
+      const searchOverlay = document.querySelector(".search-overlay");
 
-        const locations = [
-            { name: 'Paris', details: 'Île-de-France, France' },
-            { name: 'Punta Cana', details: 'La Altagracia Province, Dominican Republic' },
-            { name: 'Prague', details: 'Bohemia, Czech Republic' },
-            { name: 'Phuket', details: 'Thailand, Asia' },
-            { name: 'Perth', details: 'Western Australia, Australia' },
-            { name: 'Porto', details: 'Northern Portugal, Portugal' }
-        ];
+      const locations = [
+        { name: "Paris", details: "Île-de-France, France" },
+        {
+          name: "Punta Cana",
+          details: "La Altagracia Province, Dominican Republic",
+        },
+        { name: "Prague", details: "Bohemia, Czech Republic" },
+        { name: "Dubai", details: "United Arab Emirates" },
+        { name: "Singapore", details: "Southeast Asia" },
+      ];
 
-        searchBar.addEventListener('input', function() {
-            const searchTerm = this.value.toLowerCase();
-            const filteredLocations = locations.filter(location => 
-                location.name.toLowerCase().startsWith(searchTerm)
-            );
+      searchBar.addEventListener("focus", () => {
+        searchResults.style.display = "block";
+        searchBar.classList.add("active");
+        searchOverlay.style.display = "flex";
+      });
 
-            displayResults(filteredLocations);
+      searchBar.addEventListener("input", (e) => {
+        const query = e.target.value.toLowerCase();
+        searchResults.innerHTML = "";
+
+        const filteredLocations = locations.filter((location) =>
+          location.name.toLowerCase().includes(query)
+        );
+
+        filteredLocations.forEach((location) => {
+          const resultItem = document.createElement("div");
+          resultItem.classList.add("result-item");
+
+          const icon = document.createElement("i");
+          icon.classList.add("fas", "fa-map-marker-alt", "location-icon");
+
+          const locationInfo = document.createElement("div");
+          locationInfo.classList.add("location-info");
+
+          const locationName = document.createElement("div");
+          locationName.classList.add("location-name");
+          locationName.textContent = location.name;
+
+          const locationDetails = document.createElement("div");
+          locationDetails.classList.add("location-details");
+          locationDetails.textContent = location.details;
+
+          locationInfo.appendChild(locationName);
+          locationInfo.appendChild(locationDetails);
+          resultItem.appendChild(icon);
+          resultItem.appendChild(locationInfo);
+          searchResults.appendChild(resultItem);
         });
 
-        function displayResults(results) {
-            if (results.length === 0 || searchBar.value === '') {
-                searchResults.style.display = 'none';
-                return;
-            }
-
-            searchResults.innerHTML = '';
-            results.forEach(location => {
-                const resultItem = document.createElement('div');
-                resultItem.className = 'result-item';
-                resultItem.innerHTML = `
-                    <i class="fas fa-map-marker-alt location-icon"></i>
-                    <div class="location-info">
-                        <div class="location-name">${location.name}</div>
-                        <div class="location-details">${location.details}</div>
-                    </div>
-                `;
-                searchResults.appendChild(resultItem);
-            });
-
-            searchResults.style.display = 'block';
+        if (filteredLocations.length === 0) {
+          searchResults.innerHTML =
+            '<p style="padding: 10px;">No results found</p>';
         }
+      });
+
+      searchOverlay.addEventListener("click", () => {
+        searchResults.style.display = "none";
+        searchBar.classList.remove("active");
+        searchOverlay.style.display = "none";
+      });
     </script>
-</body>
+  </body>
 </html>
