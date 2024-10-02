@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Location</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+    <div class="main">
+        <h1>Where do you want to go?</h1>
+        <p>Search or get inspired by popular destinations.</p>
+    <div class="search-container">
+        <div class="search-wrapper">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" class="search-bar" placeholder="Search by city or town">
+        </div>
+        <div class="search-results"></div>
+    </div>
+
+    <div class="spacer-top-bottom">
+
+    </div>
+
+    <div class="destinations">
+        <div class="destination">
+            <img src="assets/images/caption1.jpg" alt="Puerto Morelos">
+            <h3>Puerto Morelos</h3>
+            <p>Mexico</p>
+        </div>
+        <div class="destination">
+            <img src="assets/images/caption2.jpg" alt="Paris">
+            <h3>Paris</h3>
+            <p>France</p>
+        </div>
+        <div class="destination">
+            <img src="assets/images/caption3.jpg" alt="Providenciales">
+            <h3>Providenciales</h3>
+            <p>Caribbean</p>
+        </div>
+        <div class="destination">
+            <img src="assets/images/caption4.jpg" alt="Hurghada">
+            <h3>Hurghada</h3>
+            <p>Egypt</p>
+        </div>
+        <div class="destination">
+            <img src="assets/images/caption5.jpg" alt="London">
+            <h3>London</h3>
+            <p>United Kingdom</p>
+        </div>
+        <div class="destination">
+            <img src="assets/images/caption2.jpg" alt="Cozumel">
+            <h3>Cozumel</h3>
+            <p>Mexico</p>
+        </div>
+    </div>
+
+
+
+    <!-- next and previous -->
+    <div class="button-container">
+        <button class="button button-back">Back</button>
+        <button class="button button-next">Next</button>
+    </div>
+
+</div>
+    <script>
+        const searchBar = document.querySelector('.search-bar');
+        const searchResults = document.querySelector('.search-results');
+
+        const locations = [
+            { name: 'Paris', details: 'Île-de-France, France' },
+            { name: 'Punta Cana', details: 'La Altagracia Province, Dominican Republic' },
+            { name: 'Prague', details: 'Bohemia, Czech Republic' },
+            { name: 'Phuket', details: 'Thailand, Asia' },
+            { name: 'Perth', details: 'Western Australia, Australia' },
+            { name: 'Porto', details: 'Northern Portugal, Portugal' }
+        ];
+
+        searchBar.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const filteredLocations = locations.filter(location => 
+                location.name.toLowerCase().startsWith(searchTerm)
+            );
+
+            displayResults(filteredLocations);
+        });
+
+        function displayResults(results) {
+            if (results.length === 0 || searchBar.value === '') {
+                searchResults.style.display = 'none';
+                return;
+            }
+
+            searchResults.innerHTML = '';
+            results.forEach(location => {
+                const resultItem = document.createElement('div');
+                resultItem.className = 'result-item';
+                resultItem.innerHTML = `
+                    <i class="fas fa-map-marker-alt location-icon"></i>
+                    <div class="location-info">
+                        <div class="location-name">${location.name}</div>
+                        <div class="location-details">${location.details}</div>
+                    </div>
+                `;
+                searchResults.appendChild(resultItem);
+            });
+
+            searchResults.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
