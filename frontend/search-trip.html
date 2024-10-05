@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Location Search Bar</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../assets/css/style.css" />
+  </head>
+  <body>
+    <div class="main">
+
+      <div class="search-trip-container">
+      <!-- progressbar -->
+      <div class="progress-bar">
+        <div class="progress" id="progress"></div>
+      </div>
+
+      <h1>Where do you want to go?</h1>
+      <p>Search or get inspired by popular destinations.</p>
+      <div class="search-container">
+        <div class="search-wrapper">
+          <i class="fas fa-search search-icon"></i>
+          <input
+            type="text"
+            class="search-bar"
+            placeholder="Search by city or town"
+          />
+        </div>
+        <div class="search-results"></div>
+      </div>
+
+      <div class="spacer-top-bottom"></div>
+
+      <div class="destinations">
+        <div class="destination">
+          <img src="../assets/images/caption1.jpg" alt="Puerto Morelos" />
+          <h3>Puerto Morelos</h3>
+          <p>Mexico</p>
+        </div>
+        <div class="destination">
+          <img src="../assets/images/caption2.jpg" alt="Paris" />
+          <h3>Paris</h3>
+          <p>France</p>
+        </div>
+        <div class="destination">
+          <img src="../assets/images/caption3.jpg" alt="Providenciales" />
+          <h3>Providenciales</h3>
+          <p>Caribbean</p>
+        </div>
+        <div class="destination">
+          <img src="../assets/images/caption4.jpg" alt="Hurghada" />
+          <h3>Hurghada</h3>
+          <p>Egypt</p>
+        </div>
+        <div class="destination">
+          <img src="../assets/images/caption5.jpg" alt="London" />
+          <h3>London</h3>
+          <p>United Kingdom</p>
+        </div>
+        <div class="destination">
+          <img src="../assets/images/caption2.jpg" alt="Cozumel" />
+          <h3>Cozumel</h3>
+          <p>Mexico</p>
+        </div>
+      </div>
+
+      </div>
+    </div>
+
+    <div class="search-overlay"></div>
+
+    <!-- buttom navigation -->
+  <div class="nav-buttons">
+      <button>Back</button>
+      <button>Next</button>
+  </div>
+
+    <script>
+      const searchBar = document.querySelector(".search-bar");
+      const searchResults = document.querySelector(".search-results");
+      const searchOverlay = document.querySelector(".search-overlay");
+
+      const locations = [
+        { name: "Paris", details: "Île-de-France, France" },
+        {
+          name: "Punta Cana",
+          details: "La Altagracia Province, Dominican Republic",
+        },
+        { name: "Prague", details: "Bohemia, Czech Republic" },
+        { name: "Dubai", details: "United Arab Emirates" },
+        { name: "Singapore", details: "Southeast Asia" },
+      ];
+
+      searchBar.addEventListener("focus", () => {
+        searchResults.style.display = "block";
+        searchBar.classList.add("active");
+        searchOverlay.style.display = "flex";
+      });
+
+      searchBar.addEventListener("input", (e) => {
+        const query = e.target.value.toLowerCase();
+        searchResults.innerHTML = "";
+
+        const filteredLocations = locations.filter((location) =>
+          location.name.toLowerCase().includes(query)
+        );
+
+        filteredLocations.forEach((location) => {
+          const resultItem = document.createElement("div");
+          resultItem.classList.add("result-item");
+
+          const icon = document.createElement("i");
+          icon.classList.add("fas", "fa-map-marker-alt", "location-icon");
+
+          const locationInfo = document.createElement("div");
+          locationInfo.classList.add("location-info");
+
+          const locationName = document.createElement("div");
+          locationName.classList.add("location-name");
+          locationName.textContent = location.name;
+
+          const locationDetails = document.createElement("div");
+          locationDetails.classList.add("location-details");
+          locationDetails.textContent = location.details;
+
+          locationInfo.appendChild(locationName);
+          locationInfo.appendChild(locationDetails);
+          resultItem.appendChild(icon);
+          resultItem.appendChild(locationInfo);
+          searchResults.appendChild(resultItem);
+        });
+
+        if (filteredLocations.length === 0) {
+          searchResults.innerHTML =
+            '<p style="padding: 10px;">No results found</p>';
+        }
+      });
+
+      searchOverlay.addEventListener("click", () => {
+        searchResults.style.display = "none";
+        searchBar.classList.remove("active");
+        searchOverlay.style.display = "none";
+      });
+    </script>
+  </body>
+</html>

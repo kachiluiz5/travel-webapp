@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Paris Itinerary Date Picker</title>
+    <style>
+      body,
+      html {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background-color: #ffffff;
+      }
+      .main {
+        margin: 0 auto;
+        padding: 20px;
+        display: flex;
+        background-color: #fff;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+      .calender-page-container {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        background-color: white;
+        /* max-width: 200px; */
+      }
+      .content {
+        flex-grow: 1;
+        padding: 20px;
+        text-align: center;
+        width: 700px;
+      }
+      h1 {
+        font-size: 24px;
+        margin-bottom: 10px;
+      }
+      p {
+        color: #666;
+        margin-bottom: 20px;
+      }
+      .toggle-container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+        background-color: #f0f0f0;
+        border-radius: 20px;
+        padding: 5px;
+      }
+      .toggle-btn {
+        flex: 1;
+        padding: 10px 20px;
+        text-align: center;
+        cursor: pointer;
+        border-radius: 15px;
+      }
+      .toggle-btn.active {
+        background-color: white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .date-input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        box-sizing: border-box;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .date-input span {
+        flex: 1;
+      }
+      .calendar-container {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
+      .calendar {
+        width: 48%;
+      }
+      .calendar-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+      .calendar-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 5px;
+      }
+      .calendar-day,
+      .calendar-date {
+        text-align: center;
+        padding: 5px;
+      }
+      .calendar-date {
+        cursor: pointer;
+      }
+      .calendar-date:hover {
+        background-color: #f0f0f0;
+      }
+      .calendar-date.active {
+        background-color: #007bff;
+        color: white;
+      }
+      .nav-buttons {
+        display: flex;
+        justify-content: space-between;
+        padding: 20px;
+        background-color: white;
+        border-top: 1px solid #ddd;
+        position: sticky;
+        bottom: 0;
+      }
+      .nav-buttons button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .nav-buttons button:hover {
+        background-color: #0056b3;
+      }
+      .nav-buttons button:first-child {
+        background-color: white;
+        color: #007bff;
+        border: 1px solid #007bff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main">
+      <div class="calender-page-container">
+        <div class="content">
+          <h1>When do you want to go?</h1>
+          <p>Choose a date range or length of stay, up to 7 days.</p>
+          <div class="toggle-container">
+            <div class="toggle-btn active" id="datesToggle">Dates (MM/DD)</div>
+            <div class="toggle-btn" id="lengthToggle">Trip Length</div>
+          </div>
+          <div class="date-input">
+            <span id="startDate">Start date</span>
+            <span id="endDate">End date</span>
+          </div>
+          <div class="calendar-container">
+            <div class="calendar">
+              <div class="calendar-header">
+                <button id="prevMonth">&lt;</button>
+                <span id="currentMonth1">October 2024</span>
+              </div>
+              <div class="calendar-grid" id="calendar1"></div>
+            </div>
+            <div class="calendar">
+              <div class="calendar-header">
+                <span id="currentMonth2">November 2024</span>
+                <button id="nextMonth">&gt;</button>
+              </div>
+              <div class="calendar-grid" id="calendar2"></div>
+            </div>
+          </div>
+        </div>
+        <div class="nav-buttons">
+          <button>Back</button>
+          <button>Next</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const calendar1 = document.getElementById("calendar1");
+      const calendar2 = document.getElementById("calendar2");
+      const currentMonth1El = document.getElementById("currentMonth1");
+      const currentMonth2El = document.getElementById("currentMonth2");
+      const prevMonthBtn = document.getElementById("prevMonth");
+      const nextMonthBtn = document.getElementById("nextMonth");
+
+      let currentDate1 = new Date(2024, 9, 1); // October 2024
+      let currentDate2 = new Date(2024, 10, 1); // November 2024
+
+      function renderCalendar(calendar, date, monthEl) {
+        calendar.innerHTML = "";
+        const year = date.getFullYear();
+        const month = date.getMonth();
+
+        monthEl.textContent = date.toLocaleString("default", {
+          month: "long",
+          year: "numeric",
+        });
+
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const firstDayOfMonth = new Date(year, month, 1).getDay();
+
+        const dayNames = ["S", "M", "T", "W", "T", "F", "S"];
+        dayNames.forEach((day) => {
+          const dayEl = document.createElement("div");
+          dayEl.classList.add("calendar-day");
+          dayEl.textContent = day;
+          calendar.appendChild(dayEl);
+        });
+
+        for (let i = 0; i < firstDayOfMonth; i++) {
+          calendar.appendChild(document.createElement("div"));
+        }
+
+        for (let day = 1; day <= daysInMonth; day++) {
+          const dateEl = document.createElement("div");
+          dateEl.classList.add("calendar-date");
+          dateEl.textContent = day;
+          calendar.appendChild(dateEl);
+        }
+      }
+
+      function updateCalendars() {
+        renderCalendar(calendar1, currentDate1, currentMonth1El);
+        renderCalendar(calendar2, currentDate2, currentMonth2El);
+      }
+
+      updateCalendars();
+
+      prevMonthBtn.addEventListener("click", () => {
+        currentDate1.setMonth(currentDate1.getMonth() - 1);
+        currentDate2.setMonth(currentDate2.getMonth() - 1);
+        updateCalendars();
+      });
+
+      nextMonthBtn.addEventListener("click", () => {
+        currentDate1.setMonth(currentDate1.getMonth() + 1);
+        currentDate2.setMonth(currentDate2.getMonth() + 1);
+        updateCalendars();
+      });
+
+      // Toggle functionality
+      const datesToggle = document.getElementById("datesToggle");
+      const lengthToggle = document.getElementById("lengthToggle");
+
+      datesToggle.addEventListener("click", () => {
+        datesToggle.classList.add("active");
+        lengthToggle.classList.remove("active");
+      });
+
+      lengthToggle.addEventListener("click", () => {
+        lengthToggle.classList.add("active");
+        datesToggle.classList.remove("active");
+      });
+    </script>
+  </body>
+</html>
