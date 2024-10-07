@@ -392,7 +392,7 @@
       <button>Next</button>
     </div>
 
-    <script>
+    <!-- <script>
       const searchBar = document.querySelector(".search-bar");
       const searchResults = document.querySelector(".search-results");
       const searchOverlay = document.querySelector(".search-overlay");
@@ -458,8 +458,101 @@
         searchBar.classList.remove("active");
         searchOverlay.style.display = "none";
       });
-    </script>
+    </script> -->
 
+    <script>
+      const searchBar = document.querySelector(".search-bar");
+      const searchResults = document.querySelector(".search-results");
+      const searchOverlay = document.querySelector(".search-overlay");
+      const nextButton = document.querySelector(".nav-buttons button:last-child");
+    
+      const locations = [
+        { name: "Paris", details: "Île-de-France, France" },
+        { name: "Punta Cana", details: "La Altagracia Province, Dominican Republic" },
+        { name: "Prague", details: "Bohemia, Czech Republic" },
+        { name: "Dubai", details: "United Arab Emirates" },
+        { name: "Singapore", details: "Southeast Asia" },
+      ];
+    
+      // Function to go to the next step
+      function goToNextStep() {
+        // This can be a redirect to another page or showing another section
+        console.log("Going to the next step...");
+        // Example: window.location.href = "nextStep.html";
+      }
+    
+      // Handle location search
+      searchBar.addEventListener("focus", () => {
+        searchResults.style.display = "block";
+        searchBar.classList.add("active");
+        searchOverlay.style.display = "flex";
+      });
+    
+      searchBar.addEventListener("input", (e) => {
+        const query = e.target.value.toLowerCase();
+        searchResults.innerHTML = "";
+    
+        const filteredLocations = locations.filter((location) =>
+          location.name.toLowerCase().includes(query)
+        );
+    
+        filteredLocations.forEach((location) => {
+          const resultItem = document.createElement("div");
+          resultItem.classList.add("result-item");
+    
+          const icon = document.createElement("i");
+          icon.classList.add("fas", "fa-map-marker-alt", "location-icon");
+    
+          const locationInfo = document.createElement("div");
+          locationInfo.classList.add("location-info");
+    
+          const locationName = document.createElement("div");
+          locationName.classList.add("location-name");
+          locationName.textContent = location.name;
+    
+          const locationDetails = document.createElement("div");
+          locationDetails.classList.add("location-details");
+          locationDetails.textContent = location.details;
+    
+          locationInfo.appendChild(locationName);
+          locationInfo.appendChild(locationDetails);
+          resultItem.appendChild(icon);
+          resultItem.appendChild(locationInfo);
+    
+          // Add event listener to go to next step when location is selected
+          resultItem.addEventListener("click", () => {
+            goToNextStep(); // Automatically go to next step
+          });
+    
+          searchResults.appendChild(resultItem);
+        });
+    
+        if (filteredLocations.length === 0) {
+          searchResults.innerHTML = "<div>No results found.</div>";
+        }
+      });
+    
+      // Hide search results and overlay when clicking outside
+      searchOverlay.addEventListener("click", () => {
+        searchResults.style.display = "none";
+        searchBar.classList.remove("active");
+        searchOverlay.style.display = "none";
+      });
+    
+      // Handle destination clicks to go to next step
+      const destinations = document.querySelectorAll(".destination");
+      destinations.forEach((destination) => {
+        destination.addEventListener("click", () => {
+          goToNextStep(); // Automatically go to next step when a destination is clicked
+        });
+      });
+    
+      // Optional: Handle 'Next' button click if required
+      nextButton.addEventListener("click", () => {
+        goToNextStep();
+      });
+    </script>
+    
     <script src="../assets/js/main.js"></script>
 
     
