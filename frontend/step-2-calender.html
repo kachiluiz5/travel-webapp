@@ -311,19 +311,19 @@
     </style>
 </head>
 <body>
-    <nav class="progress-nav">
+    <!-- <nav class="progress-nav">
         <div class="progress-container">
             <div class="progress-bar" style="margin-top: 50px;">
                 <div class="progress" id="progress"></div>
             </div>
             <div class="step-container" id="stepContainer"></div>
         </div>
-    </nav>
+    </nav> -->
     <div class="main">
     <div class="calendar-container">
-        <!-- <div class="progress-bar">
+        <div class="progress-bar">
             <div class="progress"></div>
-        </div> -->
+        </div>
         <div class="calendar-header">
             <h1 class="calendar-title">When are you going?</h1>
             <!-- <button class="close-button" aria-label="Close calendar">&times;</button> -->
@@ -359,8 +359,9 @@
 
         <!-- bottom navigation -->
         <div class="nav-buttons">
-            <button>back</button>
-            <button>Next</button>
+            <button onclick="window.location.href='step2.html'; updateProgress(2);">Next</button>
+            <button onclick="window.location.href='step1.html'; updateProgress(1);">Back</button>
+            
         </div>
     <script>
         const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -460,5 +461,11 @@
         window.addEventListener('resize', handleResponsive);
         handleResponsive();
     </script>
+        <script src="../assets/js/main.js"></script>
+        <script>
+            updateProgress(1); // Set the progress to 2/3 (66.66%)
+          </script>
+          
+
 </body>
 </html>

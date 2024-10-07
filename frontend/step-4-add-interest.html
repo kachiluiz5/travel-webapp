@@ -238,8 +238,9 @@
     </div>
 
     <div class="nav-buttons">
-      <button>Back</button>
-      <button>Next</button>
+      <button onclick="window.location.href='step2.html'; updateProgress(2);">Next</button>
+      <button onclick="window.location.href='step1.html'; updateProgress(1);">Back</button>
+      
     </div>
 
     <script>
@@ -315,5 +316,10 @@
         console.log("Going back to the previous step");
       };
     </script>
+        <script src="../assets/js/main.js"></script>
+        <script>
+          updateProgress(3); // Set the progress to 3/3 (100%)
+        </script>
+        
   </body>
 </html>
