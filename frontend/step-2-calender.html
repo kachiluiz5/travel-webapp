@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Travel Calendar</title>
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/style.css" />
     <!-- <style>
         :root {
             --primary-color: #000;
@@ -232,85 +232,83 @@
     </style> -->
 
     <style>
+      .progress-nav {
+        width: 100%;
+        background-color: #ffffff;
+        padding: 20px 10px;
+      }
 
+      .progress-container {
+        max-width: 800px;
+        margin: 0 auto;
+        position: relative;
+      }
 
-        .progress-nav {
-            width: 100%;
-            background-color: #ffffff;
-            padding: 20px 10px;
-        }
+      .progress-bar {
+        width: 100%;
+        height: 4px;
+        background-color: #ddd;
+        position: relative;
+        margin-bottom: 30px;
+      }
 
-        .progress-container {
-            max-width: 800px;
-            margin: 0 auto;
-            position: relative;
-        }
+      .progress {
+        position: absolute;
+        height: 100%;
+        background-color: #000000;
+        transition: width 0.3s ease;
+      }
 
-        .progress-bar {
-            width: 100%;
-            height: 4px;
-            background-color: #ddd;
-            position: relative;
-            margin-bottom: 30px;
-        }
+      .step-container {
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+      }
 
-        .progress {
-            position: absolute;
-            height: 100%;
-            background-color: #000000;
-            transition: width 0.3s ease;
-        }
+      .step {
+        text-align: center;
+        flex: 1;
+        position: relative;
+      }
 
-        .step-container {
-            display: flex;
-            justify-content: space-between;
-            position: relative;
-        }
+      .step-circle {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background-color: #ddd;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto 10px;
+        font-weight: bold;
+        color: #fff;
+        position: relative;
+        z-index: 2;
+      }
 
-        .step {
-            text-align: center;
-            flex: 1;
-            position: relative;
+      .step.active .step-circle {
+        background-color: #4caf50;
+      }
+
+      .step-name {
+        font-size: 14px;
+        color: #333;
+      }
+
+      @media (max-width: 600px) {
+        .step-name {
+          font-size: 12px;
         }
 
         .step-circle {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background-color: #ddd;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0 auto 10px;
-            font-weight: bold;
-            color: #fff;
-            position: relative;
-            z-index: 2;
+          width: 25px;
+          height: 25px;
+          font-size: 12px;
         }
-
-        .step.active .step-circle {
-            background-color: #4CAF50;
-        }
-
-        .step-name {
-            font-size: 14px;
-            color: #333;
-        }
-
-        @media (max-width: 600px) {
-            .step-name {
-                font-size: 12px;
-            }
-
-            .step-circle {
-                width: 25px;
-                height: 25px;
-                font-size: 12px;
-            }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <!-- <nav class="progress-nav">
         <div class="progress-container">
             <div class="progress-bar" style="margin-top: 50px;">
@@ -320,152 +318,195 @@
         </div>
     </nav> -->
     <div class="main">
-    <div class="calendar-container">
+      <div class="calendar-container">
         <div class="progress-bar">
-            <div class="progress"></div>
+          <div class="progress"></div>
         </div>
         <div class="calendar-header">
-            <h1 class="calendar-title">When are you going?</h1>
-            <!-- <button class="close-button" aria-label="Close calendar">&times;</button> -->
+          <h1 class="calendar-title">When are you going?</h1>
+          <!-- <button class="close-button" aria-label="Close calendar">&times;</button> -->
         </div>
         <p class="calendar-subtitle">Choose a date range, up to 30 days.</p>
         <div class="calendars">
-            <div class="calendar">
-                <div class="month-header">
-                    <button class="nav-button prev-month" aria-label="Previous month" >&lt;</button>
-                    <h2 class="month-title"></h2>
-                    <button class="nav-button next-month" aria-label="Next month" >&gt;</button>
-                </div>
-                <div class="weekdays"></div>
-                <div class="days"></div>
+          <div class="calendar">
+            <div class="month-header">
+              <button class="nav-button prev-month" aria-label="Previous month">
+                &lt;
+              </button>
+              <h2 class="month-title"></h2>
+              <button class="nav-button next-month" aria-label="Next month">
+                &gt;
+              </button>
             </div>
-            <div class="calendar">
-                <div class="month-header">
-                    <h2 class="month-title"></h2>
-                </div>
-                <div class="weekdays"></div>
-                <div class="days"></div>
+            <div class="weekdays"></div>
+            <div class="days"></div>
+          </div>
+          <div class="calendar">
+            <div class="month-header">
+              <h2 class="month-title"></h2>
             </div>
+            <div class="weekdays"></div>
+            <div class="days"></div>
+          </div>
         </div>
-        <div class="calender-footer-text" style="text-align: center;">
-            <a class="footer-link">I don't know my dates yet</a>
-
+        <div class="calender-footer-text" style="text-align: center">
+          <a class="footer-link">I don't know my dates yet</a>
         </div>
         <div class="spacer-top-bottom"></div>
-
-
-    </div>
+      </div>
     </div>
 
-        <!-- bottom navigation -->
-        <div class="nav-buttons">
-            <button onclick="window.location.href='step2.html'; updateProgress(2);">Next</button>
-            <button onclick="window.location.href='step1.html'; updateProgress(1);">Back</button>
-            
-        </div>
+    <!-- bottom navigation -->
+    <div class="nav-buttons">
+      <button
+        onclick="window.location.href='step-1-search-trip.html'; updateProgress(2);"
+      >
+        Back
+      </button>
+      <button
+        onclick="window.location.href='step-3-family.html'; updateProgress(1);"
+      >
+        Next
+      </button>
+    </div>
     <script>
-        const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-        const weekdays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-        let currentDate = new Date();
-        let selectedStartDate = null;
-        let selectedEndDate = null;
+      const months = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ];
+      const weekdays = ["S", "M", "T", "W", "T", "F", "S"];
+      let currentDate = new Date();
+      let selectedStartDate = null;
+      let selectedEndDate = null;
 
-        function renderCalendar(calendarElement, monthOffset) {
-            const year = currentDate.getFullYear();
-            const month = currentDate.getMonth() + monthOffset;
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
-            const firstDayOfMonth = new Date(year, month, 1).getDay();
+      function renderCalendar(calendarElement, monthOffset) {
+        const year = currentDate.getFullYear();
+        const month = currentDate.getMonth() + monthOffset;
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const firstDayOfMonth = new Date(year, month, 1).getDay();
 
-            const monthTitle = calendarElement.querySelector('.month-title');
-            monthTitle.textContent = `${months[month % 12]} ${month > 11 ? year + 1 : year}`;
+        const monthTitle = calendarElement.querySelector(".month-title");
+        monthTitle.textContent = `${months[month % 12]} ${
+          month > 11 ? year + 1 : year
+        }`;
 
-            const weekdaysElement = calendarElement.querySelector('.weekdays');
-            weekdaysElement.innerHTML = weekdays.map(day => `<div>${day}</div>`).join('');
+        const weekdaysElement = calendarElement.querySelector(".weekdays");
+        weekdaysElement.innerHTML = weekdays
+          .map((day) => `<div>${day}</div>`)
+          .join("");
 
-            const daysElement = calendarElement.querySelector('.days');
-            daysElement.innerHTML = '';
+        const daysElement = calendarElement.querySelector(".days");
+        daysElement.innerHTML = "";
 
-            for (let i = 0; i < firstDayOfMonth; i++) {
-                daysElement.appendChild(document.createElement('div'));
-            }
-
-            for (let day = 1; day <= daysInMonth; day++) {
-                const date = new Date(year, month, day);
-                const dayElement = document.createElement('div');
-                dayElement.classList.add('day');
-                dayElement.textContent = day;
-
-                if (date < new Date()) {
-                    dayElement.classList.add('disabled');
-                } else {
-                    dayElement.addEventListener('click', () => handleDateClick(date));
-                }
-
-                if (selectedStartDate && selectedEndDate &&
-                    date >= selectedStartDate && date <= selectedEndDate) {
-                    dayElement.classList.add('selected');
-                }
-
-                if (selectedStartDate && !selectedEndDate && date > selectedStartDate) {
-                    dayElement.classList.add('range');
-                }
-
-                daysElement.appendChild(dayElement);
-            }
+        for (let i = 0; i < firstDayOfMonth; i++) {
+          daysElement.appendChild(document.createElement("div"));
         }
 
-        function handleDateClick(date) {
-            if (!selectedStartDate || (selectedStartDate && selectedEndDate) || date < selectedStartDate) {
-                selectedStartDate = date;
-                selectedEndDate = null;
-            } else {
-                selectedEndDate = date;
-            }
-            updateCalendars();
+        for (let day = 1; day <= daysInMonth; day++) {
+          const date = new Date(year, month, day);
+          const dayElement = document.createElement("div");
+          dayElement.classList.add("day");
+          dayElement.textContent = day;
+
+          if (date < new Date()) {
+            dayElement.classList.add("disabled");
+          } else {
+            dayElement.addEventListener("click", () => handleDateClick(date));
+          }
+
+          if (
+            selectedStartDate &&
+            selectedEndDate &&
+            date >= selectedStartDate &&
+            date <= selectedEndDate
+          ) {
+            dayElement.classList.add("selected");
+          }
+
+          if (
+            selectedStartDate &&
+            !selectedEndDate &&
+            date > selectedStartDate
+          ) {
+            dayElement.classList.add("range");
+          }
+
+          daysElement.appendChild(dayElement);
         }
+      }
 
-        function updateCalendars() {
-            document.querySelectorAll('.calendar').forEach((calendar, index) => {
-                renderCalendar(calendar, index);
-            });
+      function handleDateClick(date) {
+        if (
+          !selectedStartDate ||
+          (selectedStartDate && selectedEndDate) ||
+          date < selectedStartDate
+        ) {
+          selectedStartDate = date;
+          selectedEndDate = null;
+        } else {
+          selectedEndDate = date;
         }
-
-        function handleMonthNavigation(direction) {
-            currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + direction, 1);
-            updateCalendars();
-        }
-
-        document.querySelector('.prev-month').addEventListener('click', () => handleMonthNavigation(-1));
-        document.querySelector('.next-month').addEventListener('click', () => handleMonthNavigation(1));
-
         updateCalendars();
+      }
 
-        // Responsive behavior
-        function handleResponsive() {
-            const isMobile = window.innerWidth <= 768;
-            const calendars = document.querySelectorAll('.calendar');
-            const prevButton = document.querySelector('.prev-month');
-            const nextButton = document.querySelector('.next-month');
+      function updateCalendars() {
+        document.querySelectorAll(".calendar").forEach((calendar, index) => {
+          renderCalendar(calendar, index);
+        });
+      }
 
-            if (isMobile) {
-                calendars[1].style.display = 'none';
-                prevButton.style.display = 'block';
-                nextButton.style.display = 'block';
-            } else {
-                calendars[1].style.display = 'block';
-                prevButton.style.display = 'block';
-                nextButton.style.display = 'block';
-            }
+      function handleMonthNavigation(direction) {
+        currentDate = new Date(
+          currentDate.getFullYear(),
+          currentDate.getMonth() + direction,
+          1
+        );
+        updateCalendars();
+      }
+
+      document
+        .querySelector(".prev-month")
+        .addEventListener("click", () => handleMonthNavigation(-1));
+      document
+        .querySelector(".next-month")
+        .addEventListener("click", () => handleMonthNavigation(1));
+
+      updateCalendars();
+
+      // Responsive behavior
+      function handleResponsive() {
+        const isMobile = window.innerWidth <= 768;
+        const calendars = document.querySelectorAll(".calendar");
+        const prevButton = document.querySelector(".prev-month");
+        const nextButton = document.querySelector(".next-month");
+
+        if (isMobile) {
+          calendars[1].style.display = "none";
+          prevButton.style.display = "block";
+          nextButton.style.display = "block";
+        } else {
+          calendars[1].style.display = "block";
+          prevButton.style.display = "block";
+          nextButton.style.display = "block";
         }
+      }
 
-        window.addEventListener('resize', handleResponsive);
-        handleResponsive();
+      window.addEventListener("resize", handleResponsive);
+      handleResponsive();
     </script>
-        <script src="../assets/js/main.js"></script>
-        <script>
-            updateProgress(1); // Set the progress to 2/3 (66.66%)
-          </script>
-          
-
-</body>
+    <script src="../assets/js/main.js"></script>
+    <script>
+      updateProgress(1); // Set the progress to 2/3 (66.66%)
+    </script>
+  </body>
 </html>

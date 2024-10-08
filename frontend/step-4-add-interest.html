@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Interest Selection</title>
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/style.css" />
     <!-- <style>
       * {
         margin: 0;
@@ -238,9 +238,14 @@
     </div>
 
     <div class="nav-buttons">
-      <button onclick="window.location.href='step2.html'; updateProgress(2);">Next</button>
-      <button onclick="window.location.href='step1.html'; updateProgress(1);">Back</button>
-      
+      <button
+        onclick="window.location.href='step-3-family.html'; updateProgress(2);"
+      >
+        Back
+      </button>
+      <a href="step-5-signup.html"
+        ><button style="background-color: black; color: #fff">Next</button></a
+      >
     </div>
 
     <script>
@@ -311,15 +316,15 @@
         // Here you would typically send this data to your backend or move to the next step
       };
 
-      document.querySelector(".nav-buttons button:first-child").onclick = () => {
-        // Here you would typically go back to the previous step in your booking process
-        console.log("Going back to the previous step");
-      };
+      document.querySelector(".nav-buttons button:first-child").onclick =
+        () => {
+          // Here you would typically go back to the previous step in your booking process
+          console.log("Going back to the previous step");
+        };
     </script>
-        <script src="../assets/js/main.js"></script>
-        <script>
-          updateProgress(3); // Set the progress to 3/3 (100%)
-        </script>
-        
+    <script src="../assets/js/main.js"></script>
+    <script>
+      updateProgress(3); // Set the progress to 3/3 (100%)
+    </script>
   </body>
 </html>
