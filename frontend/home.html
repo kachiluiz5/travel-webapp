@@ -88,14 +88,14 @@ header {
 }
 
 h1 {
-    font-size: 4rem;
+    font-size: 3rem;
     margin-bottom: 1rem;
     letter-spacing: 2px;
 }
 
 .cta-button {
-    background-color: white;
-    color: black;
+    background-color: transparent;
+    color: #fff;
     border: none;
     padding: 0.75rem 1.5rem;
     font-size: 0.9rem;
@@ -103,6 +103,7 @@ h1 {
     text-transform: uppercase;
     letter-spacing: 1px;
     transition: background-color 0.3s, color 0.3s;
+    border: 2px solid #fff;
 }
 
 .cta-button:hover {
@@ -210,7 +211,7 @@ h1 {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(75, 0, 130, 0.7); /* Dark purple overlay */
+    background-color: rgba(76, 0, 130, 0.304); 
     display: flex;
     flex-direction: column;
 }
@@ -231,13 +232,18 @@ h1 {
                         <text x="50" y="55" font-family="Arial" font-size="24" fill="#fff" text-anchor="middle" dominant-baseline="middle">PDS</text>
                     </svg>
                 </div>
-                <button id="menuBtn" aria-label="Toggle menu">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-                </button>
+                <div style=" display: flex;">
+                    <!-- <button class="nav-button" style="margin-right: 10px; background-color: transparent; border: 2px solid #fff; color: #fff;">EVENT PRODUCTION SERVICES</button> -->
+                    <p style="font-size: 22px; color: white; margin-right: 10px;">Menu</p>
+                    <button id="menuBtn" aria-label="Toggle menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                    </button>
+                </div>
             </header>
             <div class="hero-content">
-                <h1>EVENT PRODUCTION</h1>
-                <button class="cta-button">EVENT PRODUCTION SERVICES</button>
+                <h1>PLAN A TRIP </h1>
+                <button class="cta-button"> Speak with an Experience Curator
+                </button>
             </div>
         </div>
     </div>
