@@ -12,7 +12,9 @@
   --selected-color: #000;
   --selected-text-color: #fff;
   --hover-color: #f0f0f0;
-  --accent-color: #34D399;
+  --accent-color: #2596be;
+  --accent-color-dark: rgb(37, 150, 190);
+  --gold: #ad7a31;
 
 }
 

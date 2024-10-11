@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/home.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="hero">
+        <div class="slider">
+            <img src="assets/images/home/image1.jpg" alt="Event 1" class="slide active">
+            <img src="assets/images/home/image2.jpg" alt="Event 2" class="slide">
+        </div>
+        <div class="overlay">
+            <header>
+                <div class="logo">
+                    <svg viewBox="0 0 100 100" width="40" height="40">
+                        <circle cx="50" cy="50" r="40" fill="none" stroke="#fff" stroke-width="2" />
+                        <text x="50" y="55" font-family="Arial" font-size="24" fill="#fff" text-anchor="middle" dominant-baseline="middle">DMCs</text>
+                    </svg>
+                </div>
+                <div style="display: flex;">
+                    <p style="font-size: 22px; color: white; margin-right: 10px;">Menu</p>
+                    <button id="menuBtn" aria-label="Toggle menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+            </header>
+            <div class="hero-content">
+                <h1>PLAN A TRIP</h1>
+                <a href="step-1-search-trip.html">
+                    <button class="cta-button">Speak with an Experience Curator</button>
+                </a>
+            </div>
+        </div>
+    </div>
+    <nav id="sideNav">
+        <button id="closeBtn" aria-label="Close menu">
+            <p style="font-weight: bold; font-size: 20px;">X</p>
+        </button>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li>
+                <a href="#" class="dropdown-toggle">Services
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </a>
+                <div class="dropdown-content">
+                    <a href="#">Event Planning</a>
+                    <a href="#">Destination Management</a>
+                    <a href="#">Corporate Services</a>
+                </div>
+            </li>
+            <li>
+                <a href="#" class="dropdown-toggle">Destinations
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </a>
+                <div class="dropdown-content">
+                    <a href="#">Beach Destinations</a>
+                    <a href="#">Mountain Escapes</a>
+                    <a href="#">Cultural Experiences</a>
+                </div>
+            </li>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+        <button class="cta-button">Get Started</button>
+        <div class="social-links">
+          <!-- social icons will be added later  -->
+        </div>
+    </nav>
+    <script>
+        const menuBtn = document.getElementById('menuBtn');
+        const sideNav = document.getElementById('sideNav');
+        const closeBtn = document.getElementById('closeBtn');
+        const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+
+        menuBtn.addEventListener('click', () => {
+            sideNav.classList.toggle('open');
+        });
+
+        closeBtn.addEventListener('click', () => {
+            sideNav.classList.remove('open');
+        });
+
+        dropdownToggles.forEach(toggle => {
+            toggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                const dropdownContent = toggle.nextElementSibling;
+                
+                // Close all other dropdowns
+                dropdownToggles.forEach(otherToggle => {
+                    if (otherToggle !== toggle) {
+                        otherToggle.classList.remove('active');
+                        otherToggle.nextElementSibling.classList.remove('show');
+                    }
+                });
+
+                // Toggle the clicked dropdown
+                toggle.classList.toggle('active');
+                dropdownContent.classList.toggle('show');
+            });
+        });
+
+        // Slider functionality
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                if (i === index) {
+                    slide.classList.add('active');
+                }
+            });
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        setInterval(nextSlide, 5000); // Change slide every 5 seconds
+    </script>
+</body>
+
+</html>
