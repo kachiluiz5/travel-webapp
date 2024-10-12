@@ -863,6 +863,33 @@ h1 {
   right: 16px;
 }
 
+
+
+/* children option */
+.children-options {
+  display: flex;
+  gap: 16px;
+}
+
+.children-option {
+  padding: 8px 24px;
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.children-option.selected {
+  background-color: var(--accent-color);
+  color: var(--background-color);
+  border-color: var(--accent-color);
+}
+
+.children-option .checkmark {
+  right: 16px;
+}
+
 .footer {
   display: flex;
   justify-content: space-between;
