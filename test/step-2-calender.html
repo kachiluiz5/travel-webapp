@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Travel Calendar</title>
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <!-- <style>
+        :root {
+            --primary-color: #000;
+            --secondary-color: #666;
+            --border-color: #e0e0e0;
+            --selected-color: #000;
+            --selected-text-color: #fff;
+            --hover-color: #f0f0f0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #fff;
+        }
+
+        .calendar-container {
+            background-color: white;
+            border-radius: 8px;
+            /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
+            padding: 20px;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .calendar-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+
+        .calendar-subtitle {
+            font-size: 14px;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+
+        .calendars {
+            display: flex;
+            gap: 20px;
+        }
+
+        .calendar {
+            flex: 1;
+        }
+
+        .month-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .month-title {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .nav-button {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            color: var(--secondary-color);
+        }
+
+        .weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            text-align: center;
+            font-weight: normal;
+            color: var(--secondary-color);
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+
+        .day {
+            aspect-ratio: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: background-color 0.3s;
+            font-size: 14px;
+        }
+
+        .day:hover {
+            background-color: var(--hover-color);
+        }
+
+        .day.selected {
+            background-color: var(--selected-color);
+            color: var(--selected-text-color);
+        }
+
+        .day.range {
+            background-color: var(--hover-color);
+        }
+
+        .day.disabled {
+            color: var(--border-color);
+            cursor: default;
+        }
+
+        .calendar-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            align-items: center;
+        }
+
+        .footer-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .footer-button.primary {
+            background-color: var(--selected-color);
+            color: var(--selected-text-color);
+        }
+
+        .footer-button.secondary {
+            background-color: transparent;
+            color: var(--primary-color);
+        }
+
+        .footer-link {
+            color: var(--primary-color);
+            text-decoration: underline;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background-color: var(--border-color);
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .progress {
+            position: absolute;
+            height: 100%;
+            background-color: var(--primary-color);
+            width: 33.33%;
+        }
+
+        @media (max-width: 768px) {
+            .calendars {
+                flex-direction: column;
+            }
+
+            .calendar-container {
+                padding: 0;
+                box-shadow: none;
+            }
+
+            .calendar-header {
+                padding: 20px;
+            }
+
+            .calendar-subtitle {
+                padding: 0 20px;
+            }
+
+            .calendar {
+                padding: 0 20px;
+            }
+
+            .calendar:nth-child(2) {
+                display: none;
+            }
+
+            .calendar-footer {
+                padding: 20px;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .footer-button {
+                width: 100%;
+            }
+
+            .footer-link {
+                order: -1;
+                align-self: flex-start;
+                margin-bottom: 10px;
+            }
+        }
+    </style> -->
+
+    <style>
+      .progress-nav {
+        width: 100%;
+        background-color: #ffffff;
+        padding: 20px 10px;
+      }
+
+      .progress-container {
+        max-width: 800px;
+        margin: 0 auto;
+        position: relative;
+      }
+
+      .progress-bar {
+        width: 100%;
+        height: 4px;
+        background-color: #ddd;
+        position: relative;
+        margin-bottom: 30px;
+      }
+
+      .progress {
+        position: absolute;
+        height: 100%;
+        background-color: #000000;
+        transition: width 0.3s ease;
+      }
+
+      .step-container {
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+      }
+
+      .step {
+        text-align: center;
+        flex: 1;
+        position: relative;
+      }
+
+      .step-circle {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background-color: #ddd;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto 10px;
+        font-weight: bold;
+        color: #fff;
+        position: relative;
+        z-index: 2;
+      }
+
+      .step.active .step-circle {
+        background-color: #4caf50;
+      }
+
+      .step-name {
+        font-size: 14px;
+        color: #333;
+      }
+
+      @media (max-width: 600px) {
+        .step-name {
+          font-size: 12px;
+        }
+
+        .step-circle {
+          width: 25px;
+          height: 25px;
+          font-size: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- <nav class="progress-nav">
+        <div class="progress-container">
+            <div class="progress-bar" style="margin-top: 50px;">
+                <div class="progress" id="progress"></div>
+            </div>
+            <div class="step-container" id="stepContainer"></div>
+        </div>
+    </nav> -->
+    <div class="main">
+      <div class="calendar-container">
+        <div class="progress-bar">
+          <div class="progress"></div>
+        </div>
+        <div class="calendar-header">
+          <h1 class="calendar-title">When are you going?</h1>
+          <!-- <button class="close-button" aria-label="Close calendar">&times;</button> -->
+        </div>
+        <p class="calendar-subtitle">Choose a date range, up to 30 days.</p>
+        <div class="calendars">
+          <div class="calendar">
+            <div class="month-header">
+              <button class="nav-button prev-month" aria-label="Previous month">
+                &lt;
+              </button>
+              <h2 class="month-title"></h2>
+              <button class="nav-button next-month" aria-label="Next month">
+                &gt;
+              </button>
+            </div>
+            <div class="weekdays"></div>
+            <div class="days"></div>
+          </div>
+          <div class="calendar">
+            <div class="month-header">
+              <h2 class="month-title"></h2>
+            </div>
+            <div class="weekdays"></div>
+            <div class="days"></div>
+          </div>
+        </div>
+        <div class="calender-footer-text" style="text-align: center; margin-top: 10px;">
+          <a class="footer-link">I don't know my dates yet</a>
+        </div>
+        <div class="spacer-top-bottom"></div>
+      </div>
+    </div>
+
+    <!-- bottom navigation -->
+    <div class="nav-buttons">
+      <button
+        onclick="window.location.href='step-1-search-trip.html'; updateProgress(2);"
+      >
+        Back
+      </button>
+      <button
+        onclick="window.location.href='step-3-family.html'; updateProgress(1);"
+      >
+        Next
+      </button>
+    </div>
+
+
+
+
+
+    <script>
+      const months = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ];
+      const weekdays = ["S", "M", "T", "W", "T", "F", "S"];
+      let currentDate = new Date();
+      let selectedStartDate = null;
+      let selectedEndDate = null;
+
+      function renderCalendar(calendarElement, monthOffset) {
+        const year = currentDate.getFullYear();
+        const month = currentDate.getMonth() + monthOffset;
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const firstDayOfMonth = new Date(year, month, 1).getDay();
+
+        const monthTitle = calendarElement.querySelector(".month-title");
+        monthTitle.textContent = `${months[month % 12]} ${
+          month > 11 ? year + 1 : year
+        }`;
+
+        const weekdaysElement = calendarElement.querySelector(".weekdays");
+        weekdaysElement.innerHTML = weekdays
+          .map((day) => `<div>${day}</div>`)
+          .join("");
+
+        const daysElement = calendarElement.querySelector(".days");
+        daysElement.innerHTML = "";
+
+        for (let i = 0; i < firstDayOfMonth; i++) {
+          daysElement.appendChild(document.createElement("div"));
+        }
+
+        for (let day = 1; day <= daysInMonth; day++) {
+          const date = new Date(year, month, day);
+          const dayElement = document.createElement("div");
+          dayElement.classList.add("day");
+          dayElement.textContent = day;
+
+          if (date < new Date()) {
+            dayElement.classList.add("disabled");
+          } else {
+            dayElement.addEventListener("click", () => handleDateClick(date));
+          }
+
+          if (
+            selectedStartDate &&
+            selectedEndDate &&
+            date >= selectedStartDate &&
+            date <= selectedEndDate
+          ) {
+            dayElement.classList.add("selected");
+          }
+
+          if (
+            selectedStartDate &&
+            !selectedEndDate &&
+            date > selectedStartDate
+          ) {
+            dayElement.classList.add("range");
+          }
+
+          daysElement.appendChild(dayElement);
+        }
+      }
+
+      function handleDateClick(date) {
+        if (
+          !selectedStartDate ||
+          (selectedStartDate && selectedEndDate) ||
+          date < selectedStartDate
+        ) {
+          selectedStartDate = date;
+          selectedEndDate = null;
+        } else {
+          selectedEndDate = date;
+        }
+        updateCalendars();
+      }
+
+      function updateCalendars() {
+        document.querySelectorAll(".calendar").forEach((calendar, index) => {
+          renderCalendar(calendar, index);
+        });
+      }
+
+      function handleMonthNavigation(direction) {
+        currentDate = new Date(
+          currentDate.getFullYear(),
+          currentDate.getMonth() + direction,
+          1
+        );
+        updateCalendars();
+      }
+
+      document
+        .querySelector(".prev-month")
+        .addEventListener("click", () => handleMonthNavigation(-1));
+      document
+        .querySelector(".next-month")
+        .addEventListener("click", () => handleMonthNavigation(1));
+
+      updateCalendars();
+
+      // Responsive behavior
+      function handleResponsive() {
+        const isMobile = window.innerWidth <= 768;
+        const calendars = document.querySelectorAll(".calendar");
+        const prevButton = document.querySelector(".prev-month");
+        const nextButton = document.querySelector(".next-month");
+
+        if (isMobile) {
+          calendars[1].style.display = "none";
+          prevButton.style.display = "block";
+          nextButton.style.display = "block";
+        } else {
+          calendars[1].style.display = "block";
+          prevButton.style.display = "block";
+          nextButton.style.display = "block";
+        }
+      }
+
+      window.addEventListener("resize", handleResponsive);
+      handleResponsive();
+    </script>
+    <script src="assets/js/main.js"></script>
+    <script>
+      updateProgress(1); // Set the progress to 2/3 (66.66%)
+    </script>
+  </body>
+</html>

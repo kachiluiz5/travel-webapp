@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date Selector</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 16px;
+        }
+        .date-selector {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 16px;
+        }
+        .calendar-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        .calendar {
+            flex: 1;
+        }
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+        }
+        .calendar-day {
+            text-align: center;
+            padding: 8px;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+        .calendar-day:hover {
+            background-color: #f0f0f0;
+        }
+        .calendar-day.selected {
+            background-color: #2196F3;
+            color: white;
+        }
+        .calendar-day.in-range {
+            background-color: #bbdefb;
+        }
+        .month-selector {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .month-button {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #fff;
+            cursor: pointer;
+        }
+        .month-button.selected {
+            background-color: #2196F3;
+            color: white;
+        }
+        .slider-container {
+            margin-bottom: 20px;
+        }
+        .slider {
+            width: 100%;
+        }
+        .toggle-view {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .toggle-view a {
+            color: #2196F3;
+            text-decoration: none;
+        }
+        .toggle-view a:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 768px) {
+            .calendar-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="date-selector">
+        <h1>When are you going?</h1>
+        <div id="exact-dates">
+            <p class="info">Choose a date range, up to 30 days.</p>
+            <div class="calendar-container">
+                <div class="calendar">
+                    <div class="calendar-header">
+                        <button id="prev-month">&lt;</button>
+                        <span id="current-month-1"></span>
+                        <button id="next-month">&gt;</button>
+                    </div>
+                    <div class="calendar-grid" id="calendar-1"></div>
+                </div>
+                <div class="calendar">
+                    <div class="calendar-header">
+                        <span id="current-month-2"></span>
+                    </div>
+                    <div class="calendar-grid" id="calendar-2"></div>
+                </div>
+            </div>
+            <p id="date-range-info" class="info"></p>
+            <div class="toggle-view">
+                <a href="#" id="toggle-to-month">I don't know my dates yet</a>
+            </div>
+        </div>
+        <div id="month-select" style="display: none;">
+            <p class="info">Choose month and trip length.</p>
+            <div class="month-selector" id="month-buttons"></div>
+            <div class="slider-container">
+                <p>How many days?</p>
+                <input type="range" min="1" max="30" value="7" class="slider" id="trip-length-slider">
+                <p id="trip-length-value"></p>
+            </div>
+            <p id="month-selection-info" class="info"></p>
+            <div class="toggle-view">
+                <a href="#" id="toggle-to-calendar">Enter exact dates</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const exactDates = document.getElementById('exact-dates');
+        const monthSelect = document.getElementById('month-select');
+        const calendar1 = document.getElementById('calendar-1');
+        const calendar2 = document.getElementById('calendar-2');
+        const currentMonth1 = document.getElementById('current-month-1');
+        const currentMonth2 = document.getElementById('current-month-2');
+        const prevMonthButton = document.getElementById('prev-month');
+        const nextMonthButton = document.getElementById('next-month');
+        const dateRangeInfo = document.getElementById('date-range-info');
+        const monthButtons = document.getElementById('month-buttons');
+        const tripLengthSlider = document.getElementById('trip-length-slider');
+        const tripLengthValue = document.getElementById('trip-length-value');
+        const monthSelectionInfo = document.getElementById('month-selection-info');
+        const toggleToMonth = document.getElementById('toggle-to-month');
+        const toggleToCalendar = document.getElementById('toggle-to-calendar');
+
+        let currentDate = new Date();
+        let selectedStartDate = null;
+        let selectedEndDate = null;
+        let selectedMonth = null;
+        let tripLength = 7;
+
+        const months = [
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+
+        function renderCalendars() {
+            renderCalendar(calendar1, currentDate);
+            const nextMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
+            renderCalendar(calendar2, nextMonth);
+            currentMonth1.textContent = `${months[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
+            currentMonth2.textContent = `${months[nextMonth.getMonth()]} ${nextMonth.getFullYear()}`;
+        }
+
+        function renderCalendar(calendar, date) {
+            const year = date.getFullYear();
+            const month = date.getMonth();
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            calendar.innerHTML = '';
+
+            for (let i = 0; i < 7; i++) {
+                const dayName = new Date(2023, 0, i + 1).toLocaleString('default', { weekday: 'short' });
+                const dayElement = document.createElement('div');
+                dayElement.textContent = dayName;
+                dayElement.classList.add('calendar-day');
+                calendar.appendChild(dayElement);
+            }
+
+            for (let i = 0; i < firstDay; i++) {
+                const emptyDay = document.createElement('div');
+                calendar.appendChild(emptyDay);
+            }
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayElement = document.createElement('div');
+                dayElement.textContent = day;
+                dayElement.classList.add('calendar-day');
+
+                const currentDayDate = new Date(year, month, day);
+                if (isDateInRange(currentDayDate)) {
+                    dayElement.classList.add('in-range');
+                }
+                if (isSameDate(currentDayDate, selectedStartDate) || isSameDate(currentDayDate, selectedEndDate)) {
+                    dayElement.classList.add('selected');
+                }
+
+                dayElement.addEventListener('click', () => handleDateClick(currentDayDate));
+                calendar.appendChild(dayElement);
+            }
+        }
+
+        function handleDateClick(date) {
+            if (!selectedStartDate || (selectedStartDate && selectedEndDate)) {
+                selectedStartDate = date;
+                selectedEndDate = null;
+            } else {
+                if (date > selectedStartDate) {
+                    const dayDifference = Math.ceil((date - selectedStartDate) / (1000 * 60 * 60 * 24));
+                    if (dayDifference <= 30) {
+                        selectedEndDate = date;
+                    } else {
+                        selectedEndDate = new Date(selectedStartDate.getTime() + 30 * 24 * 60 * 60 * 1000);
+                    }
+                } else {
+                    selectedStartDate = date;
+                    selectedEndDate = null;
+                }
+            }
+            renderCalendars();
+            updateDateRangeInfo();
+        }
+
+        function isDateInRange(date) {
+            return selectedStartDate && selectedEndDate && date >= selectedStartDate && date <= selectedEndDate;
+        }
+
+        function isSameDate(date1, date2) {
+            return date1 && date2 && date1.toDateString() === date2.toDateString();
+        }
+
+        function updateDateRangeInfo() {
+            if (selectedStartDate && selectedEndDate) {
+                dateRangeInfo.textContent = `Selected dates: ${formatDate(selectedStartDate)} - ${formatDate(selectedEndDate)}`;
+            } else if (selectedStartDate) {
+                dateRangeInfo.textContent = `Start date: ${formatDate(selectedStartDate)}`;
+            } else {
+                dateRangeInfo.textContent = 'Select your travel dates';
+            }
+        }
+
+        function formatDate(date) {
+            return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+        }
+
+        prevMonthButton.addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            renderCalendars();
+        });
+
+        nextMonthButton.addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            renderCalendars();
+        });
+
+        function renderMonthButtons() {
+            monthButtons.innerHTML = '';
+            months.forEach((month, index) => {
+                const button = document.createElement('button');
+                button.textContent = month;
+                button.classList.add('month-button');
+                if (index === selectedMonth) {
+                    button.classList.add('selected');
+                }
+                button.addEventListener('click', () => {
+                    selectedMonth = index;
+                    renderMonthButtons();
+                    updateMonthSelectionInfo();
+                });
+                monthButtons.appendChild(button);
+            });
+        }
+
+        tripLengthSlider.addEventListener('input', (e) => {
+            tripLength = parseInt(e.target.value);
+            tripLengthValue.textContent = `${tripLength} days`;
+            updateMonthSelectionInfo();
+        });
+
+        function updateMonthSelectionInfo() {
+            if (selectedMonth !== null) {
+                monthSelectionInfo.textContent = `Selected: ${months[selectedMonth]}, ${tripLength} days`;
+            } else {
+                monthSelectionInfo.textContent = 'Select a month and trip length';
+            }
+        }
+
+        toggleToMonth.addEventListener('click', (e) => {
+            e.preventDefault();
+            exactDates.style.display = 'none';
+            monthSelect.style.display = 'block';
+            renderMonthButtons();
+            updateMonthSelectionInfo();
+        });
+
+        toggleToCalendar.addEventListener('click', (e) => {
+            e.preventDefault();
+            monthSelect.style.display = 'none';
+            exactDates.style.display = 'block';
+            renderCalendars();
+            updateDateRangeInfo();
+        });
+
+        renderCalendars();
+        updateDateRangeInfo();
+        tripLengthValue.textContent = `${tripLength} days`;
+    </script>
+</body>
+</html>

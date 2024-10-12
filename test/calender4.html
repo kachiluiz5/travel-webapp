@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar Date Selector</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #fff;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+        p {
+            color: #666;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .toggle-link {
+            display: block;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #000;
+            text-decoration: none;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .nav-buttons button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        .nav-buttons .back {
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+        }
+        .nav-buttons .next {
+            background-color: #000;
+            color: white;
+        }
+        .flatpickr-calendar {
+            box-shadow: none;
+            width: 100%;
+            max-width: 800px;
+        }
+        .flatpickr-months {
+            display: flex;
+            justify-content: space-between;
+        }
+        .flatpickr-month {
+            width: 50%;
+        }
+        .flatpickr-weekdays, .flatpickr-days {
+            display: flex;
+        }
+        .flatpickr-weekday, .flatpickr-day {
+            flex: 1;
+            max-width: none;
+        }
+        .flatpickr-day.selected {
+            background: #000;
+            border-color: #000;
+        }
+        .flatpickr-day.inRange {
+            background: #E5E7EB;
+            border-color: #E5E7EB;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>When are you going?</h1>
+        <p id="dateRangeText">Choose a date range, up to 30 days.</p>
+        
+        <input type="text" id="date-range" placeholder="Select date range" style="display: none;">
+        
+        <a href="#" class="toggle-link" id="toggleLink">I don't know my dates yet</a>
+        
+        <div class="nav-buttons">
+            <button class="back">Back</button>
+            <button class="next">Next</button>
+        </div>
+    </div>
+
+    <script>
+        let isExactDates = true;
+        let flatpickrInstance;
+
+        function initFlatpickr() {
+            flatpickrInstance = flatpickr("#date-range", {
+                mode: "range",
+                dateFormat: "Y-m-d",
+                minDate: "today",
+                showMonths: 2,
+                disableMobile: true,
+                onOpen: function(selectedDates, dateStr, instance) {
+                    instance.set('maxDate', null);  // Reset max date on open
+                },
+                onChange: function(selectedDates, dateStr, instance) {
+                    if (selectedDates.length === 1) {
+                        // Set max date to 30 days after start date
+                        const maxDate = new Date(selectedDates[0]);
+                        maxDate.setDate(maxDate.getDate() + 29);
+                        instance.set('maxDate', maxDate);
+                    } else if (selectedDates.length === 2) {
+                        updateDateRangeText(selectedDates[0], selectedDates[1]);
+                    }
+                },
+            });
+        }
+
+        function updateDateRangeText(startDate, endDate) {
+            const dateRangeText = document.getElementById('dateRangeText');
+            if (startDate && endDate) {
+                const days = (endDate - startDate) / (1000 * 60 * 60 * 24) + 1;
+                dateRangeText.textContent = `Your trip is ${days} days.`;
+            } else {
+                dateRangeText.textContent = 'Choose a date range, up to 30 days.';
+            }
+        }
+
+        function toggleDateMode() {
+            isExactDates = !isExactDates;
+            const toggleLink = document.getElementById('toggleLink');
+            if (isExactDates) {
+                toggleLink.textContent = "I don't know my dates yet";
+                flatpickrInstance.open();
+            } else {
+                toggleLink.textContent = "Select exact dates";
+                flatpickrInstance.close();
+                // Here you would show your month range selector
+            }
+        }
+
+        initFlatpickr();
+        document.getElementById('toggleLink').addEventListener('click', toggleDateMode);
+    </script>
+</body>
+</html>

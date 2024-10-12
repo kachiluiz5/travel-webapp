@@ -3,356 +3,58 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Travel Calendar</title>
+    <title>Date Selector</title>
     <link rel="stylesheet" href="assets/css/style.css" />
-    <!-- <style>
-        :root {
-            --primary-color: #000;
-            --secondary-color: #666;
-            --border-color: #e0e0e0;
-            --selected-color: #000;
-            --selected-text-color: #fff;
-            --hover-color: #f0f0f0;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #fff;
-        }
-
-        .calendar-container {
-            background-color: white;
-            border-radius: 8px;
-            /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
-            padding: 20px;
-            max-width: 800px;
-            width: 100%;
-        }
-
-        .calendar-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        .calendar-title {
-            font-size: 24px;
-            font-weight: bold;
-            margin: 0;
-        }
-
-        .close-button {
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            position: absolute;
-            right: 0;
-            top: 0;
-        }
-
-        .calendar-subtitle {
-            font-size: 14px;
-            color: var(--secondary-color);
-            margin-bottom: 20px;
-        }
-
-        .calendars {
-            display: flex;
-            gap: 20px;
-        }
-
-        .calendar {
-            flex: 1;
-        }
-
-        .month-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .month-title {
-            font-weight: bold;
-            font-size: 16px;
-        }
-
-        .nav-button {
-            background: none;
-            border: none;
-            font-size: 18px;
-            cursor: pointer;
-            color: var(--secondary-color);
-        }
-
-        .weekdays {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            text-align: center;
-            font-weight: normal;
-            color: var(--secondary-color);
-            font-size: 12px;
-            margin-bottom: 10px;
-        }
-
-        .days {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 5px;
-        }
-
-        .day {
-            aspect-ratio: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            border-radius: 50%;
-            transition: background-color 0.3s;
-            font-size: 14px;
-        }
-
-        .day:hover {
-            background-color: var(--hover-color);
-        }
-
-        .day.selected {
-            background-color: var(--selected-color);
-            color: var(--selected-text-color);
-        }
-
-        .day.range {
-            background-color: var(--hover-color);
-        }
-
-        .day.disabled {
-            color: var(--border-color);
-            cursor: default;
-        }
-
-        .calendar-footer {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-            align-items: center;
-        }
-
-        .footer-button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        .footer-button.primary {
-            background-color: var(--selected-color);
-            color: var(--selected-text-color);
-        }
-
-        .footer-button.secondary {
-            background-color: transparent;
-            color: var(--primary-color);
-        }
-
-        .footer-link {
-            color: var(--primary-color);
-            text-decoration: underline;
-            font-size: 14px;
-            cursor: pointer;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 4px;
-            background-color: var(--border-color);
-            position: relative;
-            margin-bottom: 20px;
-        }
-
-        .progress {
-            position: absolute;
-            height: 100%;
-            background-color: var(--primary-color);
-            width: 33.33%;
-        }
-
-        @media (max-width: 768px) {
-            .calendars {
-                flex-direction: column;
-            }
-
-            .calendar-container {
-                padding: 0;
-                box-shadow: none;
-            }
-
-            .calendar-header {
-                padding: 20px;
-            }
-
-            .calendar-subtitle {
-                padding: 0 20px;
-            }
-
-            .calendar {
-                padding: 0 20px;
-            }
-
-            .calendar:nth-child(2) {
-                display: none;
-            }
-
-            .calendar-footer {
-                padding: 20px;
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            .footer-button {
-                width: 100%;
-            }
-
-            .footer-link {
-                order: -1;
-                align-self: flex-start;
-                margin-bottom: 10px;
-            }
-        }
-    </style> -->
-
-    <style>
-      .progress-nav {
-        width: 100%;
-        background-color: #ffffff;
-        padding: 20px 10px;
-      }
-
-      .progress-container {
-        max-width: 800px;
-        margin: 0 auto;
-        position: relative;
-      }
-
-      .progress-bar {
-        width: 100%;
-        height: 4px;
-        background-color: #ddd;
-        position: relative;
-        margin-bottom: 30px;
-      }
-
-      .progress {
-        position: absolute;
-        height: 100%;
-        background-color: #000000;
-        transition: width 0.3s ease;
-      }
-
-      .step-container {
-        display: flex;
-        justify-content: space-between;
-        position: relative;
-      }
-
-      .step {
-        text-align: center;
-        flex: 1;
-        position: relative;
-      }
-
-      .step-circle {
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        background-color: #ddd;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin: 0 auto 10px;
-        font-weight: bold;
-        color: #fff;
-        position: relative;
-        z-index: 2;
-      }
-
-      .step.active .step-circle {
-        background-color: #4caf50;
-      }
-
-      .step-name {
-        font-size: 14px;
-        color: #333;
-      }
-
-      @media (max-width: 600px) {
-        .step-name {
-          font-size: 12px;
-        }
-
-        .step-circle {
-          width: 25px;
-          height: 25px;
-          font-size: 12px;
-        }
-      }
-    </style>
   </head>
   <body>
-    <!-- <nav class="progress-nav">
-        <div class="progress-container">
-            <div class="progress-bar" style="margin-top: 50px;">
-                <div class="progress" id="progress"></div>
-            </div>
-            <div class="step-container" id="stepContainer"></div>
-        </div>
-    </nav> -->
     <div class="main">
-      <div class="calendar-container">
+      <div class="date-selector">
         <div class="progress-bar">
           <div class="progress"></div>
         </div>
-        <div class="calendar-header">
-          <h1 class="calendar-title">When are you going?</h1>
-          <!-- <button class="close-button" aria-label="Close calendar">&times;</button> -->
-        </div>
-        <p class="calendar-subtitle">Choose a date range, up to 30 days.</p>
-        <div class="calendars">
-          <div class="calendar">
-            <div class="month-header">
-              <button class="nav-button prev-month" aria-label="Previous month">
-                &lt;
-              </button>
-              <h2 class="month-title"></h2>
-              <button class="nav-button next-month" aria-label="Next month">
-                &gt;
-              </button>
+        <h1>When are you going?</h1>
+        <div id="exact-dates">
+          <p class="info">Choose a date range, up to 30 days.</p>
+          <div class="calendar-container">
+            <div class="calendar">
+              <div class="calendar-header">
+                <button id="prev-month">&lt;</button>
+                <span id="current-month-1"></span>
+                <button id="next-month">&gt;</button>
+              </div>
+              <div class="calendar-grid" id="calendar-1"></div>
             </div>
-            <div class="weekdays"></div>
-            <div class="days"></div>
+            <div class="calendar">
+              <div class="calendar-header">
+                <span id="current-month-2"></span>
+              </div>
+              <div class="calendar-grid" id="calendar-2"></div>
+            </div>
           </div>
-          <div class="calendar">
-            <div class="month-header">
-              <h2 class="month-title"></h2>
-            </div>
-            <div class="weekdays"></div>
-            <div class="days"></div>
+          <p id="date-range-info" class="info" style="margin-top: 20px;"></p>
+          <div class="toggle-view">
+            <a href="#" id="toggle-to-month">I don't know my dates yet</a>
           </div>
         </div>
-        <div class="calender-footer-text" style="text-align: center">
-          <a class="footer-link">I don't know my dates yet</a>
+        <div id="month-select" style="display: none">
+          <p class="info">Choose month and trip length.</p>
+          <div class="month-selector" id="month-buttons"></div>
+          <div
+            class="days-selector"
+            style="display: flex; justify-content: space-between"
+          >
+            <p>How many days?</p>
+            <div>
+              <button id="decrease-days">-</button>
+              <span id="trip-length-value">7</span>
+              <button id="increase-days">+</button>
+            </div>
+          </div>
+          <p id="month-selection-info" class="info"></p>
+          <div class="toggle-view">
+            <a href="#" id="toggle-to-calendar">Enter exact dates</a>
+          </div>
         </div>
-        <div class="spacer-top-bottom"></div>
       </div>
     </div>
 
@@ -369,7 +71,33 @@
         Next
       </button>
     </div>
+
     <script>
+      const exactDates = document.getElementById("exact-dates");
+      const monthSelect = document.getElementById("month-select");
+      const calendar1 = document.getElementById("calendar-1");
+      const calendar2 = document.getElementById("calendar-2");
+      const currentMonth1 = document.getElementById("current-month-1");
+      const currentMonth2 = document.getElementById("current-month-2");
+      const prevMonthButton = document.getElementById("prev-month");
+      const nextMonthButton = document.getElementById("next-month");
+      const dateRangeInfo = document.getElementById("date-range-info");
+      const monthButtons = document.getElementById("month-buttons");
+      const tripLengthValue = document.getElementById("trip-length-value");
+      const decreaseDaysButton = document.getElementById("decrease-days");
+      const increaseDaysButton = document.getElementById("increase-days");
+      const monthSelectionInfo = document.getElementById(
+        "month-selection-info"
+      );
+      const toggleToMonth = document.getElementById("toggle-to-month");
+      const toggleToCalendar = document.getElementById("toggle-to-calendar");
+
+      let currentDate = new Date();
+      let selectedStartDate = null;
+      let selectedEndDate = null;
+      let selectedMonth = null;
+      let tripLength = 7;
+
       const months = [
         "January",
         "February",
@@ -384,127 +112,200 @@
         "November",
         "December",
       ];
-      const weekdays = ["S", "M", "T", "W", "T", "F", "S"];
-      let currentDate = new Date();
-      let selectedStartDate = null;
-      let selectedEndDate = null;
 
-      function renderCalendar(calendarElement, monthOffset) {
-        const year = currentDate.getFullYear();
-        const month = currentDate.getMonth() + monthOffset;
+      function renderCalendars() {
+        renderCalendar(calendar1, currentDate);
+        const nextMonth = new Date(
+          currentDate.getFullYear(),
+          currentDate.getMonth() + 1,
+          1
+        );
+        renderCalendar(calendar2, nextMonth);
+        currentMonth1.textContent = `${
+          months[currentDate.getMonth()]
+        } ${currentDate.getFullYear()}`;
+        currentMonth2.textContent = `${
+          months[nextMonth.getMonth()]
+        } ${nextMonth.getFullYear()}`;
+      }
+
+      function renderCalendar(calendar, date) {
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        const firstDay = new Date(year, month, 1).getDay();
         const daysInMonth = new Date(year, month + 1, 0).getDate();
-        const firstDayOfMonth = new Date(year, month, 1).getDay();
 
-        const monthTitle = calendarElement.querySelector(".month-title");
-        monthTitle.textContent = `${months[month % 12]} ${
-          month > 11 ? year + 1 : year
-        }`;
+        calendar.innerHTML = "";
 
-        const weekdaysElement = calendarElement.querySelector(".weekdays");
-        weekdaysElement.innerHTML = weekdays
-          .map((day) => `<div>${day}</div>`)
-          .join("");
+        for (let i = 0; i < 7; i++) {
+          const dayName = new Date(2023, 0, i + 1).toLocaleString("default", {
+            weekday: "short",
+          });
+          const dayElement = document.createElement("div");
+          dayElement.textContent = dayName;
+          dayElement.classList.add("calendar-day");
+          calendar.appendChild(dayElement);
+        }
 
-        const daysElement = calendarElement.querySelector(".days");
-        daysElement.innerHTML = "";
-
-        for (let i = 0; i < firstDayOfMonth; i++) {
-          daysElement.appendChild(document.createElement("div"));
+        for (let i = 0; i < firstDay; i++) {
+          const emptyDay = document.createElement("div");
+          calendar.appendChild(emptyDay);
         }
 
         for (let day = 1; day <= daysInMonth; day++) {
-          const date = new Date(year, month, day);
           const dayElement = document.createElement("div");
-          dayElement.classList.add("day");
           dayElement.textContent = day;
+          dayElement.classList.add("calendar-day");
 
-          if (date < new Date()) {
-            dayElement.classList.add("disabled");
-          } else {
-            dayElement.addEventListener("click", () => handleDateClick(date));
+          const currentDayDate = new Date(year, month, day);
+          if (isDateInRange(currentDayDate)) {
+            dayElement.classList.add("in-range");
           }
-
           if (
-            selectedStartDate &&
-            selectedEndDate &&
-            date >= selectedStartDate &&
-            date <= selectedEndDate
+            isSameDate(currentDayDate, selectedStartDate) ||
+            isSameDate(currentDayDate, selectedEndDate)
           ) {
             dayElement.classList.add("selected");
           }
 
-          if (
-            selectedStartDate &&
-            !selectedEndDate &&
-            date > selectedStartDate
-          ) {
-            dayElement.classList.add("range");
-          }
-
-          daysElement.appendChild(dayElement);
+          dayElement.addEventListener("click", () =>
+            handleDateClick(currentDayDate)
+          );
+          calendar.appendChild(dayElement);
         }
       }
 
       function handleDateClick(date) {
-        if (
-          !selectedStartDate ||
-          (selectedStartDate && selectedEndDate) ||
-          date < selectedStartDate
-        ) {
+        if (!selectedStartDate || (selectedStartDate && selectedEndDate)) {
           selectedStartDate = date;
           selectedEndDate = null;
         } else {
-          selectedEndDate = date;
+          if (date > selectedStartDate) {
+            const dayDifference = Math.ceil(
+              (date - selectedStartDate) / (1000 * 60 * 60 * 24)
+            );
+            if (dayDifference <= 30) {
+              selectedEndDate = date;
+            } else {
+              selectedEndDate = new Date(
+                selectedStartDate.getTime() + 30 * 24 * 60 * 60 * 1000
+              );
+            }
+          } else {
+            selectedStartDate = date;
+            selectedEndDate = null;
+          }
         }
-        updateCalendars();
+        renderCalendars();
+        updateDateRangeInfo();
       }
 
-      function updateCalendars() {
-        document.querySelectorAll(".calendar").forEach((calendar, index) => {
-          renderCalendar(calendar, index);
+      function isDateInRange(date) {
+        return (
+          selectedStartDate &&
+          selectedEndDate &&
+          date >= selectedStartDate &&
+          date <= selectedEndDate
+        );
+      }
+
+      function isSameDate(date1, date2) {
+        return date1 && date2 && date1.toDateString() === date2.toDateString();
+      }
+
+      function updateDateRangeInfo() {
+        if (selectedStartDate && selectedEndDate) {
+          dateRangeInfo.textContent = `Selected dates: ${formatDate(
+            selectedStartDate
+          )} - ${formatDate(selectedEndDate)}`;
+        } else if (selectedStartDate) {
+          dateRangeInfo.textContent = `Start date: ${formatDate(
+            selectedStartDate
+          )}`;
+        } else {
+          dateRangeInfo.textContent = "Select your travel dates";
+        }
+      }
+
+      function formatDate(date) {
+        return date.toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
         });
       }
 
-      function handleMonthNavigation(direction) {
-        currentDate = new Date(
-          currentDate.getFullYear(),
-          currentDate.getMonth() + direction,
-          1
-        );
-        updateCalendars();
+      prevMonthButton.addEventListener("click", () => {
+        currentDate.setMonth(currentDate.getMonth() - 1);
+        renderCalendars();
+      });
+
+      nextMonthButton.addEventListener("click", () => {
+        currentDate.setMonth(currentDate.getMonth() + 1);
+        renderCalendars();
+      });
+
+      function renderMonthButtons() {
+        monthButtons.innerHTML = "";
+        months.forEach((month, index) => {
+          const button = document.createElement("button");
+          button.textContent = month;
+          button.classList.add("month-button");
+          if (index === selectedMonth) {
+            button.classList.add("selected");
+          }
+          button.addEventListener("click", () => {
+            selectedMonth = index;
+            renderMonthButtons();
+            updateMonthSelectionInfo();
+          });
+          monthButtons.appendChild(button);
+        });
       }
 
-      document
-        .querySelector(".prev-month")
-        .addEventListener("click", () => handleMonthNavigation(-1));
-      document
-        .querySelector(".next-month")
-        .addEventListener("click", () => handleMonthNavigation(1));
+      decreaseDaysButton.addEventListener("click", () => {
+        if (tripLength > 1) {
+          tripLength--;
+          tripLengthValue.textContent = tripLength;
+          updateMonthSelectionInfo();
+        }
+      });
 
-      updateCalendars();
+      increaseDaysButton.addEventListener("click", () => {
+        if (tripLength < 30) {
+          tripLength++;
+          tripLengthValue.textContent = tripLength;
+          updateMonthSelectionInfo();
+        }
+      });
 
-      // Responsive behavior
-      function handleResponsive() {
-        const isMobile = window.innerWidth <= 768;
-        const calendars = document.querySelectorAll(".calendar");
-        const prevButton = document.querySelector(".prev-month");
-        const nextButton = document.querySelector(".next-month");
-
-        if (isMobile) {
-          calendars[1].style.display = "none";
-          prevButton.style.display = "block";
-          nextButton.style.display = "block";
+      function updateMonthSelectionInfo() {
+        if (selectedMonth !== null) {
+          monthSelectionInfo.textContent = `Selected: ${months[selectedMonth]}, ${tripLength} days`;
         } else {
-          calendars[1].style.display = "block";
-          prevButton.style.display = "block";
-          nextButton.style.display = "block";
+          monthSelectionInfo.textContent = "Select a month and trip length";
         }
       }
 
-      window.addEventListener("resize", handleResponsive);
-      handleResponsive();
+      toggleToMonth.addEventListener("click", (e) => {
+        e.preventDefault();
+        exactDates.style.display = "none";
+        monthSelect.style.display = "block";
+        renderMonthButtons();
+        updateMonthSelectionInfo();
+      });
+
+      toggleToCalendar.addEventListener("click", (e) => {
+        e.preventDefault();
+        monthSelect.style.display = "none";
+        exactDates.style.display = "block";
+        renderCalendars();
+        updateDateRangeInfo();
+      });
+
+      renderCalendars();
+      updateDateRangeInfo();
     </script>
-    <script src="assets/js/main.js"></script>
     <script>
       updateProgress(1); // Set the progress to 2/3 (66.66%)
     </script>

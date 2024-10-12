@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date Selector</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .date-selector {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 24px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 24px;
+        }
+        .calendar-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 32px;
+        }
+        .calendar {
+            flex: 1;
+        }
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .calendar-header button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: #666;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        .calendar-header button:hover {
+            background-color: #f0f0f0;
+        }
+        .calendar-month {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+        }
+        .calendar-day {
+            text-align: center;
+            padding: 8px;
+            font-size: 14px;
+        }
+        .calendar-date {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 50%;
+            margin: 0 auto;
+        }
+        .calendar-date:hover {
+            background-color: #f0f0f0;
+        }
+        .calendar-date.selected {
+            background-color: #000;
+            color: #fff;
+        }
+        .calendar-date.in-range {
+            background-color: #e6e6e6;
+        }
+        .toggle-view {
+            margin-top: 24px;
+            text-align: center;
+        }
+        .toggle-view a {
+            color: #000;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .toggle-view a:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 768px) {
+            .calendar-container {
+                flex-direction: column;
+            }
+            .calendar:nth-child(2) {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="date-selector">
+        <h1>When are you going?</h1>
+        <p class="subtitle">Choose a date range, up to 7 days.</p>
+        <div class="calendar-container">
+            <div class="calendar">
+                <div class="calendar-header">
+                    <button id="prev-month">&lt;</button>
+                    <span class="calendar-month" id="current-month-1"></span>
+                    <button id="next-month">&gt;</button>
+                </div>
+                <div class="calendar-grid" id="calendar-1"></div>
+            </div>
+            <div class="calendar">
+                <div class="calendar-header">
+                    <span class="calendar-month" id="current-month-2"></span>
+                </div>
+                <div class="calendar-grid" id="calendar-2"></div>
+            </div>
+        </div>
+        <div class="toggle-view">
+            <a href="#" id="toggle-to-month">I don't know my dates yet</a>
+        </div>
+    </div>
+
+    <script>
+        const calendar1 = document.getElementById('calendar-1');
+        const calendar2 = document.getElementById('calendar-2');
+        const currentMonth1 = document.getElementById('current-month-1');
+        const currentMonth2 = document.getElementById('current-month-2');
+        const prevMonthButton = document.getElementById('prev-month');
+        const nextMonthButton = document.getElementById('next-month');
+        const toggleToMonth = document.getElementById('toggle-to-month');
+
+        let currentDate = new Date();
+        let selectedStartDate = null;
+        let selectedEndDate = null;
+
+        const months = [
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+
+        function renderCalendars() {
+            renderCalendar(calendar1, currentDate);
+            const nextMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
+            renderCalendar(calendar2, nextMonth);
+            currentMonth1.textContent = `${months[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
+            currentMonth2.textContent = `${months[nextMonth.getMonth()]} ${nextMonth.getFullYear()}`;
+        }
+
+        function renderCalendar(calendar, date) {
+            const year = date.getFullYear();
+            const month = date.getMonth();
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            calendar.innerHTML = '';
+
+            const dayNames = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+            dayNames.forEach(day => {
+                const dayElement = document.createElement('div');
+                dayElement.textContent = day;
+                dayElement.classList.add('calendar-day');
+                calendar.appendChild(dayElement);
+            });
+
+            for (let i = 0; i < firstDay; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.classList.add('calendar-day');
+                calendar.appendChild(emptyDay);
+            }
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayElement = document.createElement('div');
+                dayElement.classList.add('calendar-day');
+                const dateElement = document.createElement('div');
+                dateElement.textContent = day;
+                dateElement.classList.add('calendar-date');
+
+                const currentDayDate = new Date(year, month, day);
+                if (isDateInRange(currentDayDate)) {
+                    dateElement.classList.add('in-range');
+                }
+                if (isSameDate(currentDayDate, selectedStartDate) || isSameDate(currentDayDate, selectedEndDate)) {
+                    dateElement.classList.add('selected');
+                }
+
+                dateElement.addEventListener('click', () => handleDateClick(currentDayDate));
+                dayElement.appendChild(dateElement);
+                calendar.appendChild(dayElement);
+            }
+        }
+
+        function handleDateClick(date) {
+            if (!selectedStartDate || (selectedStartDate && selectedEndDate)) {
+                selectedStartDate = date;
+                selectedEndDate = null;
+            } else {
+                if (date > selectedStartDate) {
+                    const dayDifference = Math.ceil((date - selectedStartDate) / (1000 * 60 * 60 * 24));
+                    if (dayDifference <= 7) {
+                        selectedEndDate = date;
+                    } else {
+                        selectedEndDate = new Date(selectedStartDate.getTime() + 7 * 24 * 60 * 60 * 1000);
+                    }
+                } else {
+                    selectedStartDate = date;
+                    selectedEndDate = null;
+                }
+            }
+            renderCalendars();
+        }
+
+        function isDateInRange(date) {
+            return selectedStartDate && selectedEndDate && date >= selectedStartDate && date <= selectedEndDate;
+        }
+
+        function isSameDate(date1, date2) {
+            return date1 && date2 && date1.toDateString() === date2.toDateString();
+        }
+
+        prevMonthButton.addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            renderCalendars();
+        });
+
+        nextMonthButton.addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            renderCalendars();
+        });
+
+        toggleToMonth.addEventListener('click', (e) => {
+            e.preventDefault();
+            alert("Month selection view not implemented in this example.");
+        });
+
+        renderCalendars();
+    </script>
+</body>
+</html>
