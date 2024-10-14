@@ -21,17 +21,19 @@
 
       .tooltip-text {
         visibility: hidden;
-        background-color: #333;
-        color: #fff;
+        background-color: #ffffff; /* Updated background color */
+        color: #333; /* Changed text color for better contrast */
         text-align: center;
         border-radius: 6px;
-        padding: 5px;
+        padding: 10px; /* Increased padding for better spacing */
         position: absolute;
         z-index: 1;
         bottom: 125%; /* Position the tooltip above the icon */
         left: 50%;
         transform: translateX(-50%);
         width: 200px;
+        font-size: 16px; /* Updated font size */
+        border: 1px solid #ccc; /* Optional: Add a border for better visibility */
       }
 
       .tooltip-container:hover .tooltip-text {
@@ -122,8 +124,7 @@
           </div>
         </div>
 
-
-        <br>
+        <br />
         <div class="pets-question">
           <div style="display: flex; justify-content: center">
             <p>
@@ -145,7 +146,8 @@
                   ></path>
                 </svg>
                 <span class="tooltip-text">
-                  We'll scan the reviews and recommendations for pet-friendly options.
+                  We'll scan the reviews and recommendations for pet-friendly
+                  options.
                 </span>
               </span>
             </p>
@@ -162,9 +164,6 @@
             </button>
           </div>
         </div>
-        
-
-
       </div>
     </div>
 
@@ -185,7 +184,6 @@
       const tripTypes = document.querySelectorAll(".trip-type");
       const petsOptions = document.querySelectorAll(".pets-option");
       const childrenOptions = document.querySelectorAll(".children-option");
-
 
       function selectOption(options, selectedOption) {
         options.forEach((option) => {
