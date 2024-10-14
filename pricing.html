@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Planner</title>
+    <style>
+        :root {
+            --background-color: #ffffff;
+            --primary-color: #050308;
+            --secondary-color: #6b7280;
+            --accent-color: #000000;
+            --border-color: #e5e7eb;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f4f6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .main {
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .budget-container {
+            background-color: var(--background-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-left: 20px;
+            margin-right: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .powered-by {
+            display: flex;
+            align-items: center;
+            font-size: 12px;
+            color: var(--secondary-color);
+        }
+
+        .powered-by::before {
+            content: "";
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background-color: #8b5cf6;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin: 0 0 10px 0;
+        }
+
+        .subtitle {
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+
+        .budget-slider {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .slider-container {
+            position: relative;
+            width: 100%;
+            height: 40px;
+        }
+
+        .slider-track {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            height: 4px;
+            background-color: var(--border-color);
+            border-radius: 2px;
+        }
+
+        .slider-fill {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 4px;
+            background-color: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        .slider-handle {
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .slider-value {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .tooltip-container {
+            position: relative;
+            display: inline-block;
+            margin-left: 8px;
+        }
+
+        .tooltip-icon {
+            cursor: pointer;
+            width: 16px;
+            height: 16px;
+        }
+
+        .tooltip-text {
+            visibility: hidden;
+            background-color: #ffffff;
+            color: #333;
+            text-align: center;
+            border-radius: 6px;
+            padding: 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .tooltip-container:hover .tooltip-text {
+            visibility: visible;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+
+        .nav-buttons button {
+            background-color: var(--primary-color);
+            color: var(--background-color);
+            border: none;
+            padding: 10px 24px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .nav-buttons button:first-child {
+            background-color: transparent;
+            color: var(--secondary-color);
+        }
+
+        @media (max-width: 640px) {
+            .budget-container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <div class="budget-container">
+
+
+            <h1>Approximate overall budget PER adult</h1>
+            <p class="subtitle">Drag the slider to set your maximum budget, including flight and food.</p>
+            
+            <div class="budget-slider">
+                <div class="slider-container">
+                    <div class="slider-track"></div>
+                    <div class="slider-fill"></div>
+                    <div class="slider-handle" id="sliderHandle"></div>
+                </div>
+                <div class="slider-labels">
+                    <span>$500</span>
+                    <span>$10,000+</span>
+                </div>
+                <div class="slider-value" id="sliderValue">$500</div>
+            </div>
+
+            <p>
+                Budget details
+                <span class="tooltip-container">
+                    <svg viewBox="0 0 24 24" width="16px" height="16px" class="tooltip-icon">
+                        <path d="M11 10v7h2v-7zm-.034-2.952a1.25 1.25 0 0 0-.216.692A1.24 1.24 0 0 0 12 9a1.25 1.25 0 1 0-1.034-1.952"></path>
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2M4 12a8 8 0 1 1 16 0 8 8 0 0 1-16 0"></path>
+                    </svg>
+                    <span class="tooltip-text">This budget includes flights, accommodation, food, and activities for one adult.</span>
+                </span>
+            </p>
+        </div>
+
+
+    </div>
+
+    <script>
+        const sliderHandle = document.getElementById('sliderHandle');
+        const sliderFill = document.querySelector('.slider-fill');
+        const sliderValue = document.getElementById('sliderValue');
+        const sliderTrack = document.querySelector('.slider-track');
+
+        let isDragging = false;
+
+        function updateSlider(clientX) {
+            const rect = sliderTrack.getBoundingClientRect();
+            let position = (clientX - rect.left) / rect.width;
+            position = Math.max(0, Math.min(position, 1));
+
+            const budget = Math.round(500 + position * 9500);
+            const displayBudget = budget >= 10000 ? '10,000+' : budget.toLocaleString();
+
+            sliderHandle.style.left = `${position * 100}%`;
+            sliderFill.style.width = `${position * 100}%`;
+            sliderValue.textContent = `$${displayBudget}`;
+        }
+
+        sliderHandle.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            updateSlider(e.clientX);
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                updateSlider(e.clientX);
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        // Touch events for mobile devices
+        sliderHandle.addEventListener('touchstart', (e) => {
+            isDragging = true;
+            updateSlider(e.touches[0].clientX);
+        });
+
+        document.addEventListener('touchmove', (e) => {
+            if (isDragging) {
+                updateSlider(e.touches[0].clientX);
+            }
+        });
+
+        document.addEventListener('touchend', () => {
+            isDragging = false;
+        });
+
+        document.querySelector('.close-button').addEventListener('click', () => {
+            console.log('Close button clicked');
+        });
+    </script>
+</body>
+</html>

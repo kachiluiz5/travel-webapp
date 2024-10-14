@@ -10,6 +10,199 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
     />
     <style>
+      /* family select */
+      .family-container {
+        max-width: 800px;
+        margin: 0 auto;
+        background-color: var(--background-color);
+        border-radius: 8px;
+        padding: 20px;
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .powered-by {
+        display: flex;
+        align-items: center;
+        font-size: 12px;
+        color: var(--secondary-color);
+      }
+
+      .powered-by::before {
+        content: "";
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        background-color: #8b5cf6;
+        border-radius: 50%;
+        margin-right: 8px;
+      }
+
+      .close-button {
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+      }
+
+      h1 {
+        font-size: 24px;
+        margin: 0 0 10px 0;
+      }
+
+      .subtitle {
+        color: var(--secondary-color);
+        margin-bottom: 20px;
+      }
+
+      .trip-types {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        margin-bottom: 20px;
+      }
+
+      .trip-type {
+        width: 171px;
+        height: 96px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .trip-type.selected {
+        background-color: var(--accent-color);
+        color: var(--background-color);
+        border-color: var(--accent-color);
+      }
+
+      .trip-type-icon {
+        margin-right: 8px;
+      }
+
+      .checkmark {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .trip-type.selected .checkmark {
+        opacity: 1;
+      }
+
+      .pets-question {
+        margin-bottom: 20px;
+      }
+
+      .pets-options {
+        display: flex;
+        gap: 16px;
+      }
+
+      .pets-option {
+        padding: 8px 24px;
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .pets-option.selected {
+        background-color: var(--accent-color);
+        color: var(--background-color);
+        border-color: var(--accent-color);
+      }
+
+      .pets-option .checkmark {
+        right: 16px;
+      }
+
+      /* children option */
+      .children-options {
+        display: flex;
+        gap: 16px;
+      }
+
+      .children-option {
+        padding: 8px 24px;
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .children-option.selected {
+        background-color: var(--accent-color);
+        color: var(--background-color);
+        border-color: var(--accent-color);
+      }
+
+      .children-option .checkmark {
+        right: 16px;
+      }
+
+      .footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 40px;
+      }
+
+      .back-button {
+        background: none;
+        border: none;
+        color: var(--secondary-color);
+        cursor: pointer;
+      }
+
+      .next-button {
+        background-color: var(--primary-color);
+        color: var(--background-color);
+        border: none;
+        padding: 10px 24px;
+        border-radius: 20px;
+        cursor: pointer;
+      }
+
+      @media (max-width: 768px) {
+        .trip-types {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .pets-options {
+          justify-content: space-between;
+        }
+
+        .pets-option {
+          flex: 1;
+          text-align: center;
+        }
+
+        .children-options {
+          justify-content: space-between;
+        }
+        .children-option {
+          flex: 1;
+          text-align: center;
+        }
+      }
+    </style>
+    <style>
       .tooltip-container {
         position: relative;
         display: inline-block;
