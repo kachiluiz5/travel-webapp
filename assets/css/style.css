@@ -926,4 +926,12 @@ h1 {
       flex: 1;
       text-align: center;
   }
+
+  .children-options {
+    justify-content: space-between;
+}
+  .children-option{
+    flex: 1;
+    text-align: center;
+  }
 }
