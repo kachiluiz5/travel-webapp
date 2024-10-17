@@ -1,9 +1,8 @@
-# Use the Nginx image to serve static files
 FROM nginx:alpine
 
+COPY nginx.conf /etc/nginx/nginx.conf  
 COPY . /usr/share/nginx/html
 
-EXPOSE 80
+EXPOSE 8080 
 
-# Start Nginx when the container starts
 CMD ["nginx", "-g", "daemon off;"]
