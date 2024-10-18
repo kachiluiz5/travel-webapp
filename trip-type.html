@@ -14,7 +14,7 @@
     <div class="main">
       <div class="family-container">
         <div class="progress-bar">
-          <div class="progress"></div>
+          <div class="progress" style="width: 0%"></div>
         </div>
 
         <h1>What kind of trip are you planning?</h1>
@@ -50,7 +50,7 @@
           </button>
         </div>
 
-        <div class="people-question" style="display: none" >
+        <div class="people-question" style="display: none">
           <div
             style="display: flex; justify-content: center; position: relative"
           >
@@ -78,7 +78,7 @@
               </span>
             </p>
           </div>
-          <div style="display: flex; justify-content: center" >
+          <div style="display: flex; justify-content: center">
             <input
               type="number"
               min="1"
@@ -177,12 +177,12 @@
 
     <div class="nav-buttons">
       <button
-        onclick="window.location.href='step-2-calender.html'; updateProgress(2);"
+        onclick="window.location.href='choose-date.html'; updateProgress(2);"
       >
         Back
       </button>
       <button
-        onclick="window.location.href='step-4-location-rating.html'; updateProgress(1);"
+        onclick="window.location.href='location-rating.html'; updateProgress(4);"
       >
         Next
       </button>
@@ -256,6 +256,19 @@
           });
         });
       });
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        updateProgress(3); // Set progress to 3rd step (42.84%)
+      });
+
+      function updateProgress(step) {
+        const progressBar = document.querySelector(".progress");
+        const totalSteps = 7;
+        const progressPercentage = (step / totalSteps) * 100;
+        progressBar.style.width = progressPercentage + "%";
+      }
     </script>
   </body>
 </html>

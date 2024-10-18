@@ -330,6 +330,9 @@
     <div class="main">
       <div class="search-trip-container">
         <!-- only this page wont have progress bar the rest will have-->
+        <!-- <div class="progress-bar">
+          <div class="progress" style="width: 0%"></div>
+        </div> -->
 
         <h1 class="search-trip-1">Where do you want to go?</h1>
         <div class="spacer-top-bottom"></div>
@@ -390,11 +393,12 @@
     <div class="nav-buttons">
       <button style="visibility: hidden"></button>
       <button
-        onclick="window.location.href='step-2-calender.html'; updateProgress(2);"
+        onclick="window.location.href='choose-date.html'; updateProgress(2);"
       >
         Next
       </button>
     </div>
+
 
     <!-- <script>
       const searchBar = document.querySelector(".search-bar");
@@ -622,6 +626,19 @@
           (a, b) => searchHistory[b] - searchHistory[a]
         );
         return sortedCities.slice(0, 3);
+      }
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        updateProgress(1); // Set progress to 1st step (14.28%)
+      });
+
+      function updateProgress(step) {
+        const progressBar = document.querySelector(".progress");
+        const totalSteps = 7; // Total steps is 7
+        const progressPercentage = (step / totalSteps) * 100;
+        progressBar.style.width = progressPercentage + "%";
       }
     </script>
 

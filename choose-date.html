@@ -9,9 +9,11 @@
   <body>
     <div class="main">
       <div class="date-selector">
+
         <div class="progress-bar">
-          <div class="progress"></div>
+          <div class="progress" style="width: 0%"></div>
         </div>
+
         <h1>When are you going?</h1>
         <div id="exact-dates">
           <p class="info">Choose a date range, up to 30 days.</p>
@@ -31,7 +33,7 @@
               <div class="calendar-grid" id="calendar-2"></div>
             </div>
           </div>
-          <p id="date-range-info" class="info" style="margin-top: 20px;"></p>
+          <p id="date-range-info" class="info" style="margin-top: 20px"></p>
           <div class="toggle-view">
             <a href="#" id="toggle-to-month">I don't know my dates yet</a>
           </div>
@@ -61,12 +63,12 @@
     <!-- bottom navigation -->
     <div class="nav-buttons">
       <button
-        onclick="window.location.href='step-1-search-trip.html'; updateProgress(2);"
+        onclick="window.location.href='search-trip.html'; updateProgress(1);"
       >
         Back
       </button>
       <button
-        onclick="window.location.href='step-3-family.html'; updateProgress(1);"
+        onclick="window.location.href='trip-type.html'; updateProgress(3);"
       >
         Next
       </button>
@@ -306,8 +308,19 @@
       renderCalendars();
       updateDateRangeInfo();
     </script>
-    <script>
-      updateProgress(1); // Set the progress to 2/3 (66.66%)
-    </script>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    updateProgress(2); // Set progress to 2nd step (28.56%)
+  });
+
+  function updateProgress(step) {
+    const progressBar = document.querySelector(".progress");
+    const totalSteps = 7;
+    const progressPercentage = (step / totalSteps) * 100;
+    progressBar.style.width = progressPercentage + "%";
+  }
+</script>
   </body>
 </html>
