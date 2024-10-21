@@ -1,9 +1,10 @@
+<!-- meta tags and other links -->
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Travel Dashboard</title>
+    <title>settungs - trusted routes</title>
     <link
       rel="icon"
       type="image/png"
@@ -42,8 +43,6 @@
     <link rel="stylesheet" href="assets/css/style.css" />
   </head>
   <body>
-
-    
     <aside class="sidebar">
       <button type="button" class="sidebar-close-btn">
         <iconify-icon icon="radix-icons:cross-2"></iconify-icon>
@@ -67,6 +66,7 @@
           />
         </a>
       </div>
+
       <div class="sidebar-menu-area">
         <ul class="sidebar-menu" id="sidebar-menu">
           <li class="dropdown">
@@ -84,7 +84,7 @@
                 icon="solar:home-smile-angle-outline"
                 class="menu-icon"
               ></iconify-icon>
-              <span>Users</span>
+              <span>side 1</span>
             </a>
           </li>
 
@@ -94,15 +94,37 @@
                 icon="solar:home-smile-angle-outline"
                 class="menu-icon"
               ></iconify-icon>
-              <span>Trips</span>
+              <span>side 2</span>
             </a>
           </li>
 
+          <li>
+            <a href="javascript:void(0)">
+              <iconify-icon
+                icon="solar:home-smile-angle-outline"
+                class="menu-icon"
+              ></iconify-icon>
+              <span>side 3</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="javascript:void(0)">
+              <iconify-icon
+                icon="solar:home-smile-angle-outline"
+                class="menu-icon"
+              ></iconify-icon>
+              <span>side 4</span>
+            </a>
+          </li>
         </ul>
       </div>
     </aside>
 
     <main class="dashboard-main">
+
+
+
       <div class="navbar-header">
         <div class="row align-items-center justify-content-between">
           <div class="col-auto">
@@ -416,11 +438,12 @@
         </div>
       </div>
 
+
       <div class="dashboard-main-body">
         <div
           class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-24"
         >
-          <h6 class="fw-semibold mb-0">Dashboard</h6>
+          <h6 class="fw-semibold mb-0">Company</h6>
           <ul class="d-flex align-items-center gap-2">
             <li class="fw-medium">
               <a
@@ -435,316 +458,194 @@
               </a>
             </li>
             <li>-</li>
-            <li class="fw-medium">CRM</li>
+            <li class="fw-medium">Settings - Company</li>
           </ul>
         </div>
 
-        <div class="row gy-4">
-
-          <div class="col-xxl-8">
-            <div class="row gy-4">
-              <!-- Total Users -->
-              <div class="col-xxl-6 col-sm-6">
-                <div class="card p-3 shadow-2 radius-8 border input-form-light h-100 bg-gradient-end-1">
-                  <div class="card-body p-0">
-                    <div class="d-flex flex-wrap align-items-center justify-content-between gap-1 mb-8">
-                      <div class="d-flex align-items-center gap-2">
-                        <span class="mb-0 w-48-px h-48-px bg-primary-600 flex-shrink-0 text-white d-flex justify-content-center align-items-center rounded-circle h6 mb-0">
-                          <iconify-icon
-                          icon="mingcute:user-follow-fill"
-                          class="icon"
-                        ></iconify-icon>
-                        </span>
-                        <div>
-                          <span class="mb-2 fw-medium text-secondary-light text-sm">Total Users</span>
-                          <h6 class="fw-semibold">5,000</h6>
-                        </div>
-                      </div>
-                    </div>
+        <div class="card h-100 p-0 radius-12 overflow-hidden">
+          <div class="card-body p-40">
+            <form action="#">
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="mb-20">
+                    <label
+                      for="name"
+                      class="form-label fw-semibold text-primary-light text-sm mb-8"
+                      >Full Name <span class="text-danger-600">*</span></label
+                    >
+                    <input
+                      type="text"
+                      class="form-control radius-8"
+                      id="name"
+                      placeholder="Enter Full Name"
+                    />
                   </div>
                 </div>
-              </div>
-          
-              <!-- Total Trips -->
-              <div class="col-xxl-6 col-sm-6">
-                <div class="card p-3 shadow-2 radius-8 border input-form-light h-100 bg-gradient-end-2">
-                  <div class="card-body p-0">
-                    <div class="d-flex flex-wrap align-items-center justify-content-between gap-1 mb-8">
-                      <div class="d-flex align-items-center gap-2">
-                        <span class="mb-0 w-48-px h-48-px bg-success-main flex-shrink-0 text-white d-flex justify-content-center align-items-center rounded-circle h6">
-                          <iconify-icon icon="mingcute:road-fill" class="icon"></iconify-icon>
-                        </span>
-                        <div>
-                          <span class="mb-2 fw-medium text-secondary-light text-sm">Total Trips</span>
-                          <h6 class="fw-semibold">12,000</h6>
-                        </div>
-                      </div>
-                    </div>
+                <div class="col-sm-6">
+                  <div class="mb-20">
+                    <label
+                      for="email"
+                      class="form-label fw-semibold text-primary-light text-sm mb-8"
+                      >Email <span class="text-danger-600">*</span></label
+                    >
+                    <input
+                      type="email"
+                      class="form-control radius-8"
+                      id="email"
+                      placeholder="Enter email address"
+                    />
                   </div>
                 </div>
-              </div>
-            </div>
-
-          
-            <!-- sec -->
-             <br>
-            <div class="card h-100">
-              <div
-                class="card-header border-bottom bg-base py-16 px-24 d-flex align-items-center justify-content-between"
-              >
-                <h6 class="text-lg fw-semibold mb-0">Last Transaction</h6>
-                <a
-                  href="javascript:void(0)"
-                  class="text-primary-600 hover-text-primary d-flex align-items-center gap-1"
-                >
-                  View All
-                  <iconify-icon
-                    icon="solar:alt-arrow-right-linear"
-                    class="icon"
-                  ></iconify-icon>
-                </a>
-              </div>
-              <div class="card-body p-24">
-                <div class="table-responsive scroll-sm">
-                  <table class="table bordered-table mb-0">
-                    <thead>
-                      <tr>
-                        <th scope="col">Transaction ID</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Amount</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>5986124445445</td>
-                        <td>27 Mar 2024</td>
-                        <td>
-                          <span
-                            class="bg-warning-focus text-warning-main px-24 py-4 rounded-pill fw-medium text-sm"
-                            >Pending</span
-                          >
-                        </td>
-                        <td>$20,000.00</td>
-                      </tr>
-                      <tr>
-                        <td>5986124445445</td>
-                        <td>27 Mar 2024</td>
-                        <td>
-                          <span
-                            class="bg-danger-focus text-danger-main px-24 py-4 rounded-pill fw-medium text-sm"
-                            >Rejected</span
-                          >
-                        </td>
-                        <td>$20,000.00</td>
-                      </tr>
-                      <tr>
-                        <td>5986124445445</td>
-                        <td>27 Mar 2024</td>
-                        <td>
-                          <span
-                            class="bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm"
-                            >Completed</span
-                          >
-                        </td>
-                        <td>$20,000.00</td>
-                      </tr>
-                      <tr>
-                        <td>5986124445445</td>
-                        <td>27 Mar 2024</td>
-                        <td>
-                          <span
-                            class="bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm"
-                            >Completed</span
-                          >
-                        </td>
-                        <td>$20,000.00</td>
-                      </tr>
-                      <tr>
-                        <td>5986124445445</td>
-                        <td>27 Mar 2024</td>
-                        <td>
-                          <span
-                            class="bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm"
-                            >Completed</span
-                          >
-                        </td>
-                        <td>$20,000.00</td>
-                      </tr>
-                    </tbody>
-                  </table>
+                <div class="col-sm-6">
+                  <div class="mb-20">
+                    <label
+                      for="number"
+                      class="form-label fw-semibold text-primary-light text-sm mb-8"
+                      >Phone Number</label
+                    >
+                    <input
+                      type="email"
+                      class="form-control radius-8"
+                      id="number"
+                      placeholder="Enter phone number"
+                    />
+                  </div>
                 </div>
-              </div>
-            </div>
-            
-          </div>
-          
-
-          <!-- Latest Performance End -->
-
-          <div class="col-xxl-4">
-            <div class="card">
-              <div class="card-body">
+                <div class="col-sm-6">
+                  <div class="mb-20">
+                    <label
+                      for="Website"
+                      class="form-label fw-semibold text-primary-light text-sm mb-8"
+                    >
+                      Website</label
+                    >
+                    <input
+                      type="url"
+                      class="form-control radius-8"
+                      id="Website"
+                      placeholder="Website URL"
+                    />
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="mb-20">
+                    <label
+                      for="country"
+                      class="form-label fw-semibold text-primary-light text-sm mb-8"
+                      >Country <span class="text-danger-600">*</span>
+                    </label>
+                    <select
+                      class="form-control radius-8 form-select"
+                      id="country"
+                    >
+                      <option selected disabled>Select Country</option>
+                      <option>USA</option>
+                      <option>Bangladesh</option>
+                      <option>Pakistan</option>
+                      <option>India</option>
+                      <option>Canada</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="mb-20">
+                    <label
+                      for="city"
+                      class="form-label fw-semibold text-primary-light text-sm mb-8"
+                      >City <span class="text-danger-600">*</span>
+                    </label>
+                    <select class="form-control radius-8 form-select" id="city">
+                      <option selected disabled>Select City</option>
+                      <option>Washington</option>
+                      <option>Dhaka</option>
+                      <option>Lahor</option>
+                      <option>Panjab</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="mb-20">
+                    <label
+                      for="state"
+                      class="form-label fw-semibold text-primary-light text-sm mb-8"
+                      >State <span class="text-danger-600">*</span>
+                    </label>
+                    <select
+                      class="form-control radius-8 form-select"
+                      id="state"
+                    >
+                      <option selected disabled>Select State</option>
+                      <option>Washington</option>
+                      <option>Dhaka</option>
+                      <option>Lahor</option>
+                      <option>Panjab</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="mb-20">
+                    <label
+                      for="zip"
+                      class="form-label fw-semibold text-primary-light text-sm mb-8"
+                    >
+                      Zip Code <span class="text-danger-600">*</span></label
+                    >
+                    <input
+                      type="text"
+                      class="form-control radius-8"
+                      id="zip"
+                      placeholder="Zip Code"
+                    />
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="mb-20">
+                    <label
+                      for="address"
+                      class="form-label fw-semibold text-primary-light text-sm mb-8"
+                    >
+                      Address* <span class="text-danger-600">*</span></label
+                    >
+                    <input
+                      type="text"
+                      class="form-control radius-8"
+                      id="address"
+                      placeholder="Enter Your Address"
+                    />
+                  </div>
+                </div>
                 <div
-                  class="d-flex align-items-center flex-wrap gap-2 justify-content-between"
+                  class="d-flex align-items-center justify-content-center gap-3 mt-24"
                 >
-                  <h6 class="mb-2 fw-bold text-lg mb-0">Top Customers</h6>
-                  <a
-                    href="users-list.html"
-                    class="text-primary-600 hover-text-primary d-flex align-items-center gap-1"
+                  <button
+                    type="reset"
+                    class="border border-danger-600 bg-hover-danger-200 text-danger-600 text-md px-40 py-11 radius-8"
                   >
-                    View All
-                    <iconify-icon
-                      icon="solar:alt-arrow-right-linear"
-                      class="icon"
-                    ></iconify-icon>
-                  </a>
-                </div>
-
-                <div class="mt-32">
-                  <div
-                    class="d-flex align-items-center justify-content-between gap-3 mb-32"
+                    Reset
+                  </button>
+                  <button
+                    type="submit"
+                    class="btn btn-primary border border-primary-600 text-md px-24 py-12 radius-8"
                   >
-                    <div class="d-flex align-items-center">
-                      <img
-                        src="assets/images/users/user1.png"
-                        alt=""
-                        class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden"
-                      />
-                      <div class="flex-grow-1">
-                        <h6 class="text-md mb-0">Dianne Russell</h6>
-                        <span class="text-sm text-secondary-light fw-medium"
-                          >Customer ID: 1001</span
-                        >
-                      </div>
-                    </div>
-                    <span class="text-primary-light text-md fw-medium"
-                      >5 Trips</span
-                    >
-                  </div>
-
-                  <div
-                    class="d-flex align-items-center justify-content-between gap-3 mb-32"
-                  >
-                    <div class="d-flex align-items-center">
-                      <img
-                        src="assets/images/users/user2.png"
-                        alt=""
-                        class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden"
-                      />
-                      <div class="flex-grow-1">
-                        <h6 class="text-md mb-0">Wade Warren</h6>
-                        <span class="text-sm text-secondary-light fw-medium"
-                          >Customer ID: 1002</span
-                        >
-                      </div>
-                    </div>
-                    <span class="text-primary-light text-md fw-medium"
-                      >3 Trips</span
-                    >
-                  </div>
-
-                  <div
-                    class="d-flex align-items-center justify-content-between gap-3 mb-32"
-                  >
-                    <div class="d-flex align-items-center">
-                      <img
-                        src="assets/images/users/user3.png"
-                        alt=""
-                        class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden"
-                      />
-                      <div class="flex-grow-1">
-                        <h6 class="text-md mb-0">Albert Flores</h6>
-                        <span class="text-sm text-secondary-light fw-medium"
-                          >Customer ID: 1003</span
-                        >
-                      </div>
-                    </div>
-                    <span class="text-primary-light text-md fw-medium"
-                      >4 Trips</span
-                    >
-                  </div>
-
-                  <div
-                    class="d-flex align-items-center justify-content-between gap-3 mb-32"
-                  >
-                    <div class="d-flex align-items-center">
-                      <img
-                        src="assets/images/users/user4.png"
-                        alt=""
-                        class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden"
-                      />
-                      <div class="flex-grow-1">
-                        <h6 class="text-md mb-0">Bessie Cooper</h6>
-                        <span class="text-sm text-secondary-light fw-medium"
-                          >Customer ID: 1004</span
-                        >
-                      </div>
-                    </div>
-                    <span class="text-primary-light text-md fw-medium"
-                      >5 Trips</span
-                    >
-                  </div>
-
-                  <div
-                    class="d-flex align-items-center justify-content-between gap-3 mb-32"
-                  >
-                    <div class="d-flex align-items-center">
-                      <img
-                        src="assets/images/users/user5.png"
-                        alt=""
-                        class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden"
-                      />
-                      <div class="flex-grow-1">
-                        <h6 class="text-md mb-0">Arlene McCoy</h6>
-                        <span class="text-sm text-secondary-light fw-medium"
-                          >Customer ID: 1005</span
-                        >
-                      </div>
-                    </div>
-                    <span class="text-primary-light text-md fw-medium"
-                      >3 Trips</span
-                    >
-                  </div>
-
-                  <div
-                    class="d-flex align-items-center justify-content-between gap-3"
-                  >
-                    <div class="d-flex align-items-center">
-                      <img
-                        src="assets/images/users/user6.png"
-                        alt=""
-                        class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden"
-                      />
-                      <div class="flex-grow-1">
-                        <h6 class="text-md mb-0">Jake Peralta</h6>
-                        <span class="text-sm text-secondary-light fw-medium"
-                          >Customer ID: 1006</span
-                        >
-                      </div>
-                    </div>
-                    <span class="text-primary-light text-md fw-medium"
-                      >2 Trips</span
-                    >
-                  </div>
+                    Save Change
+                  </button>
                 </div>
               </div>
-            </div>
+            </form>
           </div>
         </div>
-
-
-
       </div>
+
       <footer class="d-footer">
         <div class="row align-items-center justify-content-between">
           <div class="col-auto">
-            <p class="mb-0">© 2024 .</p>
+            <p class="mb-0">© 2024. All Rights Reserved.</p>
           </div>
           <div class="col-auto"></div>
         </div>
       </footer>
     </main>
+
     <!-- jQuery library js -->
     <script src="assets/js/lib/jquery-3.7.1.min.js"></script>
     <!-- Bootstrap js -->
@@ -774,7 +675,5 @@
 
     <!-- main js -->
     <script src="assets/js/app.js"></script>
-
-    <script src="assets/js/homeTwoChart.js"></script>
   </body>
 </html>
