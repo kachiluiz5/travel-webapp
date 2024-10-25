@@ -41,6 +41,8 @@
     <link rel="stylesheet" href="assets/css/lib/audioplayer.css" />
     <!-- main css -->
     <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
   </head>
   <body>
     <aside class="sidebar">
@@ -49,7 +51,7 @@
       </button>
       <div>
         <a href="index.html" class="sidebar-logo">
-          <img
+          <!-- <img
             src="assets/images/logo.png"
             alt="site logo"
             class="light-logo"
@@ -63,14 +65,15 @@
             src="assets/images/logo-icon.png"
             alt="site logo"
             class="logo-icon"
-          />
+          /> -->
+          <h6 style="font-size: 15px;">Trusted Routes</h6>
+
         </a>
       </div>
-
       <div class="sidebar-menu-area">
         <ul class="sidebar-menu" id="sidebar-menu">
-          <li class="dropdown">
-            <a href="javascript:void(0)">
+          <li >
+            <a href="index.html">
               <iconify-icon
                 icon="solar:home-smile-angle-outline"
                 class="menu-icon"
@@ -78,45 +81,14 @@
               <span>Dashboard</span>
             </a>
           </li>
+
           <li>
-            <a href="javascript:void(0)">
-              <iconify-icon
-                icon="solar:home-smile-angle-outline"
-                class="menu-icon"
-              ></iconify-icon>
-              <span>side 1</span>
+            <a href="users-list.html">
+              <i class="fa-solid fa-users"></i>
+              <span>Users</span>
             </a>
           </li>
 
-          <li>
-            <a href="javascript:void(0)">
-              <iconify-icon
-                icon="solar:home-smile-angle-outline"
-                class="menu-icon"
-              ></iconify-icon>
-              <span>side 2</span>
-            </a>
-          </li>
-
-          <li>
-            <a href="javascript:void(0)">
-              <iconify-icon
-                icon="solar:home-smile-angle-outline"
-                class="menu-icon"
-              ></iconify-icon>
-              <span>side 3</span>
-            </a>
-          </li>
-
-          <li>
-            <a href="javascript:void(0)">
-              <iconify-icon
-                icon="solar:home-smile-angle-outline"
-                class="menu-icon"
-              ></iconify-icon>
-              <span>side 4</span>
-            </a>
-          </li>
         </ul>
       </div>
     </aside>
@@ -142,13 +114,7 @@
                   class="icon"
                 ></iconify-icon>
               </button>
-              <form class="navbar-search">
-                <input type="text" name="search" placeholder="Search" />
-                <iconify-icon
-                  icon="ion:search-outline"
-                  class="icon"
-                ></iconify-icon>
-              </form>
+    
             </div>
           </div>
           <div class="col-auto">
@@ -158,7 +124,7 @@
                 data-theme-toggle
                 class="w-40-px h-40-px bg-neutral-200 rounded-circle d-flex justify-content-center align-items-center"
               ></button>
-
+    
               <div class="dropdown">
                 <button
                   class="has-indicator w-40-px h-40-px bg-neutral-200 rounded-circle d-flex justify-content-center align-items-center"
@@ -184,7 +150,7 @@
                       >05</span
                     >
                   </div>
-
+    
                   <div class="max-h-400-px overflow-y-auto scroll-sm pe-4">
                     <a
                       href="javascript:void(0)"
@@ -217,124 +183,10 @@
                         >23 Mins ago</span
                       >
                     </a>
-
-                    <a
-                      href="javascript:void(0)"
-                      class="px-24 py-12 d-flex align-items-start gap-3 mb-2 justify-content-between bg-neutral-50"
-                    >
-                      <div
-                        class="text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3"
-                      >
-                        <span
-                          class="w-44-px h-44-px bg-success-subtle text-success-main rounded-circle d-flex justify-content-center align-items-center flex-shrink-0"
-                        >
-                          <img
-                            src="assets/images/notification/profile-1.png"
-                            alt=""
-                          />
-                        </span>
-                        <div>
-                          <h6 class="text-md fw-semibold mb-4">
-                            Ronald Richards
-                          </h6>
-                          <p
-                            class="mb-0 text-sm text-secondary-light text-w-200-px"
-                          >
-                            You can stitch between artboards
-                          </p>
-                        </div>
-                      </div>
-                      <span class="text-sm text-secondary-light flex-shrink-0"
-                        >23 Mins ago</span
-                      >
-                    </a>
-
-                    <a
-                      href="javascript:void(0)"
-                      class="px-24 py-12 d-flex align-items-start gap-3 mb-2 justify-content-between"
-                    >
-                      <div
-                        class="text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3"
-                      >
-                        <span
-                          class="w-44-px h-44-px bg-info-subtle text-info-main rounded-circle d-flex justify-content-center align-items-center flex-shrink-0"
-                        >
-                          AM
-                        </span>
-                        <div>
-                          <h6 class="text-md fw-semibold mb-4">Arlene McCoy</h6>
-                          <p
-                            class="mb-0 text-sm text-secondary-light text-w-200-px"
-                          >
-                            Invite you to prototyping
-                          </p>
-                        </div>
-                      </div>
-                      <span class="text-sm text-secondary-light flex-shrink-0"
-                        >23 Mins ago</span
-                      >
-                    </a>
-
-                    <a
-                      href="javascript:void(0)"
-                      class="px-24 py-12 d-flex align-items-start gap-3 mb-2 justify-content-between bg-neutral-50"
-                    >
-                      <div
-                        class="text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3"
-                      >
-                        <span
-                          class="w-44-px h-44-px bg-success-subtle text-success-main rounded-circle d-flex justify-content-center align-items-center flex-shrink-0"
-                        >
-                          <img
-                            src="assets/images/notification/profile-2.png"
-                            alt=""
-                          />
-                        </span>
-                        <div>
-                          <h6 class="text-md fw-semibold mb-4">
-                            Annette Black
-                          </h6>
-                          <p
-                            class="mb-0 text-sm text-secondary-light text-w-200-px"
-                          >
-                            Invite you to prototyping
-                          </p>
-                        </div>
-                      </div>
-                      <span class="text-sm text-secondary-light flex-shrink-0"
-                        >23 Mins ago</span
-                      >
-                    </a>
-
-                    <a
-                      href="javascript:void(0)"
-                      class="px-24 py-12 d-flex align-items-start gap-3 mb-2 justify-content-between"
-                    >
-                      <div
-                        class="text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3"
-                      >
-                        <span
-                          class="w-44-px h-44-px bg-info-subtle text-info-main rounded-circle d-flex justify-content-center align-items-center flex-shrink-0"
-                        >
-                          DR
-                        </span>
-                        <div>
-                          <h6 class="text-md fw-semibold mb-4">
-                            Darlene Robertson
-                          </h6>
-                          <p
-                            class="mb-0 text-sm text-secondary-light text-w-200-px"
-                          >
-                            Invite you to prototyping
-                          </p>
-                        </div>
-                      </div>
-                      <span class="text-sm text-secondary-light flex-shrink-0"
-                        >23 Mins ago</span
-                      >
-                    </a>
+    
+    
                   </div>
-
+    
                   <div class="text-center py-12 px-16">
                     <a
                       href="javascript:void(0)"
@@ -345,7 +197,7 @@
                 </div>
               </div>
               <!-- Notification dropdown end -->
-
+    
               <div class="dropdown">
                 <button
                   class="d-flex justify-content-center align-items-center rounded-circle"
@@ -366,9 +218,6 @@
                       <h6 class="text-lg text-primary-light fw-semibold mb-2">
                         Shaidul Islam
                       </h6>
-                      <span class="text-secondary-light fw-medium text-sm"
-                        >Admin</span
-                      >
                     </div>
                     <button type="button" class="hover-text-danger">
                       <iconify-icon
@@ -390,30 +239,8 @@
                         My Profile</a
                       >
                     </li>
-                    <!-- <li>
-                      <a
-                        class="dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-primary d-flex align-items-center gap-3"
-                        href="email.html"
-                      >
-                        <iconify-icon
-                          icon="tabler:message-check"
-                          class="icon text-xl"
-                        ></iconify-icon>
-                        Inbox</a
-                      >
-                    </li> -->
-                    <li>
-                      <a
-                        class="dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-primary d-flex align-items-center gap-3"
-                        href="company-settings.html"
-                      >
-                        <iconify-icon
-                          icon="icon-park-outline:setting-two"
-                          class="icon text-xl"
-                        ></iconify-icon>
-                        Setting</a
-                      >
-                    </li>
+    
+    
                     <li>
                       <a
                         class="dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-danger d-flex align-items-center gap-3"
@@ -464,38 +291,6 @@
               <div class="col-xxl-6 col-xl-8 col-lg-10">
                 <div class="card border">
                   <div class="card-body">
-                    <h6 class="text-md text-primary-light mb-16">
-                      Profile Image
-                    </h6>
-
-                    <!-- Upload Image Start -->
-                    <div class="mb-24 mt-16">
-                      <div class="avatar-upload">
-                        <div
-                          class="avatar-edit position-absolute bottom-0 end-0 me-24 mt-16 z-1 cursor-pointer"
-                        >
-                          <input
-                            type="file"
-                            id="imageUpload"
-                            accept=".png, .jpg, .jpeg"
-                            hidden
-                          />
-                          <label
-                            for="imageUpload"
-                            class="w-32-px h-32-px d-flex justify-content-center align-items-center bg-primary-50 text-primary-600 border border-primary-600 bg-hover-primary-100 text-lg rounded-circle"
-                          >
-                            <iconify-icon
-                              icon="solar:camera-outline"
-                              class="icon"
-                            ></iconify-icon>
-                          </label>
-                        </div>
-                        <div class="avatar-preview">
-                          <div id="imagePreview"></div>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Upload Image End -->
 
                     <form action="#">
                       <div class="mb-20">
@@ -538,49 +333,22 @@
                           placeholder="Enter phone number"
                         />
                       </div>
-                      <div class="mb-20">
-                        <label
-                          for="depart"
-                          class="form-label fw-semibold text-primary-light text-sm mb-8"
-                          >Department <span class="text-danger-600">*</span>
-                        </label>
-                        <select
-                          class="form-control radius-8 form-select"
-                          id="depart"
-                        >
-                          <option>Enter Event Title</option>
-                          <option>Enter Event Title One</option>
-                          <option>Enter Event Title Two</option>
-                        </select>
-                      </div>
+
                       <div class="mb-20">
                         <label
                           for="desig"
                           class="form-label fw-semibold text-primary-light text-sm mb-8"
-                          >Designation <span class="text-danger-600">*</span>
+                          >Status <span class="text-danger-600">*</span>
                         </label>
                         <select
                           class="form-control radius-8 form-select"
                           id="desig"
                         >
-                          <option>Enter Designation Title</option>
-                          <option>Enter Designation Title One</option>
-                          <option>Enter Designation Title Two</option>
+                          <option>Active</option>
+                          <option>Inactive</option>
                         </select>
                       </div>
-                      <div class="mb-20">
-                        <label
-                          for="desc"
-                          class="form-label fw-semibold text-primary-light text-sm mb-8"
-                          >Description</label
-                        >
-                        <textarea
-                          name="#0"
-                          class="form-control radius-8"
-                          id="desc"
-                          placeholder="Write description..."
-                        ></textarea>
-                      </div>
+
                       <div
                         class="d-flex align-items-center justify-content-center gap-3"
                       >
