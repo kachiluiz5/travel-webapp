@@ -6,8 +6,7 @@
     <title>Sign Up</title>
     <link rel="stylesheet" href="assets/css/style.css" />
     <style>
-
-      /* Enhanced styles for the popup */
+      /* Enhanced styles for the popups */
       .popup {
         display: none;
         position: fixed;
@@ -15,7 +14,7 @@
         top: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
+        background-color: rgba(0, 0, 0, 0.8);
         z-index: 1000;
         opacity: 0;
         transition: opacity 0.3s ease;
@@ -92,10 +91,10 @@
 
           <button type="submit">Sign up</button>
         </form>
-        <!-- <div class="join-section">
-          <p>Already a member? <a href="#">Sign in</a> to unlock the best of our service.</p>
-        </div> -->
         <div class="terms">
+          <p>
+            Already have an account? <a href="javascript:void(0)" onclick="showSignInPopup()">Login</a>
+          </p>
           <p>
             By proceeding, you agree to our <a href="#">Terms of Use</a> and
             confirm you have read our
@@ -105,43 +104,92 @@
       </div>
     </div>
 
-    <!-- Enhanced popup element -->
-    <div id="popup" class="popup" role="dialog" aria-labelledby="popupTitle">
+    <!-- Thank You Message Popup -->
+    <div id="messagePopup" class="popup" role="dialog" aria-labelledby="messagePopupTitle">
       <div class="popup-content">
-        <span class="close-popup" onclick="closePopup()" aria-label="Close">&times;</span>
+        <span class="close-popup" onclick="closeMessagePopup()" aria-label="Close">&times;</span>
         <div class="popup-icon">🎉</div>
-        <h2 id="popupTitle">Thank You for Signing Up!</h2>
+        <h2 id="messagePopupTitle">Thank You for Signing Up!</h2>
         <p>We're excited to have you on board! An Experience Curator will be in touch with you via phone within 48 business hours to personalize your journey.</p>
       </div>
     </div>
 
+    <!-- Sign-In Popup -->
+    <div id="signInPopup" class="popup" role="dialog" aria-labelledby="signInPopupTitle">
+      <div class="popup-content">
+        <span class="close-popup" onclick="closeSignInPopup()" aria-label="Close">&times;</span>
+        <h2 id="signInPopupTitle">Sign In</h2>
+        <form id="signInForm">
+          <div class="form-group">
+            <input type="email" id="signInEmail" placeholder="Email" required />
+          </div>
+          <div class="form-group">
+            <input type="password" id="signInPassword" placeholder="Password" required />
+          </div>
+          <button type="submit">Sign In</button>
+        </form>
+      </div>
+    </div>
+
     <script>
-      function showPopup() {
-        const popup = document.getElementById('popup');
+      // Popup control functions
+
+      // Message popup
+      function showMessagePopup() {
+        const popup = document.getElementById('messagePopup');
         popup.style.display = 'block';
         setTimeout(() => {
           popup.classList.add('show');
         }, 10);
       }
 
-      function closePopup() {
-        const popup = document.getElementById('popup');
+      function closeMessagePopup() {
+        const popup = document.getElementById('messagePopup');
         popup.classList.remove('show');
         setTimeout(() => {
           popup.style.display = 'none';
         }, 300);
       }
 
+      // Sign-in popup
+      function showSignInPopup() {
+        const popup = document.getElementById('signInPopup');
+        popup.style.display = 'block';
+        setTimeout(() => {
+          popup.classList.add('show');
+        }, 10);
+      }
+
+      function closeSignInPopup() {
+        const popup = document.getElementById('signInPopup');
+        popup.classList.remove('show');
+        setTimeout(() => {
+          popup.style.display = 'none';
+        }, 300);
+      }
+
+      // Trigger message popup on sign-up form submission
       document.getElementById("signupForm").addEventListener("submit", function (e) {
         e.preventDefault();
-        showPopup();
+        showMessagePopup();
       });
+
+      // Trigger sign-in form behavior
+      // document.getElementById("signInForm").addEventListener("submit", function (e) {
+      //   e.preventDefault();
+      //   alert("Sign-In Successful!");
+      //   closeSignInPopup();
+      // });
 
       // Close popup when clicking outside of it
       window.onclick = function(event) {
-        var popup = document.getElementById('popup');
-        if (event.target == popup) {
-          closePopup();
+        var messagePopup = document.getElementById('messagePopup');
+        var signInPopup = document.getElementById('signInPopup');
+        if (event.target == messagePopup) {
+          closeMessagePopup();
+        }
+        if (event.target == signInPopup) {
+          closeSignInPopup();
         }
       }
     </script>
