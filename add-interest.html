@@ -216,7 +216,7 @@
         </div>
 
         <h1>Tell us what you're interested in</h1>
-        <p>Select all that apply.</p>
+        <p class="p-head">Select all that apply.</p>
 
         <div class="interests-container" id="interestsContainer">
           <!-- Interests will be dynamically added here -->
@@ -239,7 +239,7 @@
 
     <div class="nav-buttons">
       <button
-        onclick="window.location.href='trip-pricing'; updateProgress(2);"
+        onclick="window.location.href='trip-pricing.html'; updateProgress(5);"
       >
         Back
       </button>
@@ -316,15 +316,21 @@
         // Here you would typically send this data to your backend or move to the next step
       };
 
-      document.querySelector(".nav-buttons button:first-child").onclick =
-        () => {
-          // Here you would typically go back to the previous step in your booking process
-          console.log("Going back to the previous step");
-        };
+
     </script>
-    <script src="assets/js/main.js"></script>
+
+
     <script>
-      updateProgress(3); // Set the progress to 3/3 (100%)
+      document.addEventListener("DOMContentLoaded", function () {
+        updateProgress(6); // Set progress to 5th step (71.4%)
+      });
+
+      function updateProgress(step) {
+        const progressBar = document.querySelector(".progress");
+        const totalSteps = 7;
+        const progressPercentage = (step / totalSteps) * 100;
+        progressBar.style.width = progressPercentage + "%";
+      }
     </script>
   </body>
 </html>

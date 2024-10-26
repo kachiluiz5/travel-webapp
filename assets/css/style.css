@@ -49,7 +49,7 @@ h1 {
   font-weight: 800;
 }
 
-p {
+.p-head {
   text-align: center;
   color: #666;
   margin-bottom: 20px;
@@ -64,6 +64,15 @@ p {
   align-items: center;
   min-height: 100vh;
 }
+
+
+
+
+
+
+
+
+/* search trip */
 
 .search-container {
   width: 100%;

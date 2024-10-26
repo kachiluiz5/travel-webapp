@@ -1,271 +1,496 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="assets/css/home.css" />
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/css/home.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
+  </head>
 
-</head>
-
-<body>
+  <body>
+ 
     <div class="hero">
-        <div class="slider">
-            <img src="assets/images/home/back1.jpg" alt="Event 1" class="slide active">
-            <img src="assets/images/home/back2.jpg" alt="Event 2" class="slide">
-            <img src="assets/images/home/back3.jpg" alt="Event 2" class="slide">
-
+      <div class="slider">
+        <img
+          src="assets/images/home/back1.jpg"
+          alt="Event 1"
+          class="slide active"
+        />
+        <img src="assets/images/home/back2.jpg" alt="Event 2" class="slide" />
+        <img src="assets/images/home/back3.jpg" alt="Event 2" class="slide" />
+      </div>
+      <div class="overlay">
+        <header>
+          <div class="logo">
+            <svg viewBox="0 0 100 100" width="40" height="40">
+              <circle
+                cx="50"
+                cy="50"
+                r="40"
+                fill="none"
+                stroke="#fff"
+                stroke-width="2"
+              />
+              <text
+                x="50"
+                y="55"
+                font-family="Arial"
+                font-size="24"
+                fill="#fff"
+                text-anchor="middle"
+                dominant-baseline="middle"
+              >
+                DMCs
+              </text>
+            </svg>
+          </div>
+          <div style="display: flex">
+            <h5 style="font-size: 22px; color: white; margin-right: 10px">
+              Menu
+            </h5>
+            <button id="menuBtn" aria-label="Toggle menu">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+        </header>
+        <div class="hero-content">
+          <h1>PLAN A TRIP</h1>
+          <a href="search-trip.html">
+            <button class="cta-button">Speak with an Experience Curator</button>
+          </a>
         </div>
-        <div class="overlay">
-            <header>
-                <div class="logo">
-                    <svg viewBox="0 0 100 100" width="40" height="40">
-                        <circle cx="50" cy="50" r="40" fill="none" stroke="#fff" stroke-width="2" />
-                        <text x="50" y="55" font-family="Arial" font-size="24" fill="#fff" text-anchor="middle" dominant-baseline="middle">DMCs</text>
-                    </svg>
-                </div>
-                <div style="display: flex;">
-                    <p style="font-size: 22px; color: white; margin-right: 10px;">Menu</p>
-                    <button id="menuBtn" aria-label="Toggle menu">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="3" y1="12" x2="21" y2="12"></line>
-                            <line x1="3" y1="6" x2="21" y2="6"></line>
-                            <line x1="3" y1="18" x2="21" y2="18"></line>
-                        </svg>
-                    </button>
-                </div>
-            </header>
-            <div class="hero-content">
-                <h1>PLAN A TRIP</h1>
-                <a href="search-trip.html">
-                    <button class="cta-button">Speak with an Experience Curator</button>
-                </a>
-            </div>
-        </div>
+      </div>
     </div>
-
 
     <!-- nav -->
     <nav id="sideNav">
-        <button id="closeBtn" aria-label="Close menu">
-            <p style="font-weight: bold; font-size: 20px;">X</p>
-        </button>
-        <ul>
-            <li><a href="#">Home</a></li>
-            <li>
-                <a href="#" class="dropdown-toggle">Services
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="6 9 12 15 18 9"></polyline>
-                    </svg>
-                </a>
-                <div class="dropdown-content">
-                    <a href="step-1-search-trip.html">Plan a Trip</a>
-                    <a href="#">Our Affiliate Network</a>
-                    <a href="#">Destination Management Services (future)</a>
-                    <a href="#">Retirement Planning</a>
-                    <a href="#">Relocation Services</a>
-                </div>
-            </li>
-            <li>
-                <a href="#" class="dropdown-toggle">Destinations
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="6 9 12 15 18 9"></polyline>
-                    </svg>
-                </a>
-                <div class="dropdown-content">
-                    <a href="#">Dominican Republic (now)</a>
-                    <a href="#">Toronto (future)</a>
-                    <a href="#">Jamaica (future)</a>
-                    <a href="#">Barbados (future)</a>
-                </div>
-                
-            </li>
-            <li><a href="#">About Us</a></li>
-            <li><a href="#">Contact</a></li>
-        </ul>
-        <button class="cta-button">Get Started</button>
-        <div class="social-links">
-            <a href="https://www.facebook.com/" target="_blank">
-              <i class="fab fa-facebook"></i>
-            </a>
-            <a href="https://www.instagram.com/" target="_blank">
-              <i class="fab fa-instagram"></i>
-            </a>
-            <a href="https://twitter.com/" target="_blank">
-              <i class="fab fa-twitter"></i>
-            </a>
+      <button id="closeBtn" aria-label="Close menu">
+        <p style="font-weight: bold; font-size: 20px">X</p>
+      </button>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li>
+          <a href="#" class="dropdown-toggle"
+            >Services
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </a>
+          <div class="dropdown-content">
+            <a href="step-1-search-trip.html">Plan a Trip</a>
+            <a href="#">Our Affiliate Network</a>
+            <a href="#">Destination Management Services (future)</a>
+            <a href="#">Retirement Planning</a>
+            <a href="#">Relocation Services</a>
           </div>
+        </li>
+        <li>
+          <a href="#" class="dropdown-toggle"
+            >Destinations
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </a>
+          <div class="dropdown-content">
+            <a href="#">Dominican Republic (now)</a>
+            <a href="#">Toronto (future)</a>
+            <a href="#">Jamaica (future)</a>
+            <a href="#">Barbados (future)</a>
+          </div>
+        </li>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+      <button class="cta-button" style="padding-top: 10px; padding-bottom: 10px;">Get Started</button>
+      <div class="social-links">
+        <a href="https://www.facebook.com/" target="_blank">
+          <i class="fab fa-facebook"></i>
+        </a>
+        <a href="https://www.instagram.com/" target="_blank">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://twitter.com/" target="_blank">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </div>
     </nav>
 
-
-
     <div class="main">
-        <div class="search-trip-container">
-          <!-- only this page wont have progress bar the rest will have-->
-          <!-- <div class="progress-bar">
-            <div class="progress" style="width: 0%"></div>
-          </div> -->
-  
-          <h1 class="search-trip-1">Where do you want to go?</h1>
-          <div class="spacer-top-bottom"></div>
-  
-          <p>Search or get inspired by popular destinations.</p>
-          <div class="search-container">
-            <div class="search-wrapper">
-              <i class="fas fa-search search-icon"></i>
-              <input
-                type="text"
-                class="search-bar"
-                placeholder="Search by city or town"
-              />
-            </div>
-            <div class="search-results"></div>
+      <div class="search-trip-container">
+
+        <h1 class="search-trip-1" style="text-align: center; margin-top: 30px;">Where do you want to go?</h1>
+        <div class="spacer-top-bottom"></div>
+
+        <p class="p-head" style="text-align: center; margin-bottom: 20px;">Search or get inspired by popular destinations.</p>
+        <div class="search-container">
+          <div class="search-wrapper">
+            <i class="fas fa-search search-icon"></i>
+            <input
+              type="text"
+              class="search-bar"
+              placeholder="Search by city or town"
+            />
           </div>
-  
-          <div class="spacer-top-bottom"></div>
-  
-          <div class="destinations">
-            <div class="destination">
-              <img src="assets/images/caption1.jpg" alt="Punta Cana" />
-              <h3>Punta Cana</h3>
-              <p></p>
-            </div>
-            <div class="destination">
-              <img src="assets/images/caption2.jpg" alt="Santo Domingo" />
-              <h3>Santo Domingo</h3>
-              <p></p>
-            </div>
-            <div class="destination">
-              <img src="assets/images/caption3.jpg" alt="La Romana" />
-              <h3>La Romana</h3>
-              <p></p>
-            </div>
-            <div class="destination">
-              <img src="assets/images/caption4.jpg" alt="Puerto Plata" />
-              <h3>Puerto Plata</h3>
-              <p></p>
-            </div>
-            <div class="destination">
-              <img src="assets/images/caption5.jpg" alt="Santiago" />
-              <h3>Santiago</h3>
-              <p></p>
-            </div>
-            <div class="destination">
-              <img src="assets/images/caption2.jpg" alt="Jarabacoa" />
-              <h3>Jarabacoa</h3>
-              <p></p>
-            </div>
+          <div class="search-results"></div>
+        </div>
+
+        <div class="spacer-top-bottom"></div>
+
+        <div class="destinations">
+          <div class="destination">
+            <img src="assets/images/caption1.jpg" alt="Punta Cana" />
+            <h3>Punta Cana</h3>
+            <p></p>
+          </div>
+          <div class="destination">
+            <img src="assets/images/caption2.jpg" alt="Santo Domingo" />
+            <h3>Santo Domingo</h3>
+            <p></p>
+          </div>
+          <div class="destination">
+            <img src="assets/images/caption3.jpg" alt="La Romana" />
+            <h3>La Romana</h3>
+            <p></p>
+          </div>
+          <div class="destination">
+            <img src="assets/images/caption4.jpg" alt="Puerto Plata" />
+            <h3>Puerto Plata</h3>
+            <p></p>
+          </div>
+          <div class="destination">
+            <img src="assets/images/caption5.jpg" alt="Santiago" />
+            <h3>Santiago</h3>
+            <p></p>
+          </div>
+          <div class="destination">
+            <img src="assets/images/caption2.jpg" alt="Jarabacoa" />
+            <h3>Jarabacoa</h3>
+            <p></p>
           </div>
         </div>
       </div>
+    </div>
+
+    <div class="search-overlay"></div>
 
     <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3><i class="fas fa-plane"></i> Trusted Routes</h3>
-                <p>Embark on unforgettable journeys with us. Your adventure begins here.</p>
-                <div class="social-icons">
-                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-                </div>
-            </div>
-            <div class="footer-section">
-                <h3><i class="fas fa-palm-tree"></i> Popular Destinations</h3>
-                <ul>
-                    <li><a href="#">Bali, Indonesia</a></li>
-                    <li><a href="#">Santorini, Greece</a></li>
-                    <li><a href="#">Machu Picchu, Peru</a></li>
-                    <li><a href="#">Tokyo, Japan</a></li>
-                    <li><a href="#">New York City, USA</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Travel Resources</h3>
-                <ul>
-                    <li><a href="#">Travel Insurance</a></li>
-                    <li><a href="#">Visa Information</a></li>
-                    <li><a href="#">Travel Tips & Guides</a></li>
-                    <li><a href="#">FAQs</a></li>
-                    <li><a href="#">Customer Support</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Contact Us</h3>
-                <div class="contact-info">
-                    <p><i class="fas fa-map-marker-alt"></i> 123 Adventure St, Travelville, TX 12345</p>
-                    <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
-                    <p><i class="fas fa-envelope"></i> info@wanderlusttravel.com</p>
-                </div>
-                <h3>Newsletter</h3>
-                <form class="newsletter-form" id="newsletter-form">
-                    <input type="email" placeholder="Enter your email" required>
-                    <button type="submit">Subscribe</button>
-                </form>
-            </div>
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3><i class="fas fa-plane"></i> Trusted Routes</h3>
+          <p>
+            Embark on unforgettable journeys with us. Your adventure begins
+            here.
+          </p>
+          <div class="social-icons">
+            <a href="#" aria-label="Facebook"
+              ><i class="fab fa-facebook"></i
+            ></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="Instagram"
+              ><i class="fab fa-instagram"></i
+            ></a>
+            <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+          </div>
         </div>
-        <div class="footer-bottom">
-            <p>&copy; 2023 Trusted Routes. All rights reserved.</p>
+        <div class="footer-section">
+          <h3><i class="fas fa-palm-tree"></i> Popular Destinations</h3>
+          <ul>
+            <li><a href="#">Bali, Indonesia</a></li>
+            <li><a href="#">Santorini, Greece</a></li>
+            <li><a href="#">Machu Picchu, Peru</a></li>
+            <li><a href="#">Tokyo, Japan</a></li>
+            <li><a href="#">New York City, USA</a></li>
+          </ul>
         </div>
+        <div class="footer-section">
+          <h3>Travel Resources</h3>
+          <ul>
+            <li><a href="#">Travel Insurance</a></li>
+            <li><a href="#">Visa Information</a></li>
+            <li><a href="#">Travel Tips & Guides</a></li>
+            <li><a href="#">FAQs</a></li>
+            <li><a href="#">Customer Support</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Contact Us</h3>
+          <div class="contact-info">
+            <p>
+              <i class="fas fa-map-marker-alt"></i> 123 Adventure St,
+              Travelville, TX 12345
+            </p>
+            <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+            <p><i class="fas fa-envelope"></i> info@wanderlusttravel.com</p>
+          </div>
+          <h3>Newsletter</h3>
+          <form class="newsletter-form" id="newsletter-form">
+            <input type="email" placeholder="Enter your email" required />
+            <button type="submit">Subscribe</button>
+          </form>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2023 Trusted Routes. All rights reserved.</p>
+      </div>
     </footer>
+
+
+
     <script>
-        const menuBtn = document.getElementById('menuBtn');
-        const sideNav = document.getElementById('sideNav');
-        const closeBtn = document.getElementById('closeBtn');
-        const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+      const menuBtn = document.getElementById("menuBtn");
+      const sideNav = document.getElementById("sideNav");
+      const closeBtn = document.getElementById("closeBtn");
+      const dropdownToggles = document.querySelectorAll(".dropdown-toggle");
 
-        menuBtn.addEventListener('click', () => {
-            sideNav.classList.toggle('open');
+      menuBtn.addEventListener("click", () => {
+        sideNav.classList.toggle("open");
+      });
+
+      closeBtn.addEventListener("click", () => {
+        sideNav.classList.remove("open");
+      });
+
+      dropdownToggles.forEach((toggle) => {
+        toggle.addEventListener("click", (e) => {
+          e.preventDefault();
+          const dropdownContent = toggle.nextElementSibling;
+
+          // Close all other dropdowns
+          dropdownToggles.forEach((otherToggle) => {
+            if (otherToggle !== toggle) {
+              otherToggle.classList.remove("active");
+              otherToggle.nextElementSibling.classList.remove("show");
+            }
+          });
+
+          // Toggle the clicked dropdown
+          toggle.classList.toggle("active");
+          dropdownContent.classList.toggle("show");
         });
+      });
 
-        closeBtn.addEventListener('click', () => {
-            sideNav.classList.remove('open');
+      // Slider functionality
+      let currentSlide = 0;
+      const slides = document.querySelectorAll(".slide");
+
+      function showSlide(index) {
+        slides.forEach((slide, i) => {
+          slide.classList.remove("active");
+          if (i === index) {
+            slide.classList.add("active");
+          }
         });
+      }
 
-        dropdownToggles.forEach(toggle => {
-            toggle.addEventListener('click', (e) => {
-                e.preventDefault();
-                const dropdownContent = toggle.nextElementSibling;
-                
-                // Close all other dropdowns
-                dropdownToggles.forEach(otherToggle => {
-                    if (otherToggle !== toggle) {
-                        otherToggle.classList.remove('active');
-                        otherToggle.nextElementSibling.classList.remove('show');
-                    }
-                });
+      function nextSlide() {
+        currentSlide = (currentSlide + 1) % slides.length;
+        showSlide(currentSlide);
+      }
 
-                // Toggle the clicked dropdown
-                toggle.classList.toggle('active');
-                dropdownContent.classList.toggle('show');
-            });
-        });
-
-        // Slider functionality
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.slide');
-
-        function showSlide(index) {
-            slides.forEach((slide, i) => {
-                slide.classList.remove('active');
-                if (i === index) {
-                    slide.classList.add('active');
-                }
-            });
-        }
-
-        function nextSlide() {
-            currentSlide = (currentSlide + 1) % slides.length;
-            showSlide(currentSlide);
-        }
-
-        setInterval(nextSlide, 5000); // Change slide every 5 seconds
+      setInterval(nextSlide, 5000); // Change slide every 5 seconds
     </script>
 
-    
-</body>
+    <script>
+      const searchBar = document.querySelector(".search-bar");
+      const searchResults = document.querySelector(".search-results");
+      const searchOverlay = document.querySelector(".search-overlay");
 
+      // List of cities in the Dominican Republic
+      const cities = [
+        {
+          name: "Santo Domingo",
+          details: "National District, Dominican Republic",
+        },
+        { name: "Santiago", details: "Santiago Province, Dominican Republic" },
+        {
+          name: "Punta Cana",
+          details: "La Altagracia Province, Dominican Republic",
+        },
+        {
+          name: "La Romana",
+          details: "La Romana Province, Dominican Republic",
+        },
+        {
+          name: "Puerto Plata",
+          details: "Puerto Plata Province, Dominican Republic",
+        },
+        { name: "Jarabacoa", details: "La Vega Province, Dominican Republic" },
+        {
+          name: "San Pedro de Macorís",
+          details: "San Pedro de Macorís Province, Dominican Republic",
+        },
+        {
+          name: "Higuey",
+          details: "La Altagracia Province, Dominican Republic",
+        },
+        {
+          name: "Bávaro",
+          details: "La Altagracia Province, Dominican Republic",
+        },
+        {
+          name: "Bonao",
+          details: "Monseñor Nouel Province, Dominican Republic",
+        },
+        { name: "Moca", details: "Espaillat Province, Dominican Republic" },
+        {
+          name: "San Cristóbal",
+          details: "San Cristóbal Province, Dominican Republic",
+        },
+        { name: "Baní", details: "Peravia Province, Dominican Republic" },
+        { name: "Azua", details: "Azua Province, Dominican Republic" },
+        { name: "Barahona", details: "Barahona Province, Dominican Republic" },
+        {
+          name: "Nagua",
+          details: "María Trinidad Sánchez Province, Dominican Republic",
+        },
+        {
+          name: "San Francisco de Macorís",
+          details: "Duarte Province, Dominican Republic",
+        },
+        // Add more cities as needed
+      ];
+
+      let searchHistory = {};
+
+      searchBar.addEventListener("focus", () => {
+        searchResults.style.display = "block";
+        searchBar.classList.add("active");
+        searchOverlay.style.display = "flex";
+      });
+
+      searchBar.addEventListener("input", (e) => {
+        const query = e.target.value.toLowerCase();
+        searchResults.innerHTML = "";
+
+        const filteredCities = cities.filter((city) =>
+          city.name.toLowerCase().includes(query)
+        );
+
+        if (filteredCities.length > 0) {
+          filteredCities.forEach((city) => {
+            const resultItem = document.createElement("div");
+            resultItem.classList.add("result-item");
+
+            const icon = document.createElement("i");
+            icon.classList.add("fas", "fa-map-marker-alt", "location-icon");
+
+            const locationInfo = document.createElement("div");
+            locationInfo.classList.add("location-info");
+
+            const locationName = document.createElement("div");
+            locationName.classList.add("location-name");
+            locationName.textContent = city.name;
+
+            const locationDetails = document.createElement("div");
+            locationDetails.classList.add("location-details");
+            locationDetails.textContent = city.details;
+
+            locationInfo.appendChild(locationName);
+            locationInfo.appendChild(locationDetails);
+            resultItem.appendChild(icon);
+            resultItem.appendChild(locationInfo);
+            searchResults.appendChild(resultItem);
+
+            // Update search history for tracking
+            updateSearchHistory(city.name);
+          });
+        } else {
+          // If no cities match, suggest the top 3 most searched cities
+          const topCities = getTopSearchedCities();
+          searchResults.innerHTML =
+            "<p>No results found. Here are some suggestions:</p>";
+          topCities.forEach((city) => {
+            const suggestionItem = document.createElement("div");
+            suggestionItem.classList.add("result-item");
+
+            const icon = document.createElement("i");
+            icon.classList.add("fas", "fa-map-marker-alt", "location-icon");
+
+            const locationInfo = document.createElement("div");
+            locationInfo.classList.add("location-info");
+
+            const locationName = document.createElement("div");
+            locationName.classList.add("location-name");
+            locationName.textContent = city;
+
+            const locationDetails = document.createElement("div");
+            locationDetails.classList.add("location-details");
+            locationDetails.textContent = "Popular city in Dominican Republic";
+
+            locationInfo.appendChild(locationName);
+            locationInfo.appendChild(locationDetails);
+            suggestionItem.appendChild(icon);
+            suggestionItem.appendChild(locationInfo);
+            searchResults.appendChild(suggestionItem);
+          });
+        }
+      });
+
+      // Hide the search results when the overlay is clicked
+      searchOverlay.addEventListener("click", () => {
+        searchResults.style.display = "none";
+        searchBar.classList.remove("active");
+        searchOverlay.style.display = "none";
+      });
+
+      // Update the search history object
+      function updateSearchHistory(city) {
+        if (searchHistory[city]) {
+          searchHistory[city]++;
+        } else {
+          searchHistory[city] = 1;
+        }
+      }
+
+      // Get the top 3 most searched cities
+      function getTopSearchedCities() {
+        const sortedCities = Object.keys(searchHistory).sort(
+          (a, b) => searchHistory[b] - searchHistory[a]
+        );
+        return sortedCities.slice(0, 3);
+      }
+    </script>
+  </body>
 </html>
