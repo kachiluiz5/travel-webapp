@@ -8,138 +8,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            color: #333;
-        }
-        .footer {
-            background: linear-gradient(to right, #2596be, #1a6985);
-            color: #fff;
-            padding: 60px 0 40px;
-            margin-top: auto;
-            box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
-        }
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            padding: 0 20px;
-        }
-        .footer-section {
-            flex: 1;
-            margin: 0 20px 20px;
-            min-width: 200px;
-        }
-        .footer-section h3 {
-            font-size: 20px;
-            margin-bottom: 20px;
-            position: relative;
-            padding-bottom: 10px;
-        }
-        .footer-section h3::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 50px;
-            height: 2px;
-            background-color: #f1c40f;
-        }
-        .footer-section ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        .footer-section ul li {
-            margin-bottom: 12px;
-        }
-        .footer-section ul li a {
-            color: #e0e0e0;
-            text-decoration: none;
-            transition: color 0.3s ease, transform 0.3s ease;
-            display: inline-block;
-        }
-        .footer-section ul li a:hover {
-            color: #f1c40f;
-            transform: translateX(5px);
-        }
-        .social-icons {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-        }
-        .social-icons a {
-            color: #fff;
-            font-size: 22px;
-            transition: color 0.3s ease, transform 0.3s ease;
-        }
-        .social-icons a:hover {
-            color: #f1c40f;
-            transform: scale(1.2);
-        }
-        .newsletter-form {
-            display: flex;
-            margin-top: 20px;
-        }
-        .newsletter-form input {
-            flex-grow: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 4px 0 0 4px;
-            font-size: 14px;
-        }
-        .newsletter-form button {
-            padding: 12px 20px;
-            background-color: #f1c40f;
-            color: #2c3e50;
-            border: none;
-            border-radius: 0 4px 4px 0;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            font-weight: bold;
-        }
-        .newsletter-form button:hover {
-            background-color: #f39c12;
-            transform: translateY(-2px);
-        }
-        .footer-bottom {
-            text-align: center;
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 14px;
-        }
-        .contact-info {
-            margin-bottom: 5px;
-        }
-        .contact-info i {
-            margin-right: 10px;
-            color: #f1c40f;
-        }
-        @media (max-width: 768px) {
-            .footer-content {
-                flex-direction: column;
-            }
-            .footer-section {
-                margin-bottom: 30px;
-            }
-        }
-    </style>
-
 </head>
 
 <body>
     <div class="hero">
         <div class="slider">
-            <img src="assets/images/home/image1.jpg" alt="Event 1" class="slide active">
-            <img src="assets/images/home/image2.jpg" alt="Event 2" class="slide">
+            <img src="assets/images/home/back1.jpg" alt="Event 1" class="slide active">
+            <img src="assets/images/home/back2.jpg" alt="Event 2" class="slide">
+            <img src="assets/images/home/back3.jpg" alt="Event 2" class="slide">
+
         </div>
         <div class="overlay">
             <header>
@@ -168,12 +45,6 @@
             </div>
         </div>
     </div>
-
-
-
-
-
-
 
 
     <!-- nav -->
@@ -227,6 +98,68 @@
             </a>
           </div>
     </nav>
+
+
+
+    <div class="main">
+        <div class="search-trip-container">
+          <!-- only this page wont have progress bar the rest will have-->
+          <!-- <div class="progress-bar">
+            <div class="progress" style="width: 0%"></div>
+          </div> -->
+  
+          <h1 class="search-trip-1">Where do you want to go?</h1>
+          <div class="spacer-top-bottom"></div>
+  
+          <p>Search or get inspired by popular destinations.</p>
+          <div class="search-container">
+            <div class="search-wrapper">
+              <i class="fas fa-search search-icon"></i>
+              <input
+                type="text"
+                class="search-bar"
+                placeholder="Search by city or town"
+              />
+            </div>
+            <div class="search-results"></div>
+          </div>
+  
+          <div class="spacer-top-bottom"></div>
+  
+          <div class="destinations">
+            <div class="destination">
+              <img src="assets/images/caption1.jpg" alt="Punta Cana" />
+              <h3>Punta Cana</h3>
+              <p></p>
+            </div>
+            <div class="destination">
+              <img src="assets/images/caption2.jpg" alt="Santo Domingo" />
+              <h3>Santo Domingo</h3>
+              <p></p>
+            </div>
+            <div class="destination">
+              <img src="assets/images/caption3.jpg" alt="La Romana" />
+              <h3>La Romana</h3>
+              <p></p>
+            </div>
+            <div class="destination">
+              <img src="assets/images/caption4.jpg" alt="Puerto Plata" />
+              <h3>Puerto Plata</h3>
+              <p></p>
+            </div>
+            <div class="destination">
+              <img src="assets/images/caption5.jpg" alt="Santiago" />
+              <h3>Santiago</h3>
+              <p></p>
+            </div>
+            <div class="destination">
+              <img src="assets/images/caption2.jpg" alt="Jarabacoa" />
+              <h3>Jarabacoa</h3>
+              <p></p>
+            </div>
+          </div>
+        </div>
+      </div>
 
     <footer class="footer">
         <div class="footer-content">
@@ -331,6 +264,8 @@
 
         setInterval(nextSlide, 5000); // Change slide every 5 seconds
     </script>
+
+    
 </body>
 
 </html>

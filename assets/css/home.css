@@ -116,7 +116,7 @@ h1 {
     right: -300px;
     width: 300px;
     height: 100vh;
-    background-color: var(--accent-color-dark);
+    background-color: #2596be;
     color: white;
     padding: 2rem;
     display: flex;
@@ -178,7 +178,7 @@ h1 {
 
 #sideNav .cta-button:hover {
     background-color: white;
-    color: #4B0082;
+    color: #2596be;
 }
 
 .social-links {
@@ -204,7 +204,7 @@ h1 {
 /* Updated Dropdown Styles */
 .dropdown-content {
     display: none;
-    background-color: var(--accent-color-dark);
+    background-color: #2596be;
     padding: 0.5rem 0;
     margin-top: 0.5rem;
     position: relative;
@@ -242,5 +242,313 @@ h1 {
 @media (max-width: 768px) {
     h1 {
         font-size: 3rem;
+    }
+}
+
+
+
+
+
+/* search location */
+.main {
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    background-color: #fff;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  
+  .search-container {
+    width: 100%;
+    max-width: 500px;
+    margin: auto;
+    position: relative;
+    z-index: 1001;
+  }
+  
+  .search-wrapper {
+    position: relative;
+    width: 100%;
+  }
+  
+  .search-bar {
+    width: 100%;
+    height: 50px;
+    padding: 10px 40px 10px 40px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    font-size: 16px;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-radius 0.3s ease;
+  }
+  
+  .search-bar.active {
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+    border-bottom: 2px solid #2596be;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+  
+  .search-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    pointer-events: none;
+  }
+  
+  .search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: white;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-height: 300px;
+    overflow-y: auto;
+    display: none;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+  
+  .search-results::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .search-results::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 10px;
+  }
+  
+  .result-item {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+  }
+  
+  .result-item:last-child {
+    border-bottom: none;
+  }
+  
+  .result-item:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .location-icon {
+    margin-right: 10px;
+    color: #666;
+    flex-shrink: 0;
+    padding: 10px;
+    border: 2px solid grey;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+  }
+  
+  .location-info {
+    flex-grow: 1;
+    min-width: 0;
+  }
+  
+  .location-name {
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .location-details {
+    font-size: 12px;
+    color: #666;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .destinations {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    justify-content: center;
+    max-width: 600px;
+    margin: auto;
+  }
+  
+  .destination {
+    text-align: center;
+  }
+  
+  .destination img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .destination img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .destination h3 {
+    margin: 10px 0 5px;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .destination p {
+    margin: 0;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .spacer-top-bottom {
+    margin-bottom: 20px;
+  }
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /* footer */
+  .footer {
+    background: linear-gradient(to right, #2596be, #1a6985);
+    color: #fff;
+    padding: 60px 0 40px;
+    margin-top: auto;
+    box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
+}
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+.footer-section {
+    flex: 1;
+    margin: 0 20px 20px;
+    min-width: 200px;
+}
+.footer-section h3 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    position: relative;
+    padding-bottom: 10px;
+}
+.footer-section h3::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 50px;
+    height: 2px;
+    background-color: #f1c40f;
+}
+.footer-section ul {
+    list-style-type: none;
+    padding: 0;
+}
+.footer-section ul li {
+    margin-bottom: 12px;
+}
+.footer-section ul li a {
+    color: #e0e0e0;
+    text-decoration: none;
+    transition: color 0.3s ease, transform 0.3s ease;
+    display: inline-block;
+}
+.footer-section ul li a:hover {
+    color: #f1c40f;
+    transform: translateX(5px);
+}
+.social-icons {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+.social-icons a {
+    color: #fff;
+    font-size: 22px;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+.social-icons a:hover {
+    color: #f1c40f;
+    transform: scale(1.2);
+}
+.newsletter-form {
+    display: flex;
+    margin-top: 20px;
+}
+.newsletter-form input {
+    flex-grow: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 4px 0 0 4px;
+    font-size: 14px;
+}
+.newsletter-form button {
+    padding: 12px 20px;
+    background-color: #f1c40f;
+    color: #2c3e50;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    font-weight: bold;
+}
+.newsletter-form button:hover {
+    background-color: #f39c12;
+    transform: translateY(-2px);
+}
+.footer-bottom {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 14px;
+}
+.contact-info {
+    margin-bottom: 5px;
+}
+.contact-info i {
+    margin-right: 10px;
+    color: #f1c40f;
+}
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+    }
+    .footer-section {
+        margin-bottom: 30px;
     }
 }
