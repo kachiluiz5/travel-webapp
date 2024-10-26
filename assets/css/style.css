@@ -471,7 +471,7 @@ input {
 button[type="submit"] {
   width: 100%;
   padding: 12px;
-  background-color: #000;
+  background-color: #2596be;
   color: #fff;
   border: none;
   border-radius: 25px;
@@ -513,19 +513,19 @@ button[type="submit"] {
 }
 .nav-buttons button {
   padding: 10px 20px;
-  background-color: #000000;
+  background-color: #2596be;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 }
 .nav-buttons button:hover {
-  background-color: #000000;
+  background-color: #1883aa;
 }
 .nav-buttons button:first-child {
   background-color: white;
-  color: #000000;
-  border: 1px solid #03060a;
+  color: #1883aa;
+  border: 1px solid #1883aa;
 }
 
 
@@ -553,7 +553,7 @@ button[type="submit"] {
 .progress {
   position: absolute;
   height: 100%;
-  background-color: #000000;
+  background-color: #1883aa;
   transition: width 0.3s ease;
 }
 
@@ -654,12 +654,12 @@ button#prev-month {
     background-color: #f0f0f0;
 }
 .calendar-day.selected {
-    background-color: #000000;
+    background-color: #1883aa;
     color: white;
     border-radius: 60px;
 }
 .calendar-day.in-range {
-    background-color: #000000;
+    background-color: #1883aa;
     color: #fff;
     border-radius: 60px;
 }
@@ -691,7 +691,7 @@ button#prev-month {
     width: 36px;
     height: 36px;
     border: none;
-    background-color: #000000;
+    background-color: #1883aa;
     color: white;
     border-radius: 50%;
     cursor: pointer;
@@ -746,22 +746,6 @@ button#prev-month {
   margin-bottom: 20px;
 }
 
-.powered-by {
-  display: flex;
-  align-items: center;
-  font-size: 12px;
-  color: var(--secondary-color);
-}
-
-.powered-by::before {
-  content: '';
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  background-color: #8B5CF6;
-  border-radius: 50%;
-  margin-right: 8px;
-}
 
 .close-button {
   background: none;
