@@ -12,7 +12,7 @@
   </head>
   <body>
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
-
+    <script src="./utils/db.js"></script>
     <div class="main">
       <div class="budget-container">
         <div class="progress-bar">
@@ -97,6 +97,10 @@
         sliderHandle.style.left = `${position * 100}%`;
         sliderFill.style.width = `${position * 100}%`;
         sliderValue.textContent = `$${displayBudget}`;
+
+        appendToUserData({
+          maxBudget: parseInt(budget),
+        });
       }
 
       sliderHandle.addEventListener("mousedown", (e) => {
