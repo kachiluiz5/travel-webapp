@@ -40,12 +40,13 @@
     <link rel="stylesheet" href="assets/css/lib/audioplayer.css" />
     <!-- main css -->
     <link rel="stylesheet" href="assets/css/style.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   </head>
   <body>
-
-
     <aside class="sidebar">
       <button type="button" class="sidebar-close-btn">
         <iconify-icon icon="radix-icons:cross-2"></iconify-icon>
@@ -67,13 +68,12 @@
             alt="site logo"
             class="logo-icon"
           /> -->
-          <h6 style="font-size: 15px;">Trusted Routes</h6>
-
+          <h6 style="font-size: 15px">Trusted Routes</h6>
         </a>
       </div>
       <div class="sidebar-menu-area">
         <ul class="sidebar-menu" id="sidebar-menu">
-          <li >
+          <li>
             <a href="index.html">
               <iconify-icon
                 icon="solar:home-smile-angle-outline"
@@ -89,7 +89,6 @@
               <span>Users</span>
             </a>
           </li>
-
         </ul>
       </div>
     </aside>
@@ -115,7 +114,6 @@
                   class="icon"
                 ></iconify-icon>
               </button>
-    
             </div>
           </div>
           <div class="col-auto">
@@ -125,7 +123,7 @@
                 data-theme-toggle
                 class="w-40-px h-40-px bg-neutral-200 rounded-circle d-flex justify-content-center align-items-center"
               ></button>
-    
+
               <div class="dropdown">
                 <button
                   class="has-indicator w-40-px h-40-px bg-neutral-200 rounded-circle d-flex justify-content-center align-items-center"
@@ -151,7 +149,7 @@
                       >05</span
                     >
                   </div>
-    
+
                   <div class="max-h-400-px overflow-y-auto scroll-sm pe-4">
                     <a
                       href="javascript:void(0)"
@@ -184,10 +182,8 @@
                         >23 Mins ago</span
                       >
                     </a>
-    
-    
                   </div>
-    
+
                   <div class="text-center py-12 px-16">
                     <a
                       href="javascript:void(0)"
@@ -198,7 +194,7 @@
                 </div>
               </div>
               <!-- Notification dropdown end -->
-    
+
               <div class="dropdown">
                 <button
                   class="d-flex justify-content-center align-items-center rounded-circle"
@@ -240,8 +236,7 @@
                         My Profile</a
                       >
                     </li>
-    
-    
+
                     <li>
                       <a
                         class="dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-danger d-flex align-items-center gap-3"
@@ -287,23 +282,31 @@
         </div>
 
         <div class="row gy-4">
-
           <div class="col-xxl-8">
             <div class="row gy-4">
               <!-- Total Users -->
               <div class="col-xxl-6 col-sm-6">
-                <div class="card p-3 shadow-2 radius-8 border input-form-light h-100 bg-gradient-end-1">
+                <div
+                  class="card p-3 shadow-2 radius-8 border input-form-light h-100 bg-gradient-end-1"
+                >
                   <div class="card-body p-0">
-                    <div class="d-flex flex-wrap align-items-center justify-content-between gap-1 mb-8">
+                    <div
+                      class="d-flex flex-wrap align-items-center justify-content-between gap-1 mb-8"
+                    >
                       <div class="d-flex align-items-center gap-2">
-                        <span class="mb-0 w-48-px h-48-px bg-primary-600 flex-shrink-0 text-white d-flex justify-content-center align-items-center rounded-circle h6 mb-0">
+                        <span
+                          class="mb-0 w-48-px h-48-px bg-primary-600 flex-shrink-0 text-white d-flex justify-content-center align-items-center rounded-circle h6 mb-0"
+                        >
                           <iconify-icon
-                          icon="mingcute:user-follow-fill"
-                          class="icon"
-                        ></iconify-icon>
+                            icon="mingcute:user-follow-fill"
+                            class="icon"
+                          ></iconify-icon>
                         </span>
                         <div>
-                          <span class="mb-2 fw-medium text-secondary-light text-sm">Total Users</span>
+                          <span
+                            class="mb-2 fw-medium text-secondary-light text-sm"
+                            >Total Users</span
+                          >
                           <h6 class="fw-semibold">5,000</h6>
                         </div>
                       </div>
@@ -311,18 +314,30 @@
                   </div>
                 </div>
               </div>
-          
+
               <!-- Total Trips -->
               <div class="col-xxl-6 col-sm-6">
-                <div class="card p-3 shadow-2 radius-8 border input-form-light h-100 bg-gradient-end-2">
+                <div
+                  class="card p-3 shadow-2 radius-8 border input-form-light h-100 bg-gradient-end-2"
+                >
                   <div class="card-body p-0">
-                    <div class="d-flex flex-wrap align-items-center justify-content-between gap-1 mb-8">
+                    <div
+                      class="d-flex flex-wrap align-items-center justify-content-between gap-1 mb-8"
+                    >
                       <div class="d-flex align-items-center gap-2">
-                        <span class="mb-0 w-48-px h-48-px bg-success-main flex-shrink-0 text-white d-flex justify-content-center align-items-center rounded-circle h6">
-                          <iconify-icon icon="mingcute:road-fill" class="icon"></iconify-icon>
+                        <span
+                          class="mb-0 w-48-px h-48-px bg-success-main flex-shrink-0 text-white d-flex justify-content-center align-items-center rounded-circle h6"
+                        >
+                          <iconify-icon
+                            icon="mingcute:road-fill"
+                            class="icon"
+                          ></iconify-icon>
                         </span>
                         <div>
-                          <span class="mb-2 fw-medium text-secondary-light text-sm">Total Trips</span>
+                          <span
+                            class="mb-2 fw-medium text-secondary-light text-sm"
+                            >Total Trips</span
+                          >
                           <h6 class="fw-semibold">12,000</h6>
                         </div>
                       </div>
@@ -332,9 +347,8 @@
               </div>
             </div>
 
-          
             <!-- sec -->
-             <br>
+            <br />
             <div class="card h-100">
               <div
                 class="card-header border-bottom bg-base py-16 px-24 d-flex align-items-center justify-content-between"
@@ -423,9 +437,7 @@
                 </div>
               </div>
             </div>
-            
           </div>
-          
 
           <!-- Latest Performance End -->
 
@@ -561,11 +573,7 @@
             </div>
           </div>
         </div>
-
-
-
       </div>
-
     </main>
     <!-- jQuery library js -->
     <script src="assets/js/lib/jquery-3.7.1.min.js"></script>
