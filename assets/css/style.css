@@ -250,7 +250,7 @@ h1 {
 }
 
 .button-next {
-  background-color: #007bff;
+  background-color: #2596be;
   color: white;
   border-radius: 17px;
 }
@@ -293,8 +293,8 @@ h1 {
 }
 .nav-buttons button:first-child {
   background-color: white;
-  color: #007bff;
-  border: 1px solid #007bff;
+  color: #2596be;
+  border: 1px solid #2596be;
 }
 
 @media (max-width: 480px) {
@@ -356,13 +356,13 @@ h1 {
   font-size: 14px;
 }
 .interest.selected {
-  background-color: #007bff;
+  background-color: #2596be;
   color: white;
-  border-color: #007bff;
+  border-color: #2596be;
 }
 .add-interest {
   background-color: #fff;
-  border: 1px dashed #007bff;
+  border: 1px dashed #2596be;
   color: #000000;
 }
 .modal {
@@ -402,7 +402,7 @@ h1 {
   border-radius: 5px;
 }
 #addNewInterest {
-  background-color: #007bff;
+  background-color: #2596be;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -565,55 +565,6 @@ button[type="submit"] {
   background-color: #1883aa;
   transition: width 0.3s ease;
 }
-
-.step-container {
-  display: flex;
-  justify-content: space-between;
-  position: relative;
-}
-
-.step {
-  text-align: center;
-  flex: 1;
-  position: relative;
-}
-
-.step-circle {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background-color: #ddd;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto 10px;
-  font-weight: bold;
-  color: #fff;
-  position: relative;
-  z-index: 2;
-}
-
-.step.active .step-circle {
-  background-color: #4caf50;
-}
-
-.step-name {
-  font-size: 14px;
-  color: #333;
-}
-
-@media (max-width: 600px) {
-  .step-name {
-    font-size: 12px;
-  }
-
-  .step-circle {
-    width: 25px;
-    height: 25px;
-    font-size: 12px;
-  }
-}
-
 
 
 /* ccalender */
