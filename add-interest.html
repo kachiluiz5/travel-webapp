@@ -214,6 +214,7 @@
   </head>
   <body>
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+    <script src="./utils/db.js"></script>
     <div class="main add-intrest-main">
       <div class="add-interest-container">
         <!-- progressbar -->
@@ -280,7 +281,14 @@
         const div = document.createElement("div");
         div.className = "interest";
         div.textContent = interest;
-        div.onclick = () => div.classList.toggle("selected");
+        div.onclick = () => {
+          div.classList.toggle("selected");
+          appendToUserData({
+            interests: Array.from(
+              document.querySelectorAll(".interest.selected")
+            ).map((el) => el.textContent),
+          });
+        };
         return div;
       }
 
