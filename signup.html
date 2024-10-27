@@ -6,6 +6,11 @@
     <title>Sign Up</title>
     <link rel="stylesheet" href="assets/css/style.css" />
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css"
+    />
+
     <style>
       /* Enhanced styles for the popups */
       .popup {
@@ -69,9 +74,11 @@
     </style>
   </head>
   <body>
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+
     <div class="main">
       <div class="signup-container">
-        <h1 style="text-align: left; margin-bottom: 10px;">Welcome back.</h1>
+        <h1 style="text-align: left; margin-bottom: 10px">Welcome back.</h1>
         <form id="signupForm">
           <div class="form-group">
             <label for="fname">First Name</label>
@@ -94,7 +101,8 @@
         </form>
         <div class="terms">
           <p>
-            Already have an account? <a href="javascript:void(0)" onclick="showSignInPopup()">Login</a>
+            Already have an account?
+            <a href="javascript:void(0)" onclick="showSignInPopup()">Login</a>
           </p>
           <p>
             By proceeding, you agree to our <a href="#">Terms of Use</a> and
@@ -106,26 +114,55 @@
     </div>
 
     <!-- Thank You Message Popup -->
-    <div id="messagePopup" class="popup" role="dialog" aria-labelledby="messagePopupTitle">
+    <div
+      id="messagePopup"
+      class="popup"
+      role="dialog"
+      aria-labelledby="messagePopupTitle"
+    >
       <div class="popup-content">
-        <span class="close-popup" onclick="closeMessagePopup()" aria-label="Close">&times;</span>
+        <span
+          class="close-popup"
+          onclick="closeMessagePopup()"
+          aria-label="Close"
+          >&times;</span
+        >
         <div class="popup-icon">🎉</div>
         <h2 id="messagePopupTitle">Thank You for Signing Up!</h2>
-        <p>We're excited to have you on board! An Experience Curator will be in touch with you via phone within 48 business hours to personalize your journey.</p>
+        <p>
+          We're excited to have you on board! An Experience Curator will be in
+          touch with you via phone within 48 business hours to personalize your
+          journey.
+        </p>
       </div>
     </div>
 
     <!-- Sign-In Popup -->
-    <div id="signInPopup" class="popup" role="dialog" aria-labelledby="signInPopupTitle">
+    <div
+      id="signInPopup"
+      class="popup"
+      role="dialog"
+      aria-labelledby="signInPopupTitle"
+    >
       <div class="popup-content">
-        <span class="close-popup" onclick="closeSignInPopup()" aria-label="Close">&times;</span>
+        <span
+          class="close-popup"
+          onclick="closeSignInPopup()"
+          aria-label="Close"
+          >&times;</span
+        >
         <h2 id="signInPopupTitle">Sign In</h2>
         <form id="signInForm">
           <div class="form-group">
             <input type="email" id="signInEmail" placeholder="Email" required />
           </div>
           <div class="form-group">
-            <input type="password" id="signInPassword" placeholder="Password" required />
+            <input
+              type="password"
+              id="signInPassword"
+              placeholder="Password"
+              required
+            />
           </div>
           <button type="submit">Sign In</button>
         </form>
@@ -137,58 +174,59 @@
 
       // Message popup
       function showMessagePopup() {
-        const popup = document.getElementById('messagePopup');
-        popup.style.display = 'block';
+        const popup = document.getElementById("messagePopup");
+        popup.style.display = "block";
         setTimeout(() => {
-          popup.classList.add('show');
+          popup.classList.add("show");
         }, 10);
       }
 
       function closeMessagePopup() {
-        const popup = document.getElementById('messagePopup');
-        popup.classList.remove('show');
+        const popup = document.getElementById("messagePopup");
+        popup.classList.remove("show");
         setTimeout(() => {
-          popup.style.display = 'none';
+          popup.style.display = "none";
         }, 300);
       }
 
       // Sign-in popup
       function showSignInPopup() {
-        const popup = document.getElementById('signInPopup');
-        popup.style.display = 'block';
+        const popup = document.getElementById("signInPopup");
+        popup.style.display = "block";
         setTimeout(() => {
-          popup.classList.add('show');
+          popup.classList.add("show");
         }, 10);
       }
 
       function closeSignInPopup() {
-        const popup = document.getElementById('signInPopup');
-        popup.classList.remove('show');
+        const popup = document.getElementById("signInPopup");
+        popup.classList.remove("show");
         setTimeout(() => {
-          popup.style.display = 'none';
+          popup.style.display = "none";
         }, 300);
       }
 
       // Trigger message popup on sign-up form submission
-      document.getElementById("signupForm").addEventListener("submit", function (e) {
-        e.preventDefault();
-        showMessagePopup();
-      });
+      document
+        .getElementById("signupForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          showMessagePopup();
+        });
 
       // Trigger sign-in form behavior
 
-
       // Close popup when clicking outside of it
-      window.onclick = function(event) {
-        var messagePopup = document.getElementById('messagePopup');
-        var signInPopup = document.getElementById('signInPopup');
+      window.onclick = function (event) {
+        var messagePopup = document.getElementById("messagePopup");
+        var signInPopup = document.getElementById("signInPopup");
         if (event.target == messagePopup) {
           closeMessagePopup();
         }
         if (event.target == signInPopup) {
           closeSignInPopup();
         }
-      }
+      };
     </script>
     <script src="assets/js/main.js"></script>
   </body>
