@@ -43,6 +43,7 @@ apiClient.interceptors.response.use(
           failedQueue.push({ resolve, reject });
         })
           .then((token) => {
+            console.log(token);
             originalRequest.headers["Authorization"] = `Bearer ${token}`;
             return apiClient(originalRequest);
           })
