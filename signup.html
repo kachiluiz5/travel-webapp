@@ -10,6 +10,7 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css"
     />
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
 
     <style>
       /* Enhanced styles for the popups */
@@ -74,8 +75,6 @@
     </style>
   </head>
   <body>
-    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
-
     <div class="main">
       <div class="signup-container">
         <h1 style="text-align: left; margin-bottom: 10px">Create An Account</h1>
@@ -238,20 +237,23 @@
         .getElementById("signupForm")
         .addEventListener("submit", function (e) {
           e.preventDefault();
-          const firstName = document.getElementById("firstName").value;
-          const lastName = document.getElementById("lastName").value;
+          const fullName = document.getElementById("fullName").value;
           const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
           const phoneNumber = document.getElementById("phoneNumber").value;
 
-          console.log(firstName, lastName, email, phoneNumber);
-
-          const fullName = `${firstName} ${lastName}`;
+          console.log(fullName, password, email, phoneNumber);
 
           const dataToSubmit = {
             email,
             password,
+            name: fullName,
           };
-          showMessagePopup();
+
+          const notfy = new Notyf();
+
+          notyf.error("You must fill out the form before moving forward");
+          //showMessagePopup();
         });
 
       // Trigger sign-in form behavior
