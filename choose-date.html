@@ -11,6 +11,7 @@
     />
   </head>
   <body>
+    <script src="./utils/db.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
     <div class="main">
       <div class="date-selector">
@@ -224,6 +225,19 @@
           dateRangeInfo.textContent = `Selected dates: ${formatDate(
             selectedStartDate
           )} - ${formatDate(selectedEndDate)}`;
+          const formattedStartDate = formatDate(selectedStartDate);
+          const formattedEndDate = formatDate(selectedEndDate);
+
+          appendToUserData({
+            startDate: formattedStartDate,
+            endDate: formattedEndDate,
+          });
+
+          appendToUserData({
+            month: null,
+            days: null,
+          });
+
         } else if (selectedStartDate) {
           dateRangeInfo.textContent = `Start date: ${formatDate(
             selectedStartDate
@@ -288,6 +302,16 @@
       function updateMonthSelectionInfo() {
         if (selectedMonth !== null) {
           monthSelectionInfo.textContent = `Selected: ${months[selectedMonth]}, ${tripLength} days`;
+
+          appendToUserData({
+            startDate: null,
+            endDate: null,
+          });
+
+          appendToUserData({
+            month: months[selectedMonth],
+            days: tripLength,
+          });
         } else {
           monthSelectionInfo.textContent = "Select a month and trip length";
         }

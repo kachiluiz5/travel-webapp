@@ -696,8 +696,9 @@
         overlay.style.display = "block"; // Show the overlay for the popup
         popupModal.style.display = "block"; // Show the popup modal
 
-        saveUserData(location);
-
+        saveUserData({
+          place: location,
+        });
 
         setTimeout(() => {
           overlay.style.display = "none"; // Hide the overlay after animation
