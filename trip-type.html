@@ -9,10 +9,14 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
     />
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css"
+    />
   </head>
   <body>
-      <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+    <script src="./utils/db.js"></script>
     <div class="main">
       <div class="family-container">
         <div class="progress-bar">
@@ -80,13 +84,14 @@
               </span>
             </p>
           </div>
-          <div style="display: flex; justify-content: center" >
+          <div style="display: flex; justify-content: center">
             <input
               type="number"
               min="1"
               max="50"
               value="1"
               class="people-input"
+              id="peopleInput"
             />
           </div>
         </div>
@@ -125,10 +130,18 @@
             class="children-options"
             style="display: flex; justify-content: center"
           >
-            <button class="children-option" data-children="yes">
+            <button
+              class="children-option"
+              data-children="yes"
+              id="childrenYesButton"
+            >
               Yes<span class="checkmark">✓</span>
             </button>
-            <button class="children-option" data-children="no">
+            <button
+              class="children-option"
+              data-children="no"
+              id="childrenNoButton"
+            >
               No<span class="checkmark">✓</span>
             </button>
           </div>
@@ -166,10 +179,10 @@
             class="pets-options"
             style="display: flex; justify-content: center"
           >
-            <button class="pets-option" data-pets="yes">
+            <button class="pets-option" data-pets="yes" id="petYesButton">
               Yes<span class="checkmark">✓</span>
             </button>
-            <button class="pets-option" data-pets="no">
+            <button class="pets-option" data-pets="no" id="petNoButton">
               No<span class="checkmark">✓</span>
             </button>
           </div>
@@ -255,6 +268,53 @@
               childrenQuestion.style.display = "none";
               peopleQuestion.style.display = "none"; // Hide people question for other trips
             }
+            appendToUserData({
+              tripType: tripType.toUpperCase(),
+            });
+          });
+        });
+
+        const peopleInput = document.getElementById("peopleInput");
+
+        // peopleInput.addEventListener("change", function (e) {
+        //   appendToUserData({
+        //     totalPeopleTravellingWith: e.target.value || null,
+        //   });
+        // });
+
+        peopleInput.addEventListener("input", function () {
+          appendToUserData({
+            totalPeopleTravellingWith: parseInt(this.value),
+          });
+        });
+
+        const childrenYesButton = document.getElementById("childrenYesButton");
+        const childrenNoButton = document.getElementById("childrenNoButton");
+
+        childrenYesButton.addEventListener("click", function () {
+          appendToUserData({
+            travellingWithChildren: "yes",
+          });
+        });
+
+        childrenNoButton.addEventListener("click", function () {
+          appendToUserData({
+            travellingWithChildren: "no",
+          });
+        });
+
+        const petYesButton = document.getElementById("petYesButton");
+        const petNoButton = document.getElementById("petNoButton");
+
+        petYesButton.addEventListener("click", function () {
+          appendToUserData({
+            travellingWithPets: "yes",
+          });
+        });
+
+        petNoButton.addEventListener("click", function () {
+          appendToUserData({
+            travellingWithPets: "no",
           });
         });
       });
