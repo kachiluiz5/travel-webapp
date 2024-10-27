@@ -50,7 +50,7 @@ body {
     opacity: 1;
 }
 
-.overlay {
+.header-overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -251,6 +251,14 @@ header {
 /* search */
 
 /* search trip */
+.search-trip-1{
+    margin-top: 30px;
+}
+.p-head{
+    text-align: center;
+    margin-bottom: 20px;
+}
+
 .search-trip-1 {
     text-align: center;
     color: #333;
