@@ -8,9 +8,9 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link
       rel="stylesheet"
-      href="./assets/css/notyf.min.css"
+      href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css"
     />
-    <script src="./assets/js/notyf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
 
     <style>
       /* Enhanced styles for the popups */
@@ -77,6 +77,8 @@
   <body>
     <div class="main">
       <div class="signup-container">
+    <div class="loader"></div>
+
         <h1 style="text-align: left; margin-bottom: 10px">Create An Account</h1>
 
         <form id="signupForm">
@@ -195,6 +197,7 @@
       </div>
     </div>
 
+
     <script>
       // Popup control functions
 
@@ -242,7 +245,12 @@
           const password = document.getElementById("password").value;
           const phoneNumber = document.getElementById("phoneNumber").value;
 
-          console.log(fullName, password, email, phoneNumber);
+          const toast = new Notyf();
+
+          if (!fullName || !email || !password || !phoneNumber) {
+            toast.error("You must fill out the form before moving forward");
+            return;
+          }
 
           const dataToSubmit = {
             email,
@@ -250,9 +258,12 @@
             name: fullName,
           };
 
-          const notfy = new Notyf();
+          const request = axios
+            .get("https://jsonplaceholder.typicode.com/posts")
+            .then((data) => {
+              console.log(data);
+            });
 
-          notyf.error("You must fill out the form before moving forward");
           //showMessagePopup();
         });
 
