@@ -14,274 +14,274 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
     />
   </head>
+  <script src="./api/axios.js"></script>
 
   <style>
     /* search trip */
-/* Search Trip Styles */
+    /* Search Trip Styles */
 
-.search-container {
-  width: 100%;
-  max-width: 500px;
-  margin: auto;
-  position: relative;
-  z-index: 1001;
-}
+    .search-container {
+      width: 100%;
+      max-width: 500px;
+      margin: auto;
+      position: relative;
+      z-index: 1001;
+    }
 
-.search-wrapper {
-  position: relative;
-  width: 100%;
-}
+    .search-wrapper {
+      position: relative;
+      width: 100%;
+    }
 
-.search-bar {
-  width: 100%;
-  height: 50px;
-  padding: 10px 40px;
-  border: 1px solid #ddd;
-  border-radius: 20px;
-  font-size: 16px;
-  outline: none;
-  box-sizing: border-box;
-  transition: border-radius 0.3s ease;
-}
+    .search-bar {
+      width: 100%;
+      height: 50px;
+      padding: 10px 40px;
+      border: 1px solid #ddd;
+      border-radius: 20px;
+      font-size: 16px;
+      outline: none;
+      box-sizing: border-box;
+      transition: border-radius 0.3s ease;
+    }
 
-.search-bar.active {
-  border-bottom: 2px solid #2596be;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-}
+    .search-bar.active {
+      border-bottom: 2px solid #2596be;
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+    }
 
-.search-icon {
-  position: absolute;
-  left: 15px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #888;
-  pointer-events: none;
-}
+    .search-icon {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #888;
+      pointer-events: none;
+    }
 
-.search-results {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background-color: white;
-  border-radius: 0 0 20px 20px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  max-height: 300px;
-  overflow-y: auto;
-  display: none;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-}
+    .search-results {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background-color: white;
+      border-radius: 0 0 20px 20px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      max-height: 300px;
+      overflow-y: auto;
+      display: none;
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+    }
 
-.search-results::-webkit-scrollbar {
-  width: 6px;
-}
+    .search-results::-webkit-scrollbar {
+      width: 6px;
+    }
 
-.search-results::-webkit-scrollbar-thumb {
-  background-color: #888;
-  border-radius: 10px;
-}
+    .search-results::-webkit-scrollbar-thumb {
+      background-color: #888;
+      border-radius: 10px;
+    }
 
-.result-item {
-  padding: 10px;
-  border-bottom: 1px solid #eee;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
+    .result-item {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
 
-.result-item:last-child {
-  border-bottom: none;
-}
+    .result-item:last-child {
+      border-bottom: none;
+    }
 
-.result-item:hover {
-  background-color: #f5f5f5;
-}
+    .result-item:hover {
+      background-color: #f5f5f5;
+    }
 
-.location-icon {
-  margin-right: 10px;
-  color: #666;
-  flex-shrink: 0;
-  padding: 10px;
-  border: 2px solid grey;
-  border-radius: 5px;
-  background-color: #f0f0f0;
-}
+    .location-icon {
+      margin-right: 10px;
+      color: #666;
+      flex-shrink: 0;
+      padding: 10px;
+      border: 2px solid grey;
+      border-radius: 5px;
+      background-color: #f0f0f0;
+    }
 
-.location-info {
-  flex-grow: 1;
-  min-width: 0;
-}
+    .location-info {
+      flex-grow: 1;
+      min-width: 0;
+    }
 
-.location-name {
-  font-weight: bold;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+    .location-name {
+      font-weight: bold;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
-.location-details {
-  font-size: 12px;
-  color: #666;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+    .location-details {
+      font-size: 12px;
+      color: #666;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
-.destinations {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 20px;
-  justify-content: center;
-  max-width: 600px;
-  margin: auto;
-}
+    .destinations {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+      justify-content: center;
+      max-width: 600px;
+      margin: auto;
+    }
 
-.destination {
-  text-align: center;
-}
+    .destination {
+      text-align: center;
+    }
 
-.destination a {
-  text-decoration: none;
-  color: inherit;
-}
+    .destination a {
+      text-decoration: none;
+      color: inherit;
+    }
 
-.destination img {
-  width: 100%;
-  height: 120px;
-  object-fit: cover;
-  border-radius: 10px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
+    .destination img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 10px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
 
-.destination img:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-}
+    .destination img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
 
-.destination img:active {
-  transform: scale(0.95);
-  transition: transform 0.1s ease;
-}
+    .destination img:active {
+      transform: scale(0.95);
+      transition: transform 0.1s ease;
+    }
 
-.destination h3 {
-  margin: 10px 0 5px;
-  font-size: 16px;
-  color: #333;
-}
+    .destination h3 {
+      margin: 10px 0 5px;
+      font-size: 16px;
+      color: #333;
+    }
 
-.destination p {
-  margin: 0;
-  font-size: 14px;
-  color: #666;
-}
+    .destination p {
+      margin: 0;
+      font-size: 14px;
+      color: #666;
+    }
 
-.spacer-top-bottom {
-  margin-bottom: 20px;
-}
+    .spacer-top-bottom {
+      margin-bottom: 20px;
+    }
 
-.button-container {
-  position: fixed;
-  bottom: 20px;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: space-between;
-  padding: 0 20px;
-}
+    .button-container {
+      position: fixed;
+      bottom: 20px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 20px;
+    }
 
-.button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
+    .button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
 
-.button-back {
-  background-color: #f0f0f0;
-  color: #333;
-}
+    .button-back {
+      background-color: #f0f0f0;
+      color: #333;
+    }
 
-.button-next {
-  background-color: #2596be;
-  color: white;
-  border-radius: 17px;
-}
+    .button-next {
+      background-color: #2596be;
+      color: white;
+      border-radius: 17px;
+    }
 
-.search-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(5px);
-  display: none;
-  justify-content: center;
-  align-items: flex-start;
-  padding-top: 100px;
-  z-index: 1000;
-}
+    .search-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(5px);
+      display: none;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 100px;
+      z-index: 1000;
+    }
 
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.9); /* Darker overlay */
-  display: none;
-  z-index: 1000;
-}
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9); /* Darker overlay */
+      display: none;
+      z-index: 1000;
+    }
 
-.popup-modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  display: none;
-  z-index: 1002;
-  text-align: center;
-}
+    .popup-modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      display: none;
+      z-index: 1002;
+      text-align: center;
+    }
 
-.popup-modal h2 {
-  margin: 0;
-  font-size: 20px;
-}
+    .popup-modal h2 {
+      margin: 0;
+      font-size: 20px;
+    }
 
-.airplane {
-  width: 50px;
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  animation: flyout 3s forwards;
-}
+    .airplane {
+      width: 50px;
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: flyout 3s forwards;
+    }
 
-@keyframes flyout {
-  0% {
-    bottom: 20px;
-    transform: translate(-50%, 0) rotate(0);
-  }
-  50% {
-    transform: translate(-50%, -50px) rotate(20deg);
-  }
-  100% {
-    bottom: 100%;
-    transform: translate(200vw, -100px) rotate(30deg);
-  }
-}
-
+    @keyframes flyout {
+      0% {
+        bottom: 20px;
+        transform: translate(-50%, 0) rotate(0);
+      }
+      50% {
+        transform: translate(-50%, -50px) rotate(20deg);
+      }
+      100% {
+        bottom: 100%;
+        transform: translate(200vw, -100px) rotate(30deg);
+      }
+    }
   </style>
 
   <body>
- 
+    <script src="./utils/db.js"></script>
     <div class="hero">
       <div class="slider">
         <img
@@ -408,7 +408,12 @@
         <li><a href="#">About Us</a></li>
         <li><a href="#">Contact</a></li>
       </ul>
-      <button class="cta-button" style="padding-top: 10px; padding-bottom: 10px;">Get Started</button>
+      <button
+        class="cta-button"
+        style="padding-top: 10px; padding-bottom: 10px"
+      >
+        Get Started
+      </button>
       <div class="social-links">
         <a href="https://www.facebook.com/" target="_blank">
           <i class="fab fa-facebook"></i>
@@ -424,56 +429,61 @@
 
     <div class="main">
       <div class="search-trip-container">
-          <h1 class="search-trip-1">Where do you want to go?</h1>
-          <p class="p-head">Search or get inspired by popular destinations.</p>
-          <div class="search-container">
-              <div class="search-wrapper">
-                  <i class="fas fa-search search-icon"></i>
-                  <input
-                      type="text"
-                      class="search-bar"
-                      placeholder="Search by city or town"
-                  />
-              </div>
-              <div class="search-results"></div>
+        <h1 class="search-trip-1">Where do you want to go?</h1>
+        <p class="p-head">Search or get inspired by popular destinations.</p>
+        <div class="search-container">
+          <div class="search-wrapper">
+            <i class="fas fa-search search-icon"></i>
+            <input
+              type="text"
+              class="search-bar"
+              placeholder="Search by city or town"
+            />
           </div>
-  
-          <div class="spacer-top-bottom"></div>
-  
-          <div class="destinations">
-              <div class="destination" data-location="Punta Cana">
-                  <img src="assets/images/caption1.jpg" alt="Punta Cana" />
-                  <h3>Punta Cana</h3>
-              </div>
-              <div class="destination" data-location="Santo Domingo">
-                  <img src="assets/images/caption2.jpg" alt="Santo Domingo" />
-                  <h3>Santo Domingo</h3>
-              </div>
-              <div class="destination" data-location="La Romana">
-                  <img src="assets/images/caption3.jpg" alt="La Romana" />
-                  <h3>La Romana</h3>
-              </div>
-              <div class="destination" data-location="Puerto Plata">
-                  <img src="assets/images/caption4.jpg" alt="Puerto Plata" />
-                  <h3>Puerto Plata</h3>
-              </div>
-              <div class="destination" data-location="Santiago">
-                  <img src="assets/images/caption5.jpg" alt="Santiago" />
-                  <h3>Santiago</h3>
-              </div>
-              <div class="destination" data-location="Jarabacoa">
-                  <img src="assets/images/caption2.jpg" alt="Jarabacoa" />
-                  <h3>Jarabacoa</h3>
-              </div>
+          <div class="search-results"></div>
+        </div>
+
+        <div class="spacer-top-bottom"></div>
+
+        <div class="destinations">
+          <div class="destination" data-location="Punta Cana">
+            <img src="assets/images/caption1.jpg" alt="Punta Cana" />
+            <h3>Punta Cana</h3>
           </div>
+          <div class="destination" data-location="Santo Domingo">
+            <img src="assets/images/caption2.jpg" alt="Santo Domingo" />
+            <h3>Santo Domingo</h3>
+          </div>
+          <div class="destination" data-location="La Romana">
+            <img src="assets/images/caption3.jpg" alt="La Romana" />
+            <h3>La Romana</h3>
+          </div>
+          <div class="destination" data-location="Puerto Plata">
+            <img src="assets/images/caption4.jpg" alt="Puerto Plata" />
+            <h3>Puerto Plata</h3>
+          </div>
+          <div class="destination" data-location="Santiago">
+            <img src="assets/images/caption5.jpg" alt="Santiago" />
+            <h3>Santiago</h3>
+          </div>
+          <div class="destination" data-location="Jarabacoa">
+            <img src="assets/images/caption2.jpg" alt="Jarabacoa" />
+            <h3>Jarabacoa</h3>
+          </div>
+        </div>
       </div>
-  </div>
-  
-  <div class="overlay"></div>
-  <div class="popup-modal">
+    </div>
+
+    <div class="overlay"></div>
+    <div class="popup-modal">
       <h2 id="popup-message"></h2>
-      <img src="assets/images/icon/airplane.png" class="airplane" alt="Airplane" style="width: 110px;"/>
-  </div>
+      <img
+        src="assets/images/icon/airplane.png"
+        class="airplane"
+        alt="Airplane"
+        style="width: 110px"
+      />
+    </div>
 
     <footer class="footer">
       <div class="footer-content">
@@ -536,8 +546,6 @@
       </div>
     </footer>
 
-
-
     <!-- js for navigation -->
 
     <script>
@@ -594,106 +602,116 @@
       setInterval(nextSlide, 5000); // Change slide every 5 seconds
     </script>
 
+    <!-- js for search -->
+    <script>
+      const searchBar = document.querySelector(".search-bar");
+      const searchResults = document.querySelector(".search-results");
+      const overlay = document.querySelector(".overlay");
+      const popupModal = document.querySelector(".popup-modal");
+      const popupMessage = document.getElementById("popup-message");
 
-   <!-- js for search -->
-   <script>
-    const searchBar = document.querySelector(".search-bar");
-    const searchResults = document.querySelector(".search-results");
-    const overlay = document.querySelector(".overlay");
-    const popupModal = document.querySelector(".popup-modal");
-    const popupMessage = document.getElementById("popup-message");
-
-    const cities = [
-        { name: "Santo Domingo", details: "National District, Dominican Republic" },
+      const cities = [
+        {
+          name: "Santo Domingo",
+          details: "National District, Dominican Republic",
+        },
         { name: "Santiago", details: "Santiago Province, Dominican Republic" },
-        { name: "Punta Cana", details: "La Altagracia Province, Dominican Republic" },
-        { name: "La Romana", details: "La Romana Province, Dominican Republic" },
-        { name: "Puerto Plata", details: "Puerto Plata Province, Dominican Republic" },
+        {
+          name: "Punta Cana",
+          details: "La Altagracia Province, Dominican Republic",
+        },
+        {
+          name: "La Romana",
+          details: "La Romana Province, Dominican Republic",
+        },
+        {
+          name: "Puerto Plata",
+          details: "Puerto Plata Province, Dominican Republic",
+        },
         { name: "Jarabacoa", details: "La Vega Province, Dominican Republic" },
-    ];
+      ];
 
-    searchBar.addEventListener("focus", () => {
+      searchBar.addEventListener("focus", () => {
         searchResults.style.display = "block";
         searchBar.classList.add("active");
         overlay.style.display = "flex"; // Show the search overlay
-    });
+      });
 
-    searchBar.addEventListener("input", (e) => {
+      searchBar.addEventListener("input", (e) => {
         const query = e.target.value.toLowerCase();
         searchResults.innerHTML = "";
 
         const filteredCities = cities.filter((city) =>
-            city.name.toLowerCase().includes(query)
+          city.name.toLowerCase().includes(query)
         );
 
         filteredCities.forEach((city) => {
-            const resultItem = document.createElement("div");
-            resultItem.classList.add("result-item");
+          const resultItem = document.createElement("div");
+          resultItem.classList.add("result-item");
 
-            const icon = document.createElement("i");
-            icon.classList.add("fas", "fa-map-marker-alt", "location-icon");
+          const icon = document.createElement("i");
+          icon.classList.add("fas", "fa-map-marker-alt", "location-icon");
 
-            const locationInfo = document.createElement("div");
-            locationInfo.classList.add("location-info");
+          const locationInfo = document.createElement("div");
+          locationInfo.classList.add("location-info");
 
-            const locationName = document.createElement("div");
-            locationName.classList.add("location-name");
-            locationName.textContent = city.name;
+          const locationName = document.createElement("div");
+          locationName.classList.add("location-name");
+          locationName.textContent = city.name;
 
-            const locationDetails = document.createElement("div");
-            locationDetails.classList.add("location-details");
-            locationDetails.textContent = city.details;
+          const locationDetails = document.createElement("div");
+          locationDetails.classList.add("location-details");
+          locationDetails.textContent = city.details;
 
-            locationInfo.appendChild(locationName);
-            locationInfo.appendChild(locationDetails);
-            resultItem.appendChild(icon);
-            resultItem.appendChild(locationInfo);
-            searchResults.appendChild(resultItem);
+          locationInfo.appendChild(locationName);
+          locationInfo.appendChild(locationDetails);
+          resultItem.appendChild(icon);
+          resultItem.appendChild(locationInfo);
+          searchResults.appendChild(resultItem);
 
-            resultItem.addEventListener("click", () => {
-                searchResults.style.display = "none"; // Hide search results
-                overlay.style.display = "none";  // Hide the search overlay
-                showPopup(city.name);
-            });
+          resultItem.addEventListener("click", () => {
+            searchResults.style.display = "none"; // Hide search results
+            overlay.style.display = "none"; // Hide the search overlay
+            showPopup(city.name);
+          });
         });
 
         if (filteredCities.length === 0) {
-            searchResults.innerHTML =
-                '<p style="padding: 10px;">No results found</p>';
+          searchResults.innerHTML =
+            '<p style="padding: 10px;">No results found</p>';
         }
-    });
+      });
 
-    document.querySelectorAll('.destination').forEach(destination => {
-        destination.addEventListener('click', () => {
-            const location = destination.getAttribute('data-location');
-            searchResults.style.display = "none"; // Hide search results
-            overlay.style.display = "none";  // Hide the search overlay
-            showPopup(location);
+      document.querySelectorAll(".destination").forEach((destination) => {
+        destination.addEventListener("click", () => {
+          const location = destination.getAttribute("data-location");
+          searchResults.style.display = "none"; // Hide search results
+          overlay.style.display = "none"; // Hide the search overlay
+          showPopup(location);
         });
-    });
+      });
 
-    function showPopup(location) {
+      function showPopup(location) {
         popupMessage.textContent = `You are going to ${location} 😎`;
         overlay.style.display = "block"; // Show the overlay for the popup
         popupModal.style.display = "block"; // Show the popup modal
 
-        setTimeout(() => {
-            overlay.style.display = "none"; // Hide the overlay after animation
-            popupModal.style.display = "none"; // Hide the popup modal
-            window.location.href = 'choose-date.html'; // Redirect after delay
-        }, 3000);
-    }
+        saveUserData(location);
 
-    overlay.addEventListener("click", () => {
+
+        setTimeout(() => {
+          overlay.style.display = "none"; // Hide the overlay after animation
+          popupModal.style.display = "none"; // Hide the popup modal
+          window.location.href = "choose-date.html"; // Redirect after delay
+        }, 3000);
+      }
+
+      overlay.addEventListener("click", () => {
         searchResults.style.display = "none";
         searchBar.classList.remove("active");
         overlay.style.display = "none"; // Hide the overlay
         popupModal.style.display = "none"; // Hide the popup modal
-    });
-</script>
-
-
-
-
+      });
+    </script>
   </body>
 </html>
