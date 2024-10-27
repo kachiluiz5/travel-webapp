@@ -94,6 +94,8 @@ h1 {
 
 .search-bar.active {
   border-bottom: 2px solid #2596be;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
 }
 
 .search-icon {
