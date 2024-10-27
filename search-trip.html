@@ -13,8 +13,11 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css"
     />
+    <script src="./api/axios.js"></script>
   </head>
+
   <body>
+    <script src="./utils/db.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
     <div class="main">
       <div class="search-trip-container">
@@ -167,6 +170,7 @@
         overlay.style.display = "block"; // Show the overlay for the popup
         popupModal.style.display = "block"; // Show the popup modal
 
+        saveUserData(location);
         setTimeout(() => {
           overlay.style.display = "none"; // Hide the overlay after animation
           popupModal.style.display = "none"; // Hide the popup modal
