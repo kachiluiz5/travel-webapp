@@ -78,23 +78,50 @@
 
     <div class="main">
       <div class="signup-container">
-        <h1 style="text-align: left; margin-bottom: 10px">Welcome back.</h1>
+        <h1 style="text-align: left; margin-bottom: 10px">Create An Account</h1>
+
         <form id="signupForm">
           <div class="form-group">
-            <label for="fname">First Name</label>
-            <input type="text" id="fname" placeholder="First Name" required />
+            <label for="fname">Full Name</label>
+            <input
+              type="text"
+              id="fullName"
+              name="fullName"
+              placeholder="Full name"
+              required
+            />
           </div>
+
           <div class="form-group">
-            <label for="lname">Last Name</label>
-            <input type="text" id="lname" placeholder="Last Name" required />
+            <label for="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Password"
+              required
+            />
           </div>
+
           <div class="form-group">
             <label for="email">Email address</label>
-            <input type="email" id="email" placeholder="Email" required />
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Email"
+              required
+            />
           </div>
           <div class="form-group">
             <label for="phone">Phone Number</label>
-            <input type="tel" id="phone" placeholder="Phone" required />
+            <input
+              type="tel"
+              id="phoneNumber"
+              name="phoneNumber"
+              placeholder="Phone number"
+              required
+            />
           </div>
 
           <button type="submit">Sign up</button>
@@ -151,7 +178,7 @@
           aria-label="Close"
           >&times;</span
         >
-        <h2 id="signInPopupTitle">Sign In</h2>
+        <h2 id="signInPopupTitle" style="padding-bottom: 4px">Login</h2>
         <form id="signInForm">
           <div class="form-group">
             <input type="email" id="signInEmail" placeholder="Email" required />
@@ -211,6 +238,19 @@
         .getElementById("signupForm")
         .addEventListener("submit", function (e) {
           e.preventDefault();
+          const firstName = document.getElementById("firstName").value;
+          const lastName = document.getElementById("lastName").value;
+          const email = document.getElementById("email").value;
+          const phoneNumber = document.getElementById("phoneNumber").value;
+
+          console.log(firstName, lastName, email, phoneNumber);
+
+          const fullName = `${firstName} ${lastName}`;
+
+          const dataToSubmit = {
+            email,
+            password,
+          };
           showMessagePopup();
         });
 
