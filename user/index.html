@@ -54,6 +54,8 @@
   <body>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
     <script src="./../api/axios.js"></script>
+    <script src="./../utils/db.js"></script>
+    <script src="./../utils/loader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.9/plugin/relativeTime.js"></script>
@@ -74,6 +76,7 @@
           updateUsername(data.name);
           updateUserImage(data.name);
           updateTotalTrips(data.totalTrips);
+          updateTripTable(data.trips);
         } else {
           toast.error("An error occurred while fetching your profile.");
         }
@@ -146,20 +149,41 @@
       const updateTripTable = (trips) => {
         const tripTable = $("#tripTableBody");
         trips.map((trip) => {
+          console.log(trip);
           tripTable.append(`
             <tr>
-              <td>${trip.id}</td>
+              <td>${trip.place}</td>
               <td>${dayjs(trip.createdAt).format("DD MMM YYYY")}</td>
               <td>
-                <span
-                  class="bg-warning-focus text-warning-main px-24 py-4 rounded-pill fw-medium text-sm"
-                  >${trip.status}</span
-                >
+                ${
+                  trip.status === "PENDING"
+                    ? `<span
+                    class="bg-warning-focus text-warning-main px-24 py-4 rounded-pill fw-medium text-sm"
+                    >${trip.status}</span
+                  >`
+                    : trip.status === "REJECTED"
+                    ? `<span
+                    class="bg-danger-focus text-danger-main px-24 py-4 rounded-pill fw-medium text-sm"
+                    >${trip.status}</span
+                  >`
+                    : `<span
+                    class="bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm"
+                    >${trip.status}</span
+                  >`
+                }
+                
               </td>
-              <td>$${trip.amount}</td>
+              <td>$${trip.maxBudget}</td>
             </tr>
           `);
         });
+      };
+
+      const handleLogout = async () => {
+        await apiClient.post("/auth/logout");
+        localStorage.removeItem("accessToken");
+        clearUserData();
+        window.location.href = "/login.html";
       };
     </script>
 
@@ -306,7 +330,7 @@
                         class="text-lg text-primary-light fw-semibold mb-2"
                         id="userName"
                       >
-                        Shaidul Islam
+                        Trusted Routes
                       </h6>
                     </div>
                     <button type="button" class="hover-text-danger">
@@ -332,8 +356,8 @@
 
                     <li>
                       <a
-                        class="dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-danger d-flex align-items-center gap-3"
-                        href="javascript:void(0)"
+                        class="dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-danger d-flex align-items-center gap-3 cursor-pointer"
+                        onclick="handleLogout()"
                       >
                         <iconify-icon
                           icon="lucide:power"
@@ -461,63 +485,7 @@
                         <th scope="col">Amount</th>
                       </tr>
                     </thead>
-                    <tbody id="tripTableBody">
-                      <tr>
-                        <td>5986124445445</td>
-                        <td>27 Mar 2024</td>
-                        <td>
-                          <span
-                            class="bg-warning-focus text-warning-main px-24 py-4 rounded-pill fw-medium text-sm"
-                            >Pending</span
-                          >
-                        </td>
-                        <td>$20,000.00</td>
-                      </tr>
-                      <tr>
-                        <td>5986124445445</td>
-                        <td>27 Mar 2024</td>
-                        <td>
-                          <span
-                            class="bg-danger-focus text-danger-main px-24 py-4 rounded-pill fw-medium text-sm"
-                            >Rejected</span
-                          >
-                        </td>
-                        <td>$20,000.00</td>
-                      </tr>
-                      <tr>
-                        <td>5986124445445</td>
-                        <td>27 Mar 2024</td>
-                        <td>
-                          <span
-                            class="bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm"
-                            >Completed</span
-                          >
-                        </td>
-                        <td>$20,000.00</td>
-                      </tr>
-                      <tr>
-                        <td>5986124445445</td>
-                        <td>27 Mar 2024</td>
-                        <td>
-                          <span
-                            class="bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm"
-                            >Completed</span
-                          >
-                        </td>
-                        <td>$20,000.00</td>
-                      </tr>
-                      <tr>
-                        <td>5986124445445</td>
-                        <td>27 Mar 2024</td>
-                        <td>
-                          <span
-                            class="bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm"
-                            >Completed</span
-                          >
-                        </td>
-                        <td>$20,000.00</td>
-                      </tr>
-                    </tbody>
+                    <tbody id="tripTableBody"></tbody>
                   </table>
                 </div>
               </div>
