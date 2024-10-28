@@ -100,6 +100,15 @@
         } else {
           toast.error("An error occurred while fetching the top users.");
         }
+
+        const getRecentTrips = await apiClient.get("/trip/recent?take=10");
+
+        if (getRecentTrips.status === 200) {
+          const { data } = getRecentTrips.data;
+          updateTripTable(data);
+        } else {
+          toast.error("An error occurred while fetching the recent trips.");
+        }
       });
 
       const updateNotification = (notifications) => {
@@ -169,7 +178,6 @@
       const updateTripTable = (trips) => {
         const tripTable = $("#tripTableBody");
         trips.map((trip) => {
-          console.log(trip);
           tripTable.append(`
             <tr>
               <td>${trip.place}</td>
@@ -548,63 +556,7 @@
                         <th scope="col">Amount</th>
                       </tr>
                     </thead>
-                    <tbody>
-                      <tr>
-                        <td>5986124445445</td>
-                        <td>27 Mar 2024</td>
-                        <td>
-                          <span
-                            class="bg-warning-focus text-warning-main px-24 py-4 rounded-pill fw-medium text-sm"
-                            >Pending</span
-                          >
-                        </td>
-                        <td>$20,000.00</td>
-                      </tr>
-                      <tr>
-                        <td>5986124445445</td>
-                        <td>27 Mar 2024</td>
-                        <td>
-                          <span
-                            class="bg-danger-focus text-danger-main px-24 py-4 rounded-pill fw-medium text-sm"
-                            >Rejected</span
-                          >
-                        </td>
-                        <td>$20,000.00</td>
-                      </tr>
-                      <tr>
-                        <td>5986124445445</td>
-                        <td>27 Mar 2024</td>
-                        <td>
-                          <span
-                            class="bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm"
-                            >Completed</span
-                          >
-                        </td>
-                        <td>$20,000.00</td>
-                      </tr>
-                      <tr>
-                        <td>5986124445445</td>
-                        <td>27 Mar 2024</td>
-                        <td>
-                          <span
-                            class="bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm"
-                            >Completed</span
-                          >
-                        </td>
-                        <td>$20,000.00</td>
-                      </tr>
-                      <tr>
-                        <td>5986124445445</td>
-                        <td>27 Mar 2024</td>
-                        <td>
-                          <span
-                            class="bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm"
-                            >Completed</span
-                          >
-                        </td>
-                        <td>$20,000.00</td>
-                      </tr>
-                    </tbody>
+                    <tbody id="tripTableBody"></tbody>
                   </table>
                 </div>
               </div>
