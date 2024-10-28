@@ -185,12 +185,19 @@
         <h2 id="signInPopupTitle" style="padding-bottom: 4px">Login</h2>
         <form id="signInForm">
           <div class="form-group">
-            <input type="email" id="signInEmail" placeholder="Email" required />
+            <input
+              type="email"
+              id="signInEmail"
+              name="signInEmail"
+              placeholder="Email"
+              required
+            />
           </div>
           <div class="form-group">
             <input
               type="password"
               id="signInPassword"
+              name="signInPassword"
               placeholder="Password"
               required
             />
@@ -322,7 +329,6 @@
 
               if (createTripResponse.status === 201) {
                 const data = createTripResponse.data;
-                console.log(data);
                 showMessagePopup();
               } else {
                 toast.error("An error occured while creating your trip");
@@ -337,6 +343,47 @@
           //showMessagePopup();
         });
 
+      document
+        .getElementById("signInForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const email = document.getElementById("signInEmail").value;
+          const password = document.getElementById("signInPassword").value;
+
+          const toast = new Notyf();
+          const dataToSubmit = {
+            email,
+            password,
+          };
+
+          try {
+            showLoader();
+            const loginRequest = await apiClient.post(
+              "/auth/login",
+              dataToSubmit
+            );
+
+            if (loginRequest.status !== 200) {
+              toast.error("An error occured while signing in");
+            } else {
+              const response = loginRequest.data;
+              const data = response.data;
+              toast.success(response.message ?? "Login successful");
+              localStorage.setItem("accessToken", data.accessToken);
+              const role = data.user.role;
+
+              if (role === "ADMIN") {
+                location.href = "/admin/";
+              } else {
+                location.href = "/user/";
+              }
+            }
+          } catch (error) {
+            toast.error(error.response.data.message ?? "An error occured");
+          } finally {
+            hideLoader();
+          }
+        });
       // Trigger sign-in form behavior
 
       // Close popup when clicking outside of it
