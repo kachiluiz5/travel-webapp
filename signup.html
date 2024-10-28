@@ -11,6 +11,7 @@
       href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css"
     />
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+    <script src="./api/axios.js"></script>
 
     <style>
       /* Enhanced styles for the popups */
@@ -75,10 +76,10 @@
     </style>
   </head>
   <body>
+    <script src="./utils/db.js"></script>
     <div class="main">
+      <div class="loader" id="loader"></div>
       <div class="signup-container">
-    <div class="loader"></div>
-
         <h1 style="text-align: left; margin-bottom: 10px">Create An Account</h1>
 
         <form id="signupForm">
@@ -117,7 +118,7 @@
           <div class="form-group">
             <label for="phone">Phone Number</label>
             <input
-              type="tel"
+              type="number"
               id="phoneNumber"
               name="phoneNumber"
               placeholder="Phone number"
@@ -162,6 +163,8 @@
           touch with you via phone within 48 business hours to personalize your
           journey.
         </p>
+        <br />
+        <button onclick="showLoginForm()" type="submit">Login</button>
       </div>
     </div>
 
@@ -197,11 +200,22 @@
       </div>
     </div>
 
-
     <script>
+      let loading = false;
+
       // Popup control functions
 
       // Message popup
+      function showLoader() {
+        const loader = document.getElementById("loader");
+        loader.style.display = "flex";
+      }
+
+      function hideLoader() {
+        const loader = document.getElementById("loader");
+        loader.style.display = "none";
+      }
+
       function showMessagePopup() {
         const popup = document.getElementById("messagePopup");
         popup.style.display = "block";
@@ -209,6 +223,11 @@
           popup.classList.add("show");
         }, 10);
       }
+
+      const showLoginForm = () => {
+        closeMessagePopup();
+        showSignInPopup();
+      };
 
       function closeMessagePopup() {
         const popup = document.getElementById("messagePopup");
@@ -238,7 +257,7 @@
       // Trigger message popup on sign-up form submission
       document
         .getElementById("signupForm")
-        .addEventListener("submit", function (e) {
+        .addEventListener("submit", async (e) => {
           e.preventDefault();
           const fullName = document.getElementById("fullName").value;
           const email = document.getElementById("email").value;
@@ -256,13 +275,64 @@
             email,
             password,
             name: fullName,
+            phoneNumber,
           };
 
-          const request = axios
-            .get("https://jsonplaceholder.typicode.com/posts")
-            .then((data) => {
-              console.log(data);
-            });
+          try {
+            showLoader();
+            const response = await apiClient.post("auth/signup", dataToSubmit);
+
+            if (response.status === 201) {
+              const data = response.data;
+              const message = data.message;
+              const { id, name } = data.data;
+
+              appendToUserData({ userId: id });
+
+              const tripData = getUserData();
+
+              if (!tripData) {
+                toast.error("You must crete a trip before signing up");
+                return;
+              }
+
+              if (tripData.startDate && tripData.endDate) {
+                const legitStartDate = new Date(tripData.startDate);
+                const legitEndDate = new Date(tripData.endDate);
+
+                appendToUserData({
+                  startDate: legitStartDate,
+                  endDate: legitEndDate,
+                });
+              }
+
+              const filteredTripData = Object.fromEntries(
+                Object.entries(tripData)
+                  .filter(([_, value]) => value !== null)
+                  .map(([key, value]) => [
+                    key,
+                    value === "yes" ? true : value === "no" ? false : value,
+                  ])
+              );
+
+              const createTripResponse = await apiClient.post(
+                "/trip",
+                filteredTripData
+              );
+
+              if (createTripResponse.status === 201) {
+                const data = createTripResponse.data;
+                console.log(data);
+                showMessagePopup();
+              } else {
+                toast.error("An error occured while creating your trip");
+              }
+            }
+          } catch (error) {
+            toast.error("An error occured while signing up");
+          } finally {
+            hideLoader();
+          }
 
           //showMessagePopup();
         });

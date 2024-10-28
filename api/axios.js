@@ -1,6 +1,10 @@
 const apiClient = axios.create({
-  baseURL: "http://localhost:2800",
-  withCredentials: true,
+  baseURL: "http://localhost:2800/v1",
+  headers: {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "http://127.0.0.1:5500",
+  },
 });
 
 let isRefreshing = false;
