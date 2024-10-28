@@ -47,7 +47,6 @@ apiClient.interceptors.response.use(
           failedQueue.push({ resolve, reject });
         })
           .then((token) => {
-            console.log(token);
             originalRequest.headers["Authorization"] = `Bearer ${token}`;
             return apiClient(originalRequest);
           })
@@ -65,7 +64,7 @@ apiClient.interceptors.response.use(
             localStorage.setItem("accessToken", accessToken);
             apiClient.defaults.headers[
               "Authorization"
-            ] = `Bearer ${dccessToken}`;
+            ] = `Bearer ${accessToken}`;
             originalRequest.headers["Authorization"] = `Bearer ${accessToken}`;
 
             processQueue(null, accessToken);
@@ -73,6 +72,8 @@ apiClient.interceptors.response.use(
           })
           .catch((err) => {
             processQueue(err, null);
+            localStorage.removeItem("accessToken");
+            window.location.href = "/signup.html";
             reject(err);
           })
           .finally(() => {
