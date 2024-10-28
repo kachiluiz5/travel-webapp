@@ -79,6 +79,27 @@
         } else {
           toast.error("An error occurred while fetching your profile.");
         }
+
+        const adminDashboardDataRequest = await apiClient.get(
+          "/admin/dashboard"
+        );
+
+        if (adminDashboardDataRequest.status === 200) {
+          const { data } = adminDashboardDataRequest.data;
+          updateTotalUsers(data.totalUsers);
+          updateTotalUserTrips(data.totalTrips);
+        } else {
+          toast.error("An error occurred while fetching the dashboard data.");
+        }
+
+        const getTopUsersRequest = await apiClient.get("/admin/high-trips");
+
+        if (getTopUsersRequest.status === 200) {
+          const { data } = getTopUsersRequest.data;
+          updateTopCustomersList(data);
+        } else {
+          toast.error("An error occurred while fetching the top users.");
+        }
       });
 
       const updateNotification = (notifications) => {
@@ -170,7 +191,7 @@
                     >${trip.status}</span
                   >`
                 }
-                
+
               </td>
               <td>$${trip.maxBudget}</td>
             </tr>
@@ -183,6 +204,43 @@
         localStorage.removeItem("accessToken");
         clearUserData();
         window.location.href = "/login.html";
+      };
+
+      const updateTotalUsers = (totalUsers) => {
+        const totalUsersElement = $("#totalUsers");
+        totalUsersElement.text(totalUsers);
+      };
+
+      const updateTotalUserTrips = (totalTrips) => {
+        const totalTripsElement = $("#totalTrips");
+        totalTripsElement.text(totalTrips);
+      };
+
+      const updateTopCustomersList = (topUsers) => {
+        const topUsersContainer = $("#topCustomersContainer");
+        console.log(topUsers);
+
+        topUsers.map((user) => {
+          topUsersContainer.append(
+            ` <div
+                    class="d-flex align-items-center justify-content-between gap-3 mb-32"
+                  >
+                    <div class="d-flex align-items-center">
+                      <img
+                        src="https://api.dicebear.com/7.x/big-smile/svg?seed=${user.name}"
+                        alt=""
+                        class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden"
+                      />
+                      <div class="flex-grow-1">
+                        <h6 class="text-md mb-0">${user.name}</h6>
+                      </div>
+                    </div>
+                    <span class="text-primary-light text-md fw-medium"
+                      >${user.trips.length} Trips</span
+                    >
+                  </div>`
+          );
+        });
       };
     </script>
     <aside class="sidebar">
@@ -312,9 +370,10 @@
                   data-bs-toggle="dropdown"
                 >
                   <img
-                    src="assets/images/user.png"
+                    src="https://api.dicebear.com/7.x/big-smile/svg?seed=admin"
                     alt="image"
                     class="w-40-px h-40-px object-fit-cover rounded-circle"
+                    id="profileImage"
                   />
                 </button>
                 <div class="dropdown-menu to-top dropdown-menu-sm">
@@ -322,8 +381,11 @@
                     class="py-12 px-16 radius-8 bg-primary-50 mb-16 d-flex align-items-center justify-content-between gap-2"
                   >
                     <div>
-                      <h6 class="text-lg text-primary-light fw-semibold mb-2">
-                        Shaidul Islam
+                      <h6
+                        class="text-lg text-primary-light fw-semibold mb-2"
+                        id="userName"
+                      >
+                        Admin
                       </h6>
                     </div>
                     <button type="button" class="hover-text-danger">
@@ -337,20 +399,20 @@
                     <li>
                       <a
                         class="dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-primary d-flex align-items-center gap-3"
-                        href="view-profile.html"
+                        href="/admin/users-list.html"
                       >
                         <iconify-icon
                           icon="solar:user-linear"
                           class="icon text-xl"
                         ></iconify-icon>
-                        My Profile</a
+                        My users</a
                       >
                     </li>
 
                     <li>
                       <a
                         class="dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-danger d-flex align-items-center gap-3"
-                        href="javascript:void(0)"
+                        onclick="handleLogout()"
                       >
                         <iconify-icon
                           icon="lucide:power"
@@ -417,7 +479,7 @@
                             class="mb-2 fw-medium text-secondary-light text-sm"
                             >Total Users</span
                           >
-                          <h6 class="fw-semibold">5,000</h6>
+                          <h6 class="fw-semibold" id="totalUsers">0</h6>
                         </div>
                       </div>
                     </div>
@@ -448,7 +510,7 @@
                             class="mb-2 fw-medium text-secondary-light text-sm"
                             >Total Trips</span
                           >
-                          <h6 class="fw-semibold">12,000</h6>
+                          <h6 class="fw-semibold" id="totalTrips">0</h6>
                         </div>
                       </div>
                     </div>
@@ -463,7 +525,7 @@
               <div
                 class="card-header border-bottom bg-base py-16 px-24 d-flex align-items-center justify-content-between"
               >
-                <h6 class="text-lg fw-semibold mb-0">Last Transaction</h6>
+                <h6 class="text-lg fw-semibold mb-0">Recent Trips</h6>
                 <a
                   href="javascript:void(0)"
                   class="text-primary-600 hover-text-primary d-flex align-items-center gap-1"
@@ -570,115 +632,7 @@
                   </a>
                 </div>
 
-                <div class="mt-32">
-                  <div
-                    class="d-flex align-items-center justify-content-between gap-3 mb-32"
-                  >
-                    <div class="d-flex align-items-center">
-                      <img
-                        src="assets/images/users/user1.png"
-                        alt=""
-                        class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden"
-                      />
-                      <div class="flex-grow-1">
-                        <h6 class="text-md mb-0">Dianne Russell</h6>
-                      </div>
-                    </div>
-                    <span class="text-primary-light text-md fw-medium"
-                      >5 Trips</span
-                    >
-                  </div>
-
-                  <div
-                    class="d-flex align-items-center justify-content-between gap-3 mb-32"
-                  >
-                    <div class="d-flex align-items-center">
-                      <img
-                        src="assets/images/users/user2.png"
-                        alt=""
-                        class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden"
-                      />
-                      <div class="flex-grow-1">
-                        <h6 class="text-md mb-0">Wade Warren</h6>
-                      </div>
-                    </div>
-                    <span class="text-primary-light text-md fw-medium"
-                      >3 Trips</span
-                    >
-                  </div>
-
-                  <div
-                    class="d-flex align-items-center justify-content-between gap-3 mb-32"
-                  >
-                    <div class="d-flex align-items-center">
-                      <img
-                        src="assets/images/users/user3.png"
-                        alt=""
-                        class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden"
-                      />
-                      <div class="flex-grow-1">
-                        <h6 class="text-md mb-0">Albert Flores</h6>
-                      </div>
-                    </div>
-                    <span class="text-primary-light text-md fw-medium"
-                      >4 Trips</span
-                    >
-                  </div>
-
-                  <div
-                    class="d-flex align-items-center justify-content-between gap-3 mb-32"
-                  >
-                    <div class="d-flex align-items-center">
-                      <img
-                        src="assets/images/users/user4.png"
-                        alt=""
-                        class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden"
-                      />
-                      <div class="flex-grow-1">
-                        <h6 class="text-md mb-0">Bessie Cooper</h6>
-                      </div>
-                    </div>
-                    <span class="text-primary-light text-md fw-medium"
-                      >5 Trips</span
-                    >
-                  </div>
-
-                  <div
-                    class="d-flex align-items-center justify-content-between gap-3 mb-32"
-                  >
-                    <div class="d-flex align-items-center">
-                      <img
-                        src="assets/images/users/user5.png"
-                        alt=""
-                        class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden"
-                      />
-                      <div class="flex-grow-1">
-                        <h6 class="text-md mb-0">Arlene McCoy</h6>
-                      </div>
-                    </div>
-                    <span class="text-primary-light text-md fw-medium"
-                      >3 Trips</span
-                    >
-                  </div>
-
-                  <div
-                    class="d-flex align-items-center justify-content-between gap-3"
-                  >
-                    <div class="d-flex align-items-center">
-                      <img
-                        src="assets/images/users/user6.png"
-                        alt=""
-                        class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden"
-                      />
-                      <div class="flex-grow-1">
-                        <h6 class="text-md mb-0">Jake Peralta</h6>
-                      </div>
-                    </div>
-                    <span class="text-primary-light text-md fw-medium"
-                      >2 Trips</span
-                    >
-                  </div>
-                </div>
+                <div class="mt-32" id="topCustomersContainer"></div>
               </div>
             </div>
           </div>
