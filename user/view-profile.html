@@ -287,7 +287,7 @@
         if(updateProfileRequest.status === 200){
           toast.success("Profile updated successfully");
           setTimeout(() => {
-            window.location.reload();
+           window.location="/user/view-profile.html";
           }, 2000);
         }else{
           toast.error("An error occurred while updating your profile");
