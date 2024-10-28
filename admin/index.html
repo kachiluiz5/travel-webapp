@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Travel Dashboard</title>
+    <title>Admin Travel Dashboard</title>
     <link
       rel="icon"
       type="image/png"
@@ -40,12 +40,217 @@
     <link rel="stylesheet" href="assets/css/lib/audioplayer.css" />
     <!-- main css -->
     <link rel="stylesheet" href="assets/css/style.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css"
+    />
   </head>
   <body>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="./../api/axios.js"></script>
+    <script src="./../utils/db.js"></script>
+    <script src="./../utils/loader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.9/plugin/relativeTime.js"></script>
 
+    <script>
+      document.addEventListener("DOMContentLoaded", async () => {
+        dayjs.extend(dayjs_plugin_relativeTime);
 
+        const toast = new Notyf({
+          duration: 4000,
+        });
+
+        const myProfileRequest = await apiClient.get("/user/me");
+
+        if (myProfileRequest.status === 200) {
+          const { data } = myProfileRequest.data;
+          updateNotification(data.notifications);
+          updateUsername(data.name);
+          updateUserImage(data.name);
+          updateTotalTrips(data.totalTrips);
+          updateTripTable(data.trips);
+        } else {
+          toast.error("An error occurred while fetching your profile.");
+        }
+
+        const adminDashboardDataRequest = await apiClient.get(
+          "/admin/dashboard"
+        );
+
+        if (adminDashboardDataRequest.status === 200) {
+          const { data } = adminDashboardDataRequest.data;
+          updateTotalUsers(data.totalUsers);
+          updateTotalUserTrips(data.totalTrips);
+        } else {
+          toast.error("An error occurred while fetching the dashboard data.");
+        }
+
+        const getTopUsersRequest = await apiClient.get("/admin/high-trips");
+
+        if (getTopUsersRequest.status === 200) {
+          const { data } = getTopUsersRequest.data;
+          updateTopCustomersList(data);
+        } else {
+          toast.error("An error occurred while fetching the top users.");
+        }
+
+        const getRecentTrips = await apiClient.get("/trip/recent?take=10");
+
+        if (getRecentTrips.status === 200) {
+          const { data } = getRecentTrips.data;
+          updateTripTable(data);
+        } else {
+          toast.error("An error occurred while fetching the recent trips.");
+        }
+      });
+
+      const updateNotification = (notifications) => {
+        const totalNotification = $("#totalNotification");
+        totalNotification.text(notifications.length);
+
+        const notificationsBody = $("#notifications");
+
+        notifications.map((notification) => {
+          notificationsBody.append(`
+            <a
+              href="javascript:void(0)"
+              class="px-24 py-12 d-flex align-items-start gap-3 mb-2 justify-content-between">
+                  <div
+                    class="text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3"
+                  >
+                    <span
+                      class="w-44-px h-44-px bg-success-subtle text-success-main rounded-circle d-flex justify-content-center align-items-center flex-shrink-0"
+                    >
+                      ${
+                        notification.type === "ACCOUNT_CREATED"
+                          ? '<iconify-icon icon="bi:person-plus-fill" class="icon text-lg"></iconify-icon>'
+                          : '<iconify-icon icon="bi:calendar-plus-fill" class="icon text-lg"></iconify-icon>'
+                      }
+                    </span>
+                    <div>
+                      <h6 class="text-md fw-semibold mb-4">
+                        ${
+                          notification.type === "ACCOUNT_CREATED"
+                            ? "Account Created"
+                            : "Trip Created"
+                        }
+                      </h6>
+                      <p
+                        class="mb-0 text-sm text-secondary-light text-w-200-px"
+                      >
+                        ${notification.message}
+                      </p>
+                    </div>
+                  </div>
+                  <span class="text-sm text-secondary-light flex-shrink-0"
+                    >${dayjs(notification.createdAt).fromNow()}</span
+                  >
+            </a>
+          `);
+        });
+      };
+
+      const updateUsername = (name) => {
+        const userName = $("#userName");
+        userName.text(name);
+      };
+
+      const updateTotalTrips = (totalTrips) => {
+        const totalTripsElement = $("#totalTrips");
+        totalTripsElement.text(totalTrips);
+      };
+
+      const updateUserImage = (name) => {
+        const profileImage = $("#profileImage");
+        profileImage.attr(
+          "src",
+          `https://api.dicebear.com/7.x/big-smile/svg?seed=${name}`
+        );
+      };
+
+      const updateTripTable = (trips) => {
+        const tripTable = $("#tripTableBody");
+        trips.map((trip) => {
+          tripTable.append(`
+            <tr>
+              <td>${trip.place}</td>
+              <td>${dayjs(trip.createdAt).format("DD MMM YYYY")}</td>
+              <td>
+                ${
+                  trip.status === "PENDING"
+                    ? `<span
+                    class="bg-warning-focus text-warning-main px-24 py-4 rounded-pill fw-medium text-sm"
+                    >${trip.status}</span
+                  >`
+                    : trip.status === "REJECTED"
+                    ? `<span
+                    class="bg-danger-focus text-danger-main px-24 py-4 rounded-pill fw-medium text-sm"
+                    >${trip.status}</span
+                  >`
+                    : `<span
+                    class="bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm"
+                    >${trip.status}</span
+                  >`
+                }
+
+              </td>
+              <td>$${trip.maxBudget}</td>
+            </tr>
+          `);
+        });
+      };
+
+      const handleLogout = async () => {
+        await apiClient.post("/auth/logout");
+        localStorage.removeItem("accessToken");
+        clearUserData();
+        window.location.href = "/login.html";
+      };
+
+      const updateTotalUsers = (totalUsers) => {
+        const totalUsersElement = $("#totalUsers");
+        totalUsersElement.text(totalUsers);
+      };
+
+      const updateTotalUserTrips = (totalTrips) => {
+        const totalTripsElement = $("#totalTrips");
+        totalTripsElement.text(totalTrips);
+      };
+
+      const updateTopCustomersList = (topUsers) => {
+        const topUsersContainer = $("#topCustomersContainer");
+        console.log(topUsers);
+
+        topUsers.map((user) => {
+          topUsersContainer.append(
+            ` <div
+                    class="d-flex align-items-center justify-content-between gap-3 mb-32"
+                  >
+                    <div class="d-flex align-items-center">
+                      <img
+                        src="https://api.dicebear.com/7.x/big-smile/svg?seed=${user.name}"
+                        alt=""
+                        class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden"
+                      />
+                      <div class="flex-grow-1">
+                        <h6 class="text-md mb-0">${user.name}</h6>
+                      </div>
+                    </div>
+                    <span class="text-primary-light text-md fw-medium"
+                      >${user.trips.length} Trips</span
+                    >
+                  </div>`
+          );
+        });
+      };
+    </script>
     <aside class="sidebar">
       <button type="button" class="sidebar-close-btn">
         <iconify-icon icon="radix-icons:cross-2"></iconify-icon>
@@ -62,16 +267,11 @@
             alt="site logo"
             class="dark-logo"
           />
-
-
-          <!-- <h6 style="font-size: 15px;">Trusted Routes</h6> -->
-          <!-- <img src="assets/images/logo/trustedroute-logo.png" alt="" style="width: 200px;"> -->
-
         </a>
       </div>
       <div class="sidebar-menu-area">
         <ul class="sidebar-menu" id="sidebar-menu">
-          <li >
+          <li>
             <a href="index.html">
               <iconify-icon
                 icon="solar:home-smile-angle-outline"
@@ -87,7 +287,6 @@
               <span>Users</span>
             </a>
           </li>
-
         </ul>
       </div>
     </aside>
@@ -113,7 +312,6 @@
                   class="icon"
                 ></iconify-icon>
               </button>
-    
             </div>
           </div>
           <div class="col-auto">
@@ -123,7 +321,7 @@
                 data-theme-toggle
                 class="w-40-px h-40-px bg-neutral-200 rounded-circle d-flex justify-content-center align-items-center"
               ></button>
-    
+
               <div class="dropdown">
                 <button
                   class="has-indicator w-40-px h-40-px bg-neutral-200 rounded-circle d-flex justify-content-center align-items-center"
@@ -146,46 +344,16 @@
                     </div>
                     <span
                       class="text-primary-600 fw-semibold text-lg w-40-px h-40-px rounded-circle bg-base d-flex justify-content-center align-items-center"
+                      id="totalNotification"
                       >05</span
                     >
                   </div>
-    
-                  <div class="max-h-400-px overflow-y-auto scroll-sm pe-4">
-                    <a
-                      href="javascript:void(0)"
-                      class="px-24 py-12 d-flex align-items-start gap-3 mb-2 justify-content-between"
-                    >
-                      <div
-                        class="text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3"
-                      >
-                        <span
-                          class="w-44-px h-44-px bg-success-subtle text-success-main rounded-circle d-flex justify-content-center align-items-center flex-shrink-0"
-                        >
-                          <iconify-icon
-                            icon="bitcoin-icons:verify-outline"
-                            class="icon text-xxl"
-                          ></iconify-icon>
-                        </span>
-                        <div>
-                          <h6 class="text-md fw-semibold mb-4">
-                            Congratulations
-                          </h6>
-                          <p
-                            class="mb-0 text-sm text-secondary-light text-w-200-px"
-                          >
-                            Your profile has been Verified. Your profile has
-                            been Verified
-                          </p>
-                        </div>
-                      </div>
-                      <span class="text-sm text-secondary-light flex-shrink-0"
-                        >23 Mins ago</span
-                      >
-                    </a>
-    
-    
-                  </div>
-    
+
+                  <div
+                    class="max-h-400-px overflow-y-auto scroll-sm pe-4"
+                    id="notifications"
+                  ></div>
+
                   <div class="text-center py-12 px-16">
                     <a
                       href="javascript:void(0)"
@@ -196,7 +364,7 @@
                 </div>
               </div>
               <!-- Notification dropdown end -->
-    
+
               <div class="dropdown">
                 <button
                   class="d-flex justify-content-center align-items-center rounded-circle"
@@ -204,9 +372,10 @@
                   data-bs-toggle="dropdown"
                 >
                   <img
-                    src="assets/images/user.png"
+                    src="https://api.dicebear.com/7.x/big-smile/svg?seed=admin"
                     alt="image"
                     class="w-40-px h-40-px object-fit-cover rounded-circle"
+                    id="profileImage"
                   />
                 </button>
                 <div class="dropdown-menu to-top dropdown-menu-sm">
@@ -214,8 +383,11 @@
                     class="py-12 px-16 radius-8 bg-primary-50 mb-16 d-flex align-items-center justify-content-between gap-2"
                   >
                     <div>
-                      <h6 class="text-lg text-primary-light fw-semibold mb-2">
-                        Shaidul Islam
+                      <h6
+                        class="text-lg text-primary-light fw-semibold mb-2"
+                        id="userName"
+                      >
+                        Admin
                       </h6>
                     </div>
                     <button type="button" class="hover-text-danger">
@@ -229,21 +401,20 @@
                     <li>
                       <a
                         class="dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-primary d-flex align-items-center gap-3"
-                        href="view-profile.html"
+                        href="/admin/users-list.html"
                       >
                         <iconify-icon
                           icon="solar:user-linear"
                           class="icon text-xl"
                         ></iconify-icon>
-                        My Profile</a
+                        My users</a
                       >
                     </li>
-    
-    
+
                     <li>
                       <a
-                        class="dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-danger d-flex align-items-center gap-3"
-                        href="javascript:void(0)"
+                        class="dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-danger d-flex align-items-center gap-3 cursor-pointer"
+                        onclick="handleLogout()"
                       >
                         <iconify-icon
                           icon="lucide:power"
@@ -285,43 +456,63 @@
         </div>
 
         <div class="row gy-4">
-
           <div class="col-xxl-8">
             <div class="row gy-4">
               <!-- Total Users -->
               <div class="col-xxl-6 col-sm-6">
-                <div class="card p-3 shadow-2 radius-8 border input-form-light h-100 bg-gradient-end-1">
+                <div
+                  class="card p-3 shadow-2 radius-8 border input-form-light h-100 bg-gradient-end-1"
+                >
                   <div class="card-body p-0">
-                    <div class="d-flex flex-wrap align-items-center justify-content-between gap-1 mb-8">
+                    <div
+                      class="d-flex flex-wrap align-items-center justify-content-between gap-1 mb-8"
+                    >
                       <div class="d-flex align-items-center gap-2">
-                        <span class="mb-0 w-48-px h-48-px bg-primary-600 flex-shrink-0 text-white d-flex justify-content-center align-items-center rounded-circle h6 mb-0">
+                        <span
+                          class="mb-0 w-48-px h-48-px bg-primary-600 flex-shrink-0 text-white d-flex justify-content-center align-items-center rounded-circle h6 mb-0"
+                        >
                           <iconify-icon
-                          icon="mingcute:user-follow-fill"
-                          class="icon"
-                        ></iconify-icon>
+                            icon="mingcute:user-follow-fill"
+                            class="icon"
+                          ></iconify-icon>
                         </span>
                         <div>
-                          <span class="mb-2 fw-medium text-secondary-light text-sm">Total Users</span>
-                          <h6 class="fw-semibold">5,000</h6>
+                          <span
+                            class="mb-2 fw-medium text-secondary-light text-sm"
+                            >Total Users</span
+                          >
+                          <h6 class="fw-semibold" id="totalUsers">0</h6>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-          
+
               <!-- Total Trips -->
               <div class="col-xxl-6 col-sm-6">
-                <div class="card p-3 shadow-2 radius-8 border input-form-light h-100 bg-gradient-end-2">
+                <div
+                  class="card p-3 shadow-2 radius-8 border input-form-light h-100 bg-gradient-end-2"
+                >
                   <div class="card-body p-0">
-                    <div class="d-flex flex-wrap align-items-center justify-content-between gap-1 mb-8">
+                    <div
+                      class="d-flex flex-wrap align-items-center justify-content-between gap-1 mb-8"
+                    >
                       <div class="d-flex align-items-center gap-2">
-                        <span class="mb-0 w-48-px h-48-px bg-success-main flex-shrink-0 text-white d-flex justify-content-center align-items-center rounded-circle h6">
-                          <iconify-icon icon="mingcute:road-fill" class="icon"></iconify-icon>
+                        <span
+                          class="mb-0 w-48-px h-48-px bg-success-main flex-shrink-0 text-white d-flex justify-content-center align-items-center rounded-circle h6"
+                        >
+                          <iconify-icon
+                            icon="mingcute:road-fill"
+                            class="icon"
+                          ></iconify-icon>
                         </span>
                         <div>
-                          <span class="mb-2 fw-medium text-secondary-light text-sm">Total Trips</span>
-                          <h6 class="fw-semibold">12,000</h6>
+                          <span
+                            class="mb-2 fw-medium text-secondary-light text-sm"
+                            >Total Trips</span
+                          >
+                          <h6 class="fw-semibold" id="totalTrips">0</h6>
                         </div>
                       </div>
                     </div>
@@ -330,14 +521,13 @@
               </div>
             </div>
 
-          
             <!-- sec -->
-             <br>
+            <br />
             <div class="card h-100">
               <div
                 class="card-header border-bottom bg-base py-16 px-24 d-flex align-items-center justify-content-between"
               >
-                <h6 class="text-lg fw-semibold mb-0">Last Transaction</h6>
+                <h6 class="text-lg fw-semibold mb-0">Recent Trips</h6>
                 <a
                   href="javascript:void(0)"
                   class="text-primary-600 hover-text-primary d-flex align-items-center gap-1"
@@ -354,76 +544,18 @@
                   <table class="table bordered-table mb-0">
                     <thead>
                       <tr>
-                        <th scope="col">Transaction ID</th>
-                        <th scope="col">Date</th>
+                        <th scope="col">Place</th>
+                        <th scope="col">Created At</th>
                         <th scope="col">Status</th>
-                        <th scope="col">Amount</th>
+                        <th scope="col">Trip Budget</th>
                       </tr>
                     </thead>
-                    <tbody>
-                      <tr>
-                        <td>5986124445445</td>
-                        <td>27 Mar 2024</td>
-                        <td>
-                          <span
-                            class="bg-warning-focus text-warning-main px-24 py-4 rounded-pill fw-medium text-sm"
-                            >Pending</span
-                          >
-                        </td>
-                        <td>$20,000.00</td>
-                      </tr>
-                      <tr>
-                        <td>5986124445445</td>
-                        <td>27 Mar 2024</td>
-                        <td>
-                          <span
-                            class="bg-danger-focus text-danger-main px-24 py-4 rounded-pill fw-medium text-sm"
-                            >Rejected</span
-                          >
-                        </td>
-                        <td>$20,000.00</td>
-                      </tr>
-                      <tr>
-                        <td>5986124445445</td>
-                        <td>27 Mar 2024</td>
-                        <td>
-                          <span
-                            class="bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm"
-                            >Completed</span
-                          >
-                        </td>
-                        <td>$20,000.00</td>
-                      </tr>
-                      <tr>
-                        <td>5986124445445</td>
-                        <td>27 Mar 2024</td>
-                        <td>
-                          <span
-                            class="bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm"
-                            >Completed</span
-                          >
-                        </td>
-                        <td>$20,000.00</td>
-                      </tr>
-                      <tr>
-                        <td>5986124445445</td>
-                        <td>27 Mar 2024</td>
-                        <td>
-                          <span
-                            class="bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm"
-                            >Completed</span
-                          >
-                        </td>
-                        <td>$20,000.00</td>
-                      </tr>
-                    </tbody>
+                    <tbody id="tripTableBody"></tbody>
                   </table>
                 </div>
               </div>
             </div>
-            
           </div>
-          
 
           <!-- Latest Performance End -->
 
@@ -446,124 +578,12 @@
                   </a>
                 </div>
 
-                <div class="mt-32">
-                  <div
-                    class="d-flex align-items-center justify-content-between gap-3 mb-32"
-                  >
-                    <div class="d-flex align-items-center">
-                      <img
-                        src="assets/images/users/user1.png"
-                        alt=""
-                        class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden"
-                      />
-                      <div class="flex-grow-1">
-                        <h6 class="text-md mb-0">Dianne Russell</h6>
-                      </div>
-                    </div>
-                    <span class="text-primary-light text-md fw-medium"
-                      >5 Trips</span
-                    >
-                  </div>
-
-                  <div
-                    class="d-flex align-items-center justify-content-between gap-3 mb-32"
-                  >
-                    <div class="d-flex align-items-center">
-                      <img
-                        src="assets/images/users/user2.png"
-                        alt=""
-                        class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden"
-                      />
-                      <div class="flex-grow-1">
-                        <h6 class="text-md mb-0">Wade Warren</h6>
-                      </div>
-                    </div>
-                    <span class="text-primary-light text-md fw-medium"
-                      >3 Trips</span
-                    >
-                  </div>
-
-                  <div
-                    class="d-flex align-items-center justify-content-between gap-3 mb-32"
-                  >
-                    <div class="d-flex align-items-center">
-                      <img
-                        src="assets/images/users/user3.png"
-                        alt=""
-                        class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden"
-                      />
-                      <div class="flex-grow-1">
-                        <h6 class="text-md mb-0">Albert Flores</h6>
-                      </div>
-                    </div>
-                    <span class="text-primary-light text-md fw-medium"
-                      >4 Trips</span
-                    >
-                  </div>
-
-                  <div
-                    class="d-flex align-items-center justify-content-between gap-3 mb-32"
-                  >
-                    <div class="d-flex align-items-center">
-                      <img
-                        src="assets/images/users/user4.png"
-                        alt=""
-                        class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden"
-                      />
-                      <div class="flex-grow-1">
-                        <h6 class="text-md mb-0">Bessie Cooper</h6>
-                      </div>
-                    </div>
-                    <span class="text-primary-light text-md fw-medium"
-                      >5 Trips</span
-                    >
-                  </div>
-
-                  <div
-                    class="d-flex align-items-center justify-content-between gap-3 mb-32"
-                  >
-                    <div class="d-flex align-items-center">
-                      <img
-                        src="assets/images/users/user5.png"
-                        alt=""
-                        class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden"
-                      />
-                      <div class="flex-grow-1">
-                        <h6 class="text-md mb-0">Arlene McCoy</h6>
-                      </div>
-                    </div>
-                    <span class="text-primary-light text-md fw-medium"
-                      >3 Trips</span
-                    >
-                  </div>
-
-                  <div
-                    class="d-flex align-items-center justify-content-between gap-3"
-                  >
-                    <div class="d-flex align-items-center">
-                      <img
-                        src="assets/images/users/user6.png"
-                        alt=""
-                        class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden"
-                      />
-                      <div class="flex-grow-1">
-                        <h6 class="text-md mb-0">Jake Peralta</h6>
-                      </div>
-                    </div>
-                    <span class="text-primary-light text-md fw-medium"
-                      >2 Trips</span
-                    >
-                  </div>
-                </div>
+                <div class="mt-32" id="topCustomersContainer"></div>
               </div>
             </div>
           </div>
         </div>
-
-
-
       </div>
-
     </main>
     <!-- jQuery library js -->
     <script src="assets/js/lib/jquery-3.7.1.min.js"></script>
