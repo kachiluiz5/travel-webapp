@@ -38,6 +38,9 @@
   <!-- main css -->
   <link rel="stylesheet" href="assets/css/style.css">
 
+  <link rel="stylesheet" href="./../assets/css/style.css">
+
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
       <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -52,8 +55,10 @@
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.9/plugin/relativeTime.js"></script>
 
 
+    <div class="loader" id="loader"></div>
 
-        <script>
+
+    <script>
       document.addEventListener("DOMContentLoaded", async () => {
         dayjs.extend(dayjs_plugin_relativeTime);
 
@@ -73,6 +78,7 @@
           toast.error("An error occurred while fetching your profile.");
         }
       });
+
 
       const updateNotification = (notifications) => {
         const totalNotification = $("#totalNotification");
@@ -196,30 +202,30 @@
                         <div class="tab-content" id="pills-tabContent">   
                             <div class="tab-pane fade show active" id="pills-edit-profile" role="tabpanel" aria-labelledby="pills-edit-profile-tab" tabindex="0">
 
-                                <form action="#">
+                                <form id="updateProfileForm">
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="mb-20">
                                                 <label for="name" class="form-label fw-semibold text-primary-light text-sm mb-8">Full Name <span class="text-danger-600">*</span></label>
-                                                <input type="text" class="form-control radius-8" id="name" placeholder="Enter Full Name" value="${data.name}">
+                                                <input type="text" class="form-control radius-8" id="fullname" name="fullname"  placeholder="Enter Full Name" value="${data.name}" required>
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="mb-20">
                                                 <label for="email" class="form-label fw-semibold text-primary-light text-sm mb-8">Email <span class="text-danger-600">*</span></label>
-                                                <input type="email" class="form-control radius-8" id="email" placeholder="Enter email address" value="${data.email}">
+                                                <input type="email" class="form-control radius-8" id="email" name="email" placeholder="Enter email address" value="${data.email}" readonly>
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="mb-20">
                                                 <label for="number" class="form-label fw-semibold text-primary-light text-sm mb-8">Phone</label>
-                                                <input type="email" class="form-control radius-8" id="tel" placeholder="Enter phone number" value="${data.phoneNumber}">
+                                                <input type="tel" class="form-control radius-8" id="phoneNumber" name="phoneNumber"  placeholder="Enter phone number" value="${data.phoneNumber}" required>
                                             </div>
                                         </div>
 
 
                                     </div>
-                                        <button type="submit" class="btn btn-primary w-25" style="background:#2596be; border: 1px solid #2596be; border-radius: 20px">Save</button
+                                        <button type="button" class="btn btn-primary w-25" style="background:#2596be; border: 1px solid #2596be; border-radius: 20px" id="updateDetailsButton" onclick="handleUpdateDetails()">Save</button
                                 </form>
                             </div>
 
@@ -258,6 +264,45 @@
         `);
       }
 
+    const handleUpdateDetails = async () =>{
+      const fullName = $("#fullname").val();
+      const phoneNumber = $("#phoneNumber").val();
+      const toast =  new Notyf({
+        duration: 4000,
+      });
+
+
+      if(!fullName || !phoneNumber){
+        toast.error("Please fill all fields");
+        return;
+      }
+
+      try {
+        showLoader();
+        const updateProfileRequest = await apiClient.put("/user", {
+          name: fullName,
+          phoneNumber
+        });
+
+        if(updateProfileRequest.status === 200){
+          toast.success("Profile updated successfully");
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        }else{
+          toast.error("An error occurred while updating your profile");
+        }
+      } catch (error) {
+        console.log(error);
+        toast.error("An error occurred while updating your profile");
+      }finally{
+        hideLoader();
+      }
+
+    }
+   
+
+   
     </script>
 
 
