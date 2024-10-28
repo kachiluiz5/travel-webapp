@@ -158,13 +158,15 @@
         >
         <div class="popup-icon">🎉</div>
         <h2 id="messagePopupTitle">Thank You for Signing Up!</h2>
-        <p>
+        <p id="messageContent">
           We're excited to have you on board! An Experience Curator will be in
           touch with you via phone within 48 business hours to personalize your
           journey.
         </p>
         <br />
-        <button onclick="showLoginForm()" type="submit">Login</button>
+        <div id="buttonContainer">
+          <button onclick="showLoginForm()" type="submit">Login</button>
+        </div>
       </div>
     </div>
 
@@ -208,6 +210,76 @@
     </div>
 
     <script>
+      const checkIfAuthenticated = async () => {
+        const token = localStorage.getItem("accessToken");
+
+        if (!token) {
+          return;
+        }
+        const request = await apiClient.get("/user/me");
+
+        if (request.status === 200) {
+          // user is logged in, submit their trip data
+
+          appendToUserData({ userId: request.data.data.id });
+          const tripData = getUserData();
+
+          const role = request.data.data.role;
+
+          if (!tripData) {
+            if (role === "USER") {
+              location.href = "/user";
+            } else if (role === "ADMIN") {
+              location.href = "/admin";
+            } else {
+              toast.error("Humm, you're not authorized to access this page");
+              setTimeout(() => {
+                location.href = "/signup.html";
+              }, 2000);
+            }
+          } else {
+            const filteredTripData = Object.fromEntries(
+              Object.entries(tripData)
+                .filter(([_, value]) => value !== null)
+                .map(([key, value]) => [
+                  key,
+                  value === "yes" ? true : value === "no" ? false : value,
+                ])
+            );
+
+            const createTripResponse = await apiClient.post(
+              "/trip",
+              filteredTripData
+            );
+
+            if (createTripResponse.status === 201) {
+              const data = createTripResponse.data;
+              const popupMessageHeader = (document.getElementById(
+                "messagePopupTitle"
+              ).textContent = "Trip Created Successfully");
+              const messageContainer =
+                document.getElementById("messageContent");
+              messageContainer.textContent =
+                "Trip created successfully. An Experience Curator will reach out to you by phone within 48 business hours to personalize every aspect of your journey.";
+
+              const buttonContainer = (document.getElementById(
+                "buttonContainer"
+              ).innerHTML = `
+                    <a class="w-100 d-block" href="/user">
+                      <button type="submit">Dashboard</button>  
+                    </a>
+                  `);
+              showMessagePopup();
+
+              setTimeout(() => {
+                location.href = "/user";
+              }, 1500);
+            } else {
+              toast.error("An error occured while creating your trip");
+            }
+          }
+        }
+      };
       let loading = false;
 
       // Popup control functions
@@ -397,6 +469,10 @@
           closeSignInPopup();
         }
       };
+
+      document.addEventListener("DOMContentLoaded", function () {
+        checkIfAuthenticated();
+      });
     </script>
     <script src="assets/js/main.js"></script>
   </body>
