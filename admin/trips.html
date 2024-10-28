@@ -41,12 +41,32 @@
     <!-- main css -->
     <link rel="stylesheet" href="assets/css/style.css" />
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<style>
+    .status-label.bg-success {
+  background-color: #28a745;
+  color: #ffffff;
+}
 
-  </head>
+.status-label.bg-primary {
+  background-color: #007bff;
+  color: #ffffff;
+}
+
+.status-label.bg-danger {
+  background-color: #dc3545;
+  color: #ffffff;
+}
+
+</style>
+
+</head>
   <body>
-
-    
     <aside class="sidebar">
       <button type="button" class="sidebar-close-btn">
         <iconify-icon icon="radix-icons:cross-2"></iconify-icon>
@@ -64,27 +84,27 @@
           class="dark-logo"
         />
 
+
         </a>
       </div>
       <div class="sidebar-menu-area">
         <ul class="sidebar-menu" id="sidebar-menu">
-            <li >
-                <a href="index.html">
-                  <iconify-icon
-                    icon="solar:home-smile-angle-outline"
-                    class="menu-icon"
-                  ></iconify-icon>
-                  <span>Dashboard</span>
-                </a>
-              </li>
-
           <li>
-            <a href="trips.html">
-              <i class="fa-solid fa-suitcase-rolling"></i>
-              <span>My Trips</span>
+            <a href="index.html">
+              <iconify-icon
+                icon="solar:home-smile-angle-outline"
+                class="menu-icon"
+              ></iconify-icon>
+              <span>Dashboard</span>
             </a>
           </li>
 
+          <li>
+            <a href="users-list.html">
+              <i class="fa-solid fa-users"></i>
+              <span>Users</span>
+            </a>
+          </li>
         </ul>
       </div>
     </aside>
@@ -110,7 +130,6 @@
                   class="icon"
                 ></iconify-icon>
               </button>
-    
             </div>
           </div>
           <div class="col-auto">
@@ -120,7 +139,7 @@
                 data-theme-toggle
                 class="w-40-px h-40-px bg-neutral-200 rounded-circle d-flex justify-content-center align-items-center"
               ></button>
-    
+
               <div class="dropdown">
                 <button
                   class="has-indicator w-40-px h-40-px bg-neutral-200 rounded-circle d-flex justify-content-center align-items-center"
@@ -146,7 +165,7 @@
                       >05</span
                     >
                   </div>
-    
+
                   <div class="max-h-400-px overflow-y-auto scroll-sm pe-4">
                     <a
                       href="javascript:void(0)"
@@ -179,10 +198,8 @@
                         >23 Mins ago</span
                       >
                     </a>
-    
-    
                   </div>
-    
+
                   <div class="text-center py-12 px-16">
                     <a
                       href="javascript:void(0)"
@@ -193,7 +210,7 @@
                 </div>
               </div>
               <!-- Notification dropdown end -->
-    
+
               <div class="dropdown">
                 <button
                   class="d-flex justify-content-center align-items-center rounded-circle"
@@ -235,8 +252,7 @@
                         My Profile</a
                       >
                     </li>
-    
-    
+
                     <li>
                       <a
                         class="dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-danger d-flex align-items-center gap-3"
@@ -282,114 +298,140 @@
         </div>
 
         <div class="row gy-4">
-
           <div class="col-xxl-8">
             <div class="row gy-4">
-
-
-          
-            <!-- sec -->
-             <br>
-            <div class="card h-100">
-              <div
-                class="card-header border-bottom bg-base py-16 px-24 d-flex align-items-center justify-content-between"
-              >
-                <h6 class="text-lg fw-semibold mb-0">My Trips</h6>
-                <a
-                  href="javascript:void(0)"
-                  class="text-primary-600 hover-text-primary d-flex align-items-center gap-1"
+              <div class="card h-100">
+                <div
+                  class="card-header border-bottom bg-base py-16 px-24 d-flex align-items-center justify-content-between"
                 >
-                  View All
-                  <iconify-icon
-                    icon="solar:alt-arrow-right-linear"
-                    class="icon"
-                  ></iconify-icon>
-                </a>
-              </div>
-              <div class="card-body p-24">
-                <div class="table-responsive scroll-sm">
-                  <table class="table bordered-table mb-0">
-                    <thead>
-                      <tr>
-                        <th scope="col">Trips</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Amount</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>5986124445445</td>
-                        <td>27 Mar 2024</td>
-                        <td>
-                          <span
-                            class="bg-warning-focus text-warning-main px-24 py-4 rounded-pill fw-medium text-sm"
-                            >Pending</span
-                          >
-                        </td>
-                        <td>$20,000.00</td>
-                      </tr>
-                      <tr>
-                        <td>5986124445445</td>
-                        <td>27 Mar 2024</td>
-                        <td>
-                          <span
-                            class="bg-danger-focus text-danger-main px-24 py-4 rounded-pill fw-medium text-sm"
-                            >Rejected</span
-                          >
-                        </td>
-                        <td>$20,000.00</td>
-                      </tr>
-                      <tr>
-                        <td>5986124445445</td>
-                        <td>27 Mar 2024</td>
-                        <td>
-                          <span
-                            class="bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm"
-                            >Completed</span
-                          >
-                        </td>
-                        <td>$20,000.00</td>
-                      </tr>
-                      <tr>
-                        <td>5986124445445</td>
-                        <td>27 Mar 2024</td>
-                        <td>
-                          <span
-                            class="bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm"
-                            >Completed</span
-                          >
-                        </td>
-                        <td>$20,000.00</td>
-                      </tr>
-                      <tr>
-                        <td>5986124445445</td>
-                        <td>27 Mar 2024</td>
-                        <td>
-                          <span
-                            class="bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm"
-                            >Completed</span
-                          >
-                        </td>
-                        <td>$20,000.00</td>
-                      </tr>
-                    </tbody>
-                  </table>
+                  <h6 class="text-lg fw-semibold mb-0">Trips</h6>
+                  <a
+                    href="javascript:void(0)"
+                    class="text-primary-600 hover-text-primary d-flex align-items-center gap-1"
+                  >
+                    View All
+                    <iconify-icon
+                      icon="solar:alt-arrow-right-linear"
+                      class="icon"
+                    ></iconify-icon>
+                  </a>
+                </div>
+                <div class="card-body p-24">
+                  <div class="table-responsive scroll-sm">
+                    <table class="table bordered-table mb-0">
+                        <thead>
+                          <tr>
+                            <th scope="col">Trips</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>David Jame</td>
+                            <td>27 Mar 2024</td>
+                            <td id="trip-status-1" class="status-label bg-warning text-dark">Pending</td>
+                            <td>$20,000.00</td>
+                            <td>
+                              <button class="btn btn-primary manage-trip" onclick="showManageModal(1)">Manage</button>
+                            </td>
+                          </tr>
+                          <!-- Repeat for other trips as needed, with unique IDs for each row -->
+                        </tbody>
+                      </table>
+                  </div>
                 </div>
               </div>
             </div>
-            
           </div>
-          
-
-          <!-- Latest Performance End -->
-
-
         </div>
 
-
-
+        <!-- Modal Structure -->
+        <div id="tripModal" class="modal">
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <button id="approveTrip" class="btn btn-success">
+              Approve Trip
+            </button>
+            <button id="completeTrip" class="btn btn-info">
+              Mark as Completed
+            </button>
+            <button id="declineTrip" class="btn btn-danger">
+              Decline Trip
+            </button>
+          </div>
+        </div>
       </div>
+
+<script>
+    function showManageModal(tripId) {
+  Swal.fire({
+    title: 'Manage Trip',
+    text: 'Select an action for this trip:',
+    icon: 'question',
+    showCancelButton: true,
+    showDenyButton: true,
+    confirmButtonText: 'Approve',
+    denyButtonText: 'Complete',
+    cancelButtonText: 'Decline',
+    confirmButtonColor: '#3085d6',
+    denyButtonColor: '#1d72b8',
+    cancelButtonColor: '#d33',
+    background: document.body.classList.contains('dark-mode') ? '#333' : '#fff',
+    color: document.body.classList.contains('dark-mode') ? '#fff' : '#333'
+  }).then((result) => {
+    let statusText = '';
+    let statusClass = '';
+
+    if (result.isConfirmed) {
+      statusText = 'Approved';
+      statusClass = 'bg-success text-light';
+      Swal.fire({
+        title: 'Trip Approved',
+        text: 'This trip has been approved.',
+        icon: 'success',
+        confirmButtonColor: '#3085d6',
+        background: document.body.classList.contains('dark-mode') ? '#333' : '#fff',
+        color: document.body.classList.contains('dark-mode') ? '#fff' : '#333'
+      });
+    } else if (result.isDenied) {
+      statusText = 'Completed';
+      statusClass = 'bg-primary text-light';
+      Swal.fire({
+        title: 'Trip Completed',
+        text: 'This trip has been marked as completed.',
+        icon: 'info',
+        confirmButtonColor: '#1d72b8',
+        background: document.body.classList.contains('dark-mode') ? '#333' : '#fff',
+        color: document.body.classList.contains('dark-mode') ? '#fff' : '#333'
+      });
+    } else if (result.dismiss === Swal.DismissReason.cancel) {
+      statusText = 'Declined';
+      statusClass = 'bg-danger text-light';
+      Swal.fire({
+        title: 'Trip Declined',
+        text: 'This trip has been declined.',
+        icon: 'error',
+        confirmButtonColor: '#d33',
+        background: document.body.classList.contains('dark-mode') ? '#333' : '#fff',
+        color: document.body.classList.contains('dark-mode') ? '#fff' : '#333'
+      });
+    }
+
+    // Update the status cell in the table
+    const statusCell = document.getElementById(`trip-status-${tripId}`);
+    if (statusCell) {
+      statusCell.textContent = statusText;
+      statusCell.className = `status-label ${statusClass}`;
+    }
+  });
+}
+
+</script>
+
+
 
     </main>
     <!-- jQuery library js -->
