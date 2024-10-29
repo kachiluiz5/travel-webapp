@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Interest Selection</title>
     <link rel="stylesheet" href="assets/css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css"
+    />
+
     <!-- <style>
       * {
         margin: 0;
@@ -208,11 +213,13 @@
     </style> -->
   </head>
   <body>
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+    <script src="./utils/db.js"></script>
     <div class="main add-intrest-main">
       <div class="add-interest-container">
         <!-- progressbar -->
         <div class="progress-bar">
-          <div class="progress" style="width: 0%;"></div>
+          <div class="progress" style="width: 0%"></div>
         </div>
 
         <h1>Tell us what you're interested in</h1>
@@ -274,7 +281,14 @@
         const div = document.createElement("div");
         div.className = "interest";
         div.textContent = interest;
-        div.onclick = () => div.classList.toggle("selected");
+        div.onclick = () => {
+          div.classList.toggle("selected");
+          appendToUserData({
+            interests: Array.from(
+              document.querySelectorAll(".interest.selected")
+            ).map((el) => el.textContent),
+          });
+        };
         return div;
       }
 
@@ -315,10 +329,7 @@
         console.log("Selected interests:", selectedInterests);
         // Here you would typically send this data to your backend or move to the next step
       };
-
-
     </script>
-
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {

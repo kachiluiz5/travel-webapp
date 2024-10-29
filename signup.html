@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sign Up</title>
     <link rel="stylesheet" href="assets/css/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+    <script src="./api/axios.js"></script>
+
     <style>
       /* Enhanced styles for the popups */
       .popup {
@@ -68,32 +76,62 @@
     </style>
   </head>
   <body>
+    <script src="./utils/db.js"></script>
     <div class="main">
+      <div class="loader" id="loader"></div>
       <div class="signup-container">
-        <h1 style="text-align: left; margin-bottom: 10px;">Welcome back.</h1>
+        <h1 style="text-align: left; margin-bottom: 10px">Create An Account</h1>
+
         <form id="signupForm">
           <div class="form-group">
-            <label for="fname">First Name</label>
-            <input type="text" id="fname" placeholder="First Name" required />
+            <label for="fname">Full Name</label>
+            <input
+              type="text"
+              id="fullName"
+              name="fullName"
+              placeholder="Full name"
+              required
+            />
           </div>
+
           <div class="form-group">
-            <label for="lname">Last Name</label>
-            <input type="text" id="lname" placeholder="Last Name" required />
+            <label for="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Password"
+              required
+            />
           </div>
+
           <div class="form-group">
             <label for="email">Email address</label>
-            <input type="email" id="email" placeholder="Email" required />
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Email"
+              required
+            />
           </div>
           <div class="form-group">
             <label for="phone">Phone Number</label>
-            <input type="tel" id="phone" placeholder="Phone" required />
+            <input
+              type="number"
+              id="phoneNumber"
+              name="phoneNumber"
+              placeholder="Phone number"
+              required
+            />
           </div>
 
           <button type="submit">Sign up</button>
         </form>
         <div class="terms">
           <p>
-            Already have an account? <a href="javascript:void(0)" onclick="showSignInPopup()">Login</a>
+            Already have an account?
+            <a href="javascript:void(0)" onclick="showSignInPopup()">Login</a>
           </p>
           <p>
             By proceeding, you agree to our <a href="#">Terms of Use</a> and
@@ -105,26 +143,68 @@
     </div>
 
     <!-- Thank You Message Popup -->
-    <div id="messagePopup" class="popup" role="dialog" aria-labelledby="messagePopupTitle">
+    <div
+      id="messagePopup"
+      class="popup"
+      role="dialog"
+      aria-labelledby="messagePopupTitle"
+    >
       <div class="popup-content">
-        <span class="close-popup" onclick="closeMessagePopup()" aria-label="Close">&times;</span>
+        <span
+          class="close-popup"
+          onclick="closeMessagePopup()"
+          aria-label="Close"
+          >&times;</span
+        >
         <div class="popup-icon">🎉</div>
         <h2 id="messagePopupTitle">Thank You for Signing Up!</h2>
-        <p>We're excited to have you on board! An Experienced Curator will be in touch with you via phone within 48 business hours to personalize your journey.</p>
+
+        <p id="messageContent">
+          We're excited to have you on board! An Experience Curator will be in
+          touch with you via phone within 48 business hours to personalize your
+          journey.
+        </p>
+        <br />
+        <div id="buttonContainer">
+          <button onclick="showLoginForm()" type="submit">Login</button>
+        </div>
+
       </div>
     </div>
 
     <!-- Sign-In Popup -->
-    <div id="signInPopup" class="popup" role="dialog" aria-labelledby="signInPopupTitle">
+    <div
+      id="signInPopup"
+      class="popup"
+      role="dialog"
+      aria-labelledby="signInPopupTitle"
+    >
       <div class="popup-content">
-        <span class="close-popup" onclick="closeSignInPopup()" aria-label="Close">&times;</span>
-        <h2 id="signInPopupTitle">Sign In</h2>
+        <span
+          class="close-popup"
+          onclick="closeSignInPopup()"
+          aria-label="Close"
+          >&times;</span
+        >
+        <h2 id="signInPopupTitle" style="padding-bottom: 4px">Login</h2>
         <form id="signInForm">
           <div class="form-group">
-            <input type="email" id="signInEmail" placeholder="Email" required />
+            <input
+              type="email"
+              id="signInEmail"
+              name="signInEmail"
+              placeholder="Email"
+              required
+            />
           </div>
           <div class="form-group">
-            <input type="password" id="signInPassword" placeholder="Password" required />
+            <input
+              type="password"
+              id="signInPassword"
+              name="signInPassword"
+              placeholder="Password"
+              required
+            />
           </div>
           <button type="submit">Sign In</button>
         </form>
@@ -132,62 +212,269 @@
     </div>
 
     <script>
+      const checkIfAuthenticated = async () => {
+        const token = localStorage.getItem("accessToken");
+
+        if (!token) {
+          return;
+        }
+        const request = await apiClient.get("/user/me");
+
+        if (request.status === 200) {
+          // user is logged in, submit their trip data
+
+          appendToUserData({ userId: request.data.data.id });
+          const tripData = getUserData();
+
+          const role = request.data.data.role;
+
+          if (!tripData) {
+            if (role === "USER") {
+              location.href = "/user";
+            } else if (role === "ADMIN") {
+              location.href = "/admin";
+            } else {
+              toast.error("Humm, you're not authorized to access this page");
+              setTimeout(() => {
+                location.href = "/signup.html";
+              }, 2000);
+            }
+          } else {
+            const filteredTripData = Object.fromEntries(
+              Object.entries(tripData)
+                .filter(([_, value]) => value !== null)
+                .map(([key, value]) => [
+                  key,
+                  value === "yes" ? true : value === "no" ? false : value,
+                ])
+            );
+
+            const createTripResponse = await apiClient.post(
+              "/trip",
+              filteredTripData
+            );
+
+            if (createTripResponse.status === 201) {
+              const data = createTripResponse.data;
+              const popupMessageHeader = (document.getElementById(
+                "messagePopupTitle"
+              ).textContent = "Trip Created Successfully");
+              const messageContainer =
+                document.getElementById("messageContent");
+              messageContainer.textContent =
+                "Trip created successfully. An Experience Curator will reach out to you by phone within 48 business hours to personalize every aspect of your journey.";
+
+              const buttonContainer = (document.getElementById(
+                "buttonContainer"
+              ).innerHTML = `
+                    <a class="w-100 d-block" href="/user">
+                      <button type="submit">Dashboard</button>  
+                    </a>
+                  `);
+              showMessagePopup();
+
+              setTimeout(() => {
+                location.href = "/user";
+              }, 1500);
+            } else {
+              toast.error("An error occured while creating your trip");
+            }
+          }
+        }
+      };
+      let loading = false;
+
       // Popup control functions
 
       // Message popup
+      function showLoader() {
+        const loader = document.getElementById("loader");
+        loader.style.display = "flex";
+      }
+
+      function hideLoader() {
+        const loader = document.getElementById("loader");
+        loader.style.display = "none";
+      }
+
       function showMessagePopup() {
-        const popup = document.getElementById('messagePopup');
-        popup.style.display = 'block';
+        const popup = document.getElementById("messagePopup");
+        popup.style.display = "block";
         setTimeout(() => {
-          popup.classList.add('show');
+          popup.classList.add("show");
         }, 10);
       }
 
+      const showLoginForm = () => {
+        closeMessagePopup();
+        showSignInPopup();
+      };
+
       function closeMessagePopup() {
-        const popup = document.getElementById('messagePopup');
-        popup.classList.remove('show');
+        const popup = document.getElementById("messagePopup");
+        popup.classList.remove("show");
         setTimeout(() => {
-          popup.style.display = 'none';
+          popup.style.display = "none";
         }, 300);
       }
 
       // Sign-in popup
       function showSignInPopup() {
-        const popup = document.getElementById('signInPopup');
-        popup.style.display = 'block';
+        const popup = document.getElementById("signInPopup");
+        popup.style.display = "block";
         setTimeout(() => {
-          popup.classList.add('show');
+          popup.classList.add("show");
         }, 10);
       }
 
       function closeSignInPopup() {
-        const popup = document.getElementById('signInPopup');
-        popup.classList.remove('show');
+        const popup = document.getElementById("signInPopup");
+        popup.classList.remove("show");
         setTimeout(() => {
-          popup.style.display = 'none';
+          popup.style.display = "none";
         }, 300);
       }
 
       // Trigger message popup on sign-up form submission
-      document.getElementById("signupForm").addEventListener("submit", function (e) {
-        e.preventDefault();
-        showMessagePopup();
-      });
+      document
+        .getElementById("signupForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const fullName = document.getElementById("fullName").value;
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+          const phoneNumber = document.getElementById("phoneNumber").value;
 
+          const toast = new Notyf();
+
+          if (!fullName || !email || !password || !phoneNumber) {
+            toast.error("You must fill out the form before moving forward");
+            return;
+          }
+
+          const dataToSubmit = {
+            email,
+            password,
+            name: fullName,
+            phoneNumber,
+          };
+
+          try {
+            showLoader();
+            const response = await apiClient.post("auth/signup", dataToSubmit);
+
+            if (response.status === 201) {
+              const data = response.data;
+              const message = data.message;
+              const { id, name } = data.data;
+
+              appendToUserData({ userId: id });
+
+              const tripData = getUserData();
+
+              if (!tripData) {
+                toast.error("You must crete a trip before signing up");
+                return;
+              }
+
+              if (tripData.startDate && tripData.endDate) {
+                const legitStartDate = new Date(tripData.startDate);
+                const legitEndDate = new Date(tripData.endDate);
+
+                appendToUserData({
+                  startDate: legitStartDate,
+                  endDate: legitEndDate,
+                });
+              }
+
+              const filteredTripData = Object.fromEntries(
+                Object.entries(tripData)
+                  .filter(([_, value]) => value !== null)
+                  .map(([key, value]) => [
+                    key,
+                    value === "yes" ? true : value === "no" ? false : value,
+                  ])
+              );
+
+              const createTripResponse = await apiClient.post(
+                "/trip",
+                filteredTripData
+              );
+
+              if (createTripResponse.status === 201) {
+                const data = createTripResponse.data;
+                showMessagePopup();
+              } else {
+                toast.error("An error occured while creating your trip");
+              }
+            }
+          } catch (error) {
+            toast.error("An error occured while signing up");
+          } finally {
+            hideLoader();
+          }
+
+          //showMessagePopup();
+        });
+
+      document
+        .getElementById("signInForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const email = document.getElementById("signInEmail").value;
+          const password = document.getElementById("signInPassword").value;
+
+          const toast = new Notyf();
+          const dataToSubmit = {
+            email,
+            password,
+          };
+
+          try {
+            showLoader();
+            const loginRequest = await apiClient.post(
+              "/auth/login",
+              dataToSubmit
+            );
+
+            if (loginRequest.status !== 200) {
+              toast.error("An error occured while signing in");
+            } else {
+              const response = loginRequest.data;
+              const data = response.data;
+              toast.success(response.message ?? "Login successful");
+              localStorage.setItem("accessToken", data.accessToken);
+              const role = data.user.role;
+
+              if (role === "ADMIN") {
+                location.href = "/admin/";
+              } else {
+                location.href = "/user/";
+              }
+            }
+          } catch (error) {
+            toast.error(error.response.data.message ?? "An error occured");
+          } finally {
+            hideLoader();
+          }
+        });
       // Trigger sign-in form behavior
 
-
       // Close popup when clicking outside of it
-      window.onclick = function(event) {
-        var messagePopup = document.getElementById('messagePopup');
-        var signInPopup = document.getElementById('signInPopup');
+      window.onclick = function (event) {
+        var messagePopup = document.getElementById("messagePopup");
+        var signInPopup = document.getElementById("signInPopup");
         if (event.target == messagePopup) {
           closeMessagePopup();
         }
         if (event.target == signInPopup) {
           closeSignInPopup();
         }
-      }
+      };
+
+      document.addEventListener("DOMContentLoaded", function () {
+        checkIfAuthenticated();
+      });
     </script>
     <script src="assets/js/main.js"></script>
   </body>

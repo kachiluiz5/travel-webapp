@@ -5,8 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Accommodation Planner</title>
     <link rel="stylesheet" href="assets/css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css"
+    />
   </head>
   <body>
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+    <script src="./utils/db.js"></script>
     <div class="main location-rating">
       <div class="family-container">
         <!-- Step 4 Page -->
@@ -83,6 +89,7 @@
       const followUpQuestion = document.querySelector(".follow-up-question");
       const followUpText = document.getElementById("follow-up-text");
       const followUpOptions = document.querySelectorAll(".follow-up-option");
+      let selectedAccomodationType = null;
 
       function selectOption(options, selectedOption) {
         options.forEach((option) => {
@@ -98,15 +105,39 @@
           followUpQuestion.style.display = "block";
 
           if (accommodationType === "all-inclusive") {
+            appendToUserData({
+              accomodationType: "ALL_INCLUSIVE",
+            });
+            selectedAccomodationType = "ALL_INCLUSIVE";
             followUpText.textContent = "How many stars?";
           } else if (accommodationType === "airbnb") {
+            appendToUserData({
+              accomodationType: "AIRBNB",
+            });
             followUpText.textContent = "How many bedrooms?";
+            selectedAccomodationType = "AIRBNB";
           }
         });
       });
 
       followUpOptions.forEach((option) => {
         option.addEventListener("click", () => {
+          console.log(option.getAttribute("data-value"));
+          const selectedRatingOrBedrooms = parseInt(
+            option.getAttribute("data-value")
+          );
+
+          if (selectedAccomodationType === "ALL_INCLUSIVE") {
+            appendToUserData({
+              accomodationRating: selectedRatingOrBedrooms,
+              totalBedrooms: null,
+            });
+          } else if (selectedAccomodationType === "AIRBNB") {
+            appendToUserData({
+              accomodationRating: null,
+              totalBedrooms: selectedRatingOrBedrooms,
+            });
+          }
           selectOption(followUpOptions, option);
         });
       });

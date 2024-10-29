@@ -17,6 +17,40 @@
   --gold: #ad7a31;
 }
 
+/* Loader overlay */
+.loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1001;
+}
+
+.loader::before {
+  content: "";
+  width: 25px;
+  height: 25px;
+  border: 3px solid #ccc;
+  border-top: 3px solid var(--accent-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Animation for the spinner */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 body {
   width: 100vw;
   overflow-x: hidden;
@@ -325,7 +359,6 @@ h1 {
     transform: translate(200vw, -100px) rotate(30deg);
   }
 }
-
 
 /* navigation button */
 .nav-buttons {
