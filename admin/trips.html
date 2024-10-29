@@ -127,7 +127,6 @@
 
         const getAllUsers = await apiClient.get("/user");
 
-        console.log(getAllUsers);
 
         if (getAllUsers.status === 200) {
           const { data } = getAllUsers.data;
@@ -232,37 +231,49 @@
         );
       };
 
-      const updateTripTable = (trips) => {
-        const tripTable = $("#tripTableBody");
-        trips.map((trip) => {
-          tripTable.append(`
-            <tr>
-              <td>${trip.place}</td>
-              <td>${dayjs(trip.createdAt).format("DD MMM YYYY")}</td>
-              <td>
-                ${
-                  trip.status === "PENDING"
-                    ? `<span
-                    class="bg-warning-focus text-warning-main px-24 py-4 rounded-pill fw-medium text-sm"
-                    >${trip.status}</span
-                  >`
-                    : trip.status === "REJECTED"
-                    ? `<span
-                    class="bg-danger-focus text-danger-main px-24 py-4 rounded-pill fw-medium text-sm"
-                    >${trip.status}</span
-                  >`
-                    : `<span
-                    class="bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm"
-                    >${trip.status}</span
-                  >`
-                }
+       const updateTripTable = (trips) => {
+  const tripTable = $("#tripTableBody");
+  
+  trips.forEach((trip) => {
+    let statusClass = "";
+    let statusText = trip.status;
 
-              </td>
-              <td>$${trip.maxBudget}</td>
-            </tr>
-          `);
-        });
-      };
+    switch (trip.status) {
+      case "PENDING":
+        statusClass = "bg-warning-focus text-warning-main";
+        break;
+      case "ACCEPTED":
+        statusClass = "bg-info-focus text-info-main"; 
+        break;
+      case "REJECTED":
+        statusClass = "bg-danger-focus text-danger-main";
+        break;
+      case "COMPLETED":
+        statusClass = "bg-success-focus text-success-main";
+        break;
+      default:
+        statusClass = "bg-secondary text-muted"; 
+        statusText = "Unknown";
+    }
+
+    tripTable.append(`
+      <tr onclick="showTripInfoPopup('${trip.id}')">
+        <td>${trip.place}</td>
+        <td>${trip.place}</td>
+        <td>${dayjs(trip.createdAt).format("DD MMM YYYY")}</td>
+    
+        <td>$${trip.maxBudget}</td>
+        <td>${trip.lengthOfStay} days</td>
+            <td>
+          <span class="${statusClass} px-24 py-4 rounded-pill fw-medium text-sm">${statusText}</span>
+        </td>
+      </tr>
+    `);
+  });
+};
+
+
+
 
       const handleLogout = async () => {
         await apiClient.post("/auth/logout");
@@ -346,6 +357,7 @@
       </ul>
     </div>
   </aside>
+
 
   <main class="dashboard-main">
     <div class="navbar-header">
@@ -482,26 +494,17 @@
                   <table class="table bordered-table mb-0">
                     <thead>
                       <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Date</th>
+                        <th scope="col">Place</th>
+                        <th scope="col">Date Created</th>
+                        <th scope="col">Max Budget</th>
+                        <th scope="col">Length Of Stay</th>
                         <th scope="col">Status</th>
-                        <th scope="col">Amount</th>
-                        <th scope="col">Actions</th>
+
+
                       </tr>
                     </thead>
-                    <tbody>
-                      <tr onclick="showTripInfoPopup(1)">
-                        <td>David Jame</td>
-                        <td>27 Mar 2024</td>
-                        <td id="trip-status-1" class="status-label bg-warning text-dark">Pending</td>
-                        <td>$20,000.00</td>
-                        <td>
-                          <button class="btn btn-primary manage-trip"
-                            onclick="showManageModal(event, 1)">Manage</button>
-                        </td>
-                      </tr>
-                      <!-- Repeat for other trips as needed, with unique IDs for each row -->
-                    </tbody>
+                    <tbody id="tripTableBody">
+                  
                   </table>
                 </div>
               </div>
@@ -616,19 +619,18 @@
 
     <script>
       function showTripInfoPopup(tripData) {
-        // Populate modal fields
-        document.getElementById('tripStartDate').textContent = tripData.startDate;
-        document.getElementById('tripEndDate').textContent = tripData.endDate;
-        document.getElementById('tripLocation').textContent = tripData.location;
-        document.getElementById('tripType').textContent = tripData.type;
-        document.getElementById('numTravelers').textContent = tripData.numTravelers;
-        document.getElementById('withChildren').textContent = tripData.withChildren ? 'Yes' : 'No';
-        document.getElementById('withPets').textContent = tripData.withPets ? 'Yes' : 'No';
-        document.getElementById('accommodationType').textContent = tripData.accommodation;
-        document.getElementById('starRating').textContent = tripData.starRating;
-        document.getElementById('numBedrooms').textContent = tripData.bedrooms;
-        document.getElementById('budgetPerAdult').textContent = tripData.budget;
-        document.getElementById('tripInterests').textContent = tripData.interests;
+        // document.getElementById('tripStartDate').textContent = tripData.startDate;
+        // document.getElementById('tripEndDate').textContent = tripData.endDate;
+        // document.getElementById('tripLocation').textContent = tripData.location;
+        // document.getElementById('tripType').textContent = tripData.type;
+        // document.getElementById('numTravelers').textContent = tripData.numTravelers;
+        // document.getElementById('withChildren').textContent = tripData.withChildren ? 'Yes' : 'No';
+        // document.getElementById('withPets').textContent = tripData.withPets ? 'Yes' : 'No';
+        // document.getElementById('accommodationType').textContent = tripData.accommodation;
+        // document.getElementById('starRating').textContent = tripData.starRating;
+        // document.getElementById('numBedrooms').textContent = tripData.bedrooms;
+        // document.getElementById('budgetPerAdult').textContent = tripData.budget;
+        // document.getElementById('tripInterests').textContent = tripData.interests;
 
         // Show the modal
         const tripModal = new bootstrap.Modal(document.getElementById('tripInfoModal'));
