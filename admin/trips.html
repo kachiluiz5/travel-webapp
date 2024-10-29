@@ -522,7 +522,9 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <p><strong>Full Name:</strong> <span id="tripStartDate"></span></p>
+              <p><strong>Full Name:</strong> <span id="tripUser"></span></p>
+              <p><strong>Email:</strong> <span id="tripUserEmail"></span></p>
+              <p><strong>Phone number:</strong> <span id="tripUserPhone"></span></p>
               <p><strong>Start Date:</strong> <span id="tripStartDate"></span></p>
               <p><strong>End Date:</strong> <span id="tripEndDate"></span></p>
               <p><strong>Location:</strong> <span id="tripLocation"></span></p>
@@ -536,8 +538,11 @@
               <p><strong>Approximate Budget (Per Adult):</strong> <span id="budgetPerAdult"></span></p>
               <p><strong>Interests:</strong> <span id="tripInterests"></span></p>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+            <div class="modal-footer flex align-content-start justify-content-start">
+              <button type="button" class="btn btn-success">Approve Trip</button>
+              <button type="button" class="btn btn-primary">Mark As Processed</button>
+              <button type="button" class="btn btn-danger">Decline Trip</button>
             </div>
           </div>
         </div>
@@ -613,23 +618,43 @@
 
 
     <script>
-      function showTripInfoPopup(tripData) {
-        // document.getElementById('tripStartDate').textContent = tripData.startDate;
-        // document.getElementById('tripEndDate').textContent = tripData.endDate;
-        // document.getElementById('tripLocation').textContent = tripData.location;
-        // document.getElementById('tripType').textContent = tripData.type;
-        // document.getElementById('numTravelers').textContent = tripData.numTravelers;
-        // document.getElementById('withChildren').textContent = tripData.withChildren ? 'Yes' : 'No';
-        // document.getElementById('withPets').textContent = tripData.withPets ? 'Yes' : 'No';
-        // document.getElementById('accommodationType').textContent = tripData.accommodation;
-        // document.getElementById('starRating').textContent = tripData.starRating;
-        // document.getElementById('numBedrooms').textContent = tripData.bedrooms;
-        // document.getElementById('budgetPerAdult').textContent = tripData.budget;
-        // document.getElementById('tripInterests').textContent = tripData.interests;
+      async function showTripInfoPopup(tripId) {
+          const tripInfoRequest = await apiClient.get(`/trip/${tripId}`);
+          const userInfoRequest = await apiClient.get(`/user/${tripInfoRequest.data.data.userId}`);
+
+          if(userInfoRequest.status === 200) {
+            document.getElementById('tripUser').textContent = userInfoRequest.data.data.name;
+            document.getElementById('tripUserPhone').textContent = userInfoRequest.data.data.phoneNumber;
+            document.getElementById('tripUserEmail').textContent = userInfoRequest.data.data.email;
+           
+          } else {
+            toast.error("An error occurred while fetching the user information.");
+          }
+
+          if (tripInfoRequest.status === 200) {
+            const { data:tripData } = tripInfoRequest.data;
+        
+            document.getElementById('tripStartDate').textContent = tripData?.startDate ? dayjs(tripData?.startDate).format("MMMM D, YYYY") : "Not specified" ;
+            document.getElementById('tripEndDate').textContent = tripData?.endDate ? dayjs(tripData?.endDate).format("MMMM D, YYYY") : "Not specified";
+            document.getElementById('tripLocation').textContent = tripData.place;
+            document.getElementById('tripType').textContent = tripData.type;
+            document.getElementById('numTravelers').textContent = tripData.totalPeopleTravellingWith ? tripData.totalPeopleTravellingWith : "Unknown";
+            document.getElementById('withChildren').textContent = tripData.travellingWithChildren ? 'Yes' : 'No';
+            document.getElementById('withPets').textContent = tripData.travellingWithPets ? 'Yes' : 'No';
+            document.getElementById('accommodationType').textContent = tripData.accomodationType;
+            document.getElementById('starRating').textContent = tripData.accomodationRating + " stars";
+            document.getElementById('numBedrooms').textContent = tripData.totalBedrooms ? tripData.totalBedrooms : "Not Specified";
+            document.getElementById('budgetPerAdult').textContent = "$" + tripData.maxBudget ;
+            document.getElementById('tripInterests').textContent = tripData.intrests?.map(interest => interest).join(', ');
 
         // Show the modal
         const tripModal = new bootstrap.Modal(document.getElementById('tripInfoModal'));
         tripModal.show();
+           // showTripInfoModal(data);
+          } else {
+            toast.error("An error occurred while fetching the trip information.");
+          }
+
       }
 
       // Example usage
