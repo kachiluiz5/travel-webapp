@@ -258,8 +258,8 @@
 
     tripTable.append(`
       <tr onclick="showTripInfoPopup('${trip.id}')">
-        <td>${trip.place}</td>
-        <td>${trip.place}</td>
+        <td class="text-decoration-underline cursor-pointer">${trip.place}</td>
+        <td class="text-decoration-underline cursor-pointer">${trip.place}</td>
         <td>${dayjs(trip.createdAt).format("DD MMM YYYY")}</td>
     
         <td>$${trip.maxBudget}</td>
@@ -483,11 +483,6 @@
               <div
                 class="card-header border-bottom bg-base py-16 px-24 d-flex align-items-center justify-content-between">
                 <h6 class="text-lg fw-semibold mb-0">Trips</h6>
-                <a href="javascript:void(0)"
-                  class="text-primary-600 hover-text-primary d-flex align-items-center gap-1">
-                  View All
-                  <iconify-icon icon="solar:alt-arrow-right-linear" class="icon"></iconify-icon>
-                </a>
               </div>
               <div class="card-body p-24">
                 <div class="table-responsive scroll-sm">
