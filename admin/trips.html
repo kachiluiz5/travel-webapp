@@ -678,7 +678,7 @@ const updateNotification = (notifications) => {
             document.getElementById('withChildren').textContent = tripData.travellingWithChildren ? 'Yes' : 'No';
             document.getElementById('withPets').textContent = tripData.travellingWithPets ? 'Yes' : 'No';
             document.getElementById('accommodationType').textContent = tripData.accomodationType;
-            document.getElementById('starRating').textContent = tripData.accomodationRating + " stars";
+            document.getElementById('starRating').textContent = tripData?.accomodationRating ? tripData.accomodationRating + " stars" : "Not Specified";
             document.getElementById('numBedrooms').textContent = tripData.totalBedrooms ? tripData.totalBedrooms : "Not Specified";
             document.getElementById('budgetPerAdult').textContent = "$" + tripData.maxBudget ;
             document.getElementById('tripInterests').textContent = tripData.intrests?.map(interest => interest).join(', ');
@@ -696,7 +696,7 @@ const updateNotification = (notifications) => {
             });
 
             declineTrip.addEventListener('click', () => {
-              approveDeclineCompleteTrip('REJECTED', tripId, tripModal);
+              approveDeclineCompleteTrip('DECLINED', tripId, tripModal);
             });
 
         tripModal.show();

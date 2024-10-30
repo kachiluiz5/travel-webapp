@@ -75,7 +75,6 @@
           updateUsername(data.name);
           updateUserImage(data.name);
           updateTotalTrips(data.totalTrips);
-          updateTripTable(data.trips);
         } else {
           toast.error("An error occurred while fetching your profile.");
         }
@@ -101,22 +100,10 @@
           toast.error("An error occurred while fetching the top users.");
         }
 
-        const getRecentTrips = await apiClient.get("/trip/recent?take=10");
-
-        if (getRecentTrips.status === 200) {
-          const { data } = getRecentTrips.data;
-          updateTripTable(data);
-        } else {
-          toast.error("An error occurred while fetching the recent trips.");
-        }
-
         const getAllUsers = await apiClient.get("/user");
-
-        console.log(getAllUsers);
 
         if (getAllUsers.status === 200) {
           const { data } = getAllUsers.data;
-          console.log(data);
           updateUsersTable(data);
         } else {
           toast.error("An error occurred while fetching the users.");
@@ -129,6 +116,7 @@
         users.map((user) => {
           userTable.append(`
             <tr>
+              <td>${dayjs(user.createdAt).format("DD MMM YYYY")}</td>
               <td>${dayjs(user.createdAt).format("DD MMM YYYY")}</td>
               <td>${user.name}</td>
               <td>${user.email}</td>
@@ -251,38 +239,6 @@
         );
       };
 
-      const updateTripTable = (trips) => {
-        const tripTable = $("#tripTableBody");
-        trips.map((trip) => {
-          tripTable.append(`
-            <tr>
-              <td>${trip.place}</td>
-              <td>${dayjs(trip.createdAt).format("DD MMM YYYY")}</td>
-              <td>
-                ${
-                  trip.status === "PENDING"
-                    ? `<span
-                    class="bg-warning-focus text-warning-main px-24 py-4 rounded-pill fw-medium text-sm"
-                    >${trip.status}</span
-                  >`
-                    : trip.status === "REJECTED"
-                    ? `<span
-                    class="bg-danger-focus text-danger-main px-24 py-4 rounded-pill fw-medium text-sm"
-                    >${trip.status}</span
-                  >`
-                    : `<span
-                    class="bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm"
-                    >${trip.status}</span
-                  >`
-                }
-
-              </td>
-              <td>$${trip.maxBudget}</td>
-            </tr>
-          `);
-        });
-      };
-
       const handleLogout = async () => {
         await apiClient.post("/auth/logout");
         localStorage.removeItem("accessToken");
@@ -302,7 +258,6 @@
 
       const updateTopCustomersList = (topUsers) => {
         const topUsersContainer = $("#topCustomersContainer");
-        console.log(topUsers);
 
         topUsers.map((user) => {
           topUsersContainer.append(
