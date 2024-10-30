@@ -73,7 +73,7 @@ apiClient.interceptors.response.use(
           .catch((err) => {
             processQueue(err, null);
             localStorage.removeItem("accessToken");
-            window.location.href = "/signup.html";
+            window.location.href = "/signup.html?action=login";
             reject(err);
           })
           .finally(() => {
