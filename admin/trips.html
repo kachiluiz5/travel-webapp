@@ -172,51 +172,78 @@
         });
       };
 
-      const updateNotification = (notifications) => {
-        const totalNotification = $("#totalNotification");
-        totalNotification.text(notifications.length);
+const updateNotification = (notifications) => {
+  const totalNotification = $("#totalNotification");
+  totalNotification.text(notifications.length);
 
-        const notificationsBody = $("#notifications");
+  const notificationsBody = $("#notifications");
+  notificationsBody.empty(); // Clear existing notifications before appending new ones (optional but recommended)
 
-        notifications.map((notification) => {
-          notificationsBody.append(`
-            <a
-              href="javascript:void(0)"
-              class="px-24 py-12 d-flex align-items-start gap-3 mb-2 justify-content-between">
-                  <div
-                    class="text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3"
-                  >
-                    <span
-                      class="w-44-px h-44-px bg-success-subtle text-success-main rounded-circle d-flex justify-content-center align-items-center flex-shrink-0"
-                    >
-                      ${
-                        notification.type === "ACCOUNT_CREATED"
-                          ? '<iconify-icon icon="bi:person-plus-fill" class="icon text-lg"></iconify-icon>'
-                          : '<iconify-icon icon="bi:calendar-plus-fill" class="icon text-lg"></iconify-icon>'
-                      }
-                    </span>
-                    <div>
-                      <h6 class="text-md fw-semibold mb-4">
-                        ${
-                          notification.type === "ACCOUNT_CREATED"
-                            ? "Account Created"
-                            : "Trip Created"
-                        }
-                      </h6>
-                      <p
-                        class="mb-0 text-sm text-secondary-light text-w-200-px"
-                      >
-                        ${notification.message}
-                      </p>
-                    </div>
-                  </div>
-                  <span class="text-sm text-secondary-light flex-shrink-0"
-                    >${dayjs(notification.createdAt).fromNow()}</span
-                  >
-            </a>
-          `);
-        });
-      };
+  notifications.map((notification) => {
+    let icon, title;
+
+    // Determine icon and title based on notification type
+    switch (notification.type) {
+      case "ACCOUNT_CREATED":
+        icon = '<iconify-icon icon="bi:person-plus-fill" class="icon text-lg"></iconify-icon>';
+        title = "Account Created";
+        break;
+      case "TRIP_CREATED":
+        icon = '<iconify-icon icon="bi:calendar-plus-fill" class="icon text-lg"></iconify-icon>';
+        title = "Trip Created";
+        break;
+      case "TRIP_UPDATED":
+        icon = '<iconify-icon icon="bi:calendar-event-fill" class="icon text-lg"></iconify-icon>';
+        title = "Trip Updated";
+        break;
+      case "TRIP_APPROVED":
+        icon = '<iconify-icon icon="bi:check-circle-fill" class="icon text-lg"></iconify-icon>';
+        title = "Trip Approved";
+        break;
+      case "TRIP_DECLINED":
+        icon = '<iconify-icon icon="bi:x-circle-fill" class="icon text-lg"></iconify-icon>';
+        title = "Trip Declined";
+        break;
+      case "TRIP_COMPLETED":
+        icon = '<iconify-icon icon="bi:check2-circle" class="icon text-lg"></iconify-icon>';
+        title = "Trip Completed";
+        break;
+      default:
+        icon = '<iconify-icon icon="bi:bell-fill" class="icon text-lg"></iconify-icon>';
+        title = "Notification";
+        break;
+    }
+
+    notificationsBody.append(`
+      <a
+        href="javascript:void(0)"
+        class="px-24 py-12 d-flex align-items-start gap-3 mb-2 justify-content-between">
+            <div
+              class="text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3"
+            >
+              <span
+                class="w-44-px h-44-px bg-success-subtle text-success-main rounded-circle d-flex justify-content-center align-items-center flex-shrink-0"
+              >
+                ${icon}
+              </span>
+              <div>
+                <h6 class="text-md fw-semibold mb-4">
+                  ${title}
+                </h6>
+                <p
+                  class="mb-0 text-sm text-secondary-light text-w-200-px"
+                >
+                  ${notification.message}
+                </p>
+              </div>
+            </div>
+            <span class="text-sm text-secondary-light flex-shrink-0"
+              >${dayjs(notification.createdAt).fromNow()}</span
+            >
+      </a>
+    `);
+  });
+};
 
       const updateUsername = (name) => {
         const userName = $("#userName");
