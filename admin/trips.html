@@ -37,6 +37,11 @@
   <!-- main css -->
   <link rel="stylesheet" href="assets/css/style.css" />
 
+   <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css"
+    />
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
       <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -319,6 +324,8 @@
         });
       };
   </script>
+
+  <div class="loader" id="loaoder"></div>
   <aside class="sidebar">
     <button type="button" class="sidebar-close-btn">
       <iconify-icon icon="radix-icons:cross-2"></iconify-icon>
@@ -540,9 +547,9 @@
             </div>
 
             <div class="modal-footer flex align-content-start justify-content-start">
-              <button type="button" class="btn btn-success">Approve Trip</button>
-              <button type="button" class="btn btn-primary">Mark As Processed</button>
-              <button type="button" class="btn btn-danger">Decline Trip</button>
+              <button type="button" class="btn btn-success" id="approveTrip">Approve Trip</button>
+              <button type="button" class="btn btn-primary" id="markAsProcessed">Mark As Processed</button>
+              <button type="button" class="btn btn-danger" id="declineTrip">Decline Trip</button>
             </div>
           </div>
         </div>
@@ -649,9 +656,28 @@
             document.getElementById('budgetPerAdult').textContent = "$" + tripData.maxBudget ;
             document.getElementById('tripInterests').textContent = tripData.intrests?.map(interest => interest).join(', ');
 
+
+        
+
         // Show the modal
         const tripModal = new bootstrap.Modal(document.getElementById('tripInfoModal'));
+
+            approveTrip.addEventListener('click', () => {
+              approveDeclineCompleteTrip('ACCEPTED', tripId, tripModal);
+            });
+
+
+            markAsProcessed.addEventListener('click', () => {
+              approveDeclineCompleteTrip('COMPLETED', tripId, tripModal);
+            });
+
+            declineTrip.addEventListener('click', () => {
+              approveDeclineCompleteTrip('REJECTED', tripId, tripModal);
+            });
+
         tripModal.show();
+        
+
            // showTripInfoModal(data);
           } else {
             toast.error("An error occurred while fetching the trip information.");
@@ -659,10 +685,65 @@
 
       }
 
-      // Example usage
+
+     const approveDeclineCompleteTrip = async (action, tripId, tripModal) =>{
+      
+      const toast = new Notyf({
+        duration: 4000,
+      });
+
+    
+      const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: "btn btn-primary",
+          cancelButton: "btn btn-danger"
+        },
+        buttonsStyling: true
+      });
+      swalWithBootstrapButtons.fire({
+        title: "Are you sure?",
+        text: `You want to mark this trip as ${action.toLowerCase()}`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, proceed",
+        cancelButtonText: "No",
+        reverseButtons: true
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+     
+        try {
+          const tripInfoRequest = await apiClient.post(`/trip/action?tripId=${tripId}`, {
+            action
+          });
+
+          if(tripInfoRequest.status === 200){
+            const { data } = tripInfoRequest.data;
+            toast.success(tripInfoRequest.data.message ?? "Trip processed successfully.");
+
+            setTimeout(() => {
+              location.href= "/admin/trips.html";
+            }, 2000);
+          } else {
+            toast.error("An error occurred while processing the trip.");
+          }
+        } catch (error) {
+            toast.error(error.response.data.message ?? "An error occurred while processing the trip.");
+        }
+
+
+        } else if (
+          /* Read more about handling dismissals below */
+          result.dismiss === Swal.DismissReason.cancel
+        ) {
+          //tripModal.hide();
+        }
+      });
+    
+     
+     }
+     
       document.querySelectorAll('.manage-trip').forEach(button => {
         button.addEventListener('click', function () {
-          // Example data - replace with dynamic data as needed
           const tripData = {
             startDate: '2024-03-27',
             endDate: '2024-04-10',

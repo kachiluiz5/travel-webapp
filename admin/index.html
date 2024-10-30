@@ -177,31 +177,38 @@
 
       const updateTripTable = (trips) => {
         const tripTable = $("#tripTableBody");
+
         trips.map((trip) => {
+          let statusClass = "";
+          let statusText = trip.status;
+
+          switch (trip.status) {
+            case "PENDING":
+              statusClass = "bg-warning-focus text-warning-main";
+              break;
+            case "ACCEPTED":
+              statusClass = "bg-info-focus text-info-main";
+              break;
+            case "REJECTED":
+              statusClass = "bg-danger-focus text-danger-main";
+              break;
+            case "COMPLETED":
+              statusClass = "bg-success-focus text-success-main";
+              break;
+            default:
+              statusClass = "bg-secondary text-muted";
+              statusText = "Unknown";
+          }
+
           tripTable.append(`
             <tr>
               <td>${trip.place}</td>
               <td>${trip.place}</td>
 
               <td>${dayjs(trip.createdAt).format("DD MMM YYYY")}</td>
-              <td>
-                ${
-                  trip.status === "PENDING"
-                    ? `<span
-                    class="bg-warning-focus text-warning-main px-24 py-4 rounded-pill fw-medium text-sm"
-                    >${trip.status}</span
-                  >`
-                    : trip.status === "REJECTED"
-                    ? `<span
-                    class="bg-danger-focus text-danger-main px-24 py-4 rounded-pill fw-medium text-sm"
-                    >${trip.status}</span
-                  >`
-                    : `<span
-                    class="bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm"
-                    >${trip.status}</span
-                  >`
-                }
-
+               <td>
+                <span class="${statusClass} px-24 py-4 rounded-pill fw-medium text-sm">${statusText}</span>
+                </td>
               </td>
               <td>$${trip.maxBudget}</td>
             </tr>
