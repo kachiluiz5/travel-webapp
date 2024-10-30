@@ -523,8 +523,8 @@
             </div>
             <div class="modal-body">
               <p><strong>Full Name:</strong> <span id="tripUser"></span></p>
-              <p><strong>Email:</strong> <span id="tripUserEmail"></span></p>
-              <p><strong>Phone number:</strong> <span id="tripUserPhone"></span></p>
+              <p><strong>Email:</strong> <a id="tripUserEmail" class="text-decoration-underline"></a></p>
+              <p><strong>Phone number:</strong> <a id="tripUserPhone" class="text-decoration-underline"></a></p>
               <p><strong>Start Date:</strong> <span id="tripStartDate"></span></p>
               <p><strong>End Date:</strong> <span id="tripEndDate"></span></p>
               <p><strong>Location:</strong> <span id="tripLocation"></span></p>
@@ -626,6 +626,8 @@
             document.getElementById('tripUser').textContent = userInfoRequest.data.data.name;
             document.getElementById('tripUserPhone').textContent = userInfoRequest.data.data.phoneNumber;
             document.getElementById('tripUserEmail').textContent = userInfoRequest.data.data.email;
+            tripUserEmail.href = `mailto:${userInfoRequest.data.data.email}`;
+            tripUserPhone.href=`tel:${userInfoRequest.data.data.phoneNumber}`;  
            
           } else {
             toast.error("An error occurred while fetching the user information.");
