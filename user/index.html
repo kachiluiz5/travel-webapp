@@ -148,34 +148,28 @@
 
       const updateTripTable = (trips) => {
         const tripTable = $("#tripTableBody");
+        tripTable.empty();
+
         trips.map((trip) => {
-          console.log(trip);
           tripTable.append(`
-            <tr>
-              <td>${trip.place}</td>
-              <td>${dayjs(trip.createdAt).format("DD MMM YYYY")}</td>
-              <td>
-                ${
-                  trip.status === "PENDING"
-                    ? `<span
-                    class="bg-warning-focus text-warning-main px-24 py-4 rounded-pill fw-medium text-sm"
-                    >${trip.status}</span
-                  >`
-                    : trip.status === "REJECTED"
-                    ? `<span
-                    class="bg-danger-focus text-danger-main px-24 py-4 rounded-pill fw-medium text-sm"
-                    >${trip.status}</span
-                  >`
-                    : `<span
-                    class="bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm"
-                    >${trip.status}</span
-                  >`
-                }
-                
-              </td>
-              <td>$${trip.maxBudget}</td>
-            </tr>
-          `);
+        <tr>
+          <td>${trip.place}</td> 
+          <td>${trip.place}</td> 
+          <td>${dayjs(trip.createdAt).format("DD MMM YYYY")}</td>
+          <td>
+            ${
+              trip.status === "PENDING"
+                ? `<span class="bg-warning-focus text-warning-main px-24 py-4 rounded-pill fw-medium text-sm">${trip.status}</span>`
+                : trip.status === "REJECTED"
+                ? `<span class="bg-danger-focus text-danger-main px-24 py-4 rounded-pill fw-medium text-sm">${trip.status}</span>`
+                : trip.status === "APPROVED"
+                ? `<span class="bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm">${trip.status}</span>`
+                : `<span class="bg-info-focus text-info-main px-24 py-4 rounded-pill fw-medium text-sm">${trip.status}</span>`
+            }
+          </td>
+          <td>$${trip.maxBudget}</td>
+        </tr>
+    `);
         });
       };
 
@@ -194,16 +188,15 @@
       <div>
         <a href="index.html" class="sidebar-logo">
           <img
-          src="assets/images/logo/logo-dark.png"
-          alt="site logo"
-          class="light-logo"
-        />
-        <img
-          src="assets/images/logo/logo.png"
-          alt="site logo"
-          class="dark-logo"
-        />
-
+            src="assets/images/logo/logo-dark.png"
+            alt="site logo"
+            class="light-logo"
+          />
+          <img
+            src="assets/images/logo/logo.png"
+            alt="site logo"
+            class="dark-logo"
+          />
         </a>
       </div>
       <div class="sidebar-menu-area">
@@ -474,12 +467,13 @@
                   <table class="table bordered-table mb-0">
                     <thead>
                       <tr>
-                        <th scope="col">Trips</th>
+                        <th scope="col">Place</th>
                         <th scope="col">Date</th>
                         <th scope="col">Status</th>
                         <th scope="col">Amount</th>
                       </tr>
                     </thead>
+
                     <tbody id="tripTableBody"></tbody>
                   </table>
                 </div>

@@ -236,7 +236,7 @@
         );
       };
 
-       const updateTripTable = (trips) => {
+  const updateTripTable = (trips) => {
   const tripTable = $("#tripTableBody");
   
   trips.forEach((trip) => {
@@ -247,7 +247,7 @@
       case "PENDING":
         statusClass = "bg-warning-focus text-warning-main";
         break;
-      case "ACCEPTED":
+      case "APPROVED":
         statusClass = "bg-info-focus text-info-main"; 
         break;
       case "REJECTED":
@@ -657,15 +657,12 @@
             document.getElementById('tripInterests').textContent = tripData.intrests?.map(interest => interest).join(', ');
 
 
-        
 
-        // Show the modal
         const tripModal = new bootstrap.Modal(document.getElementById('tripInfoModal'));
 
             approveTrip.addEventListener('click', () => {
-              approveDeclineCompleteTrip('ACCEPTED', tripId, tripModal);
+              approveDeclineCompleteTrip('APPROVED', tripId, tripModal);
             });
-
 
             markAsProcessed.addEventListener('click', () => {
               approveDeclineCompleteTrip('COMPLETED', tripId, tripModal);
