@@ -144,38 +144,33 @@
         );
       };
 
-      const updateTripTable = (trips) => {
+    const updateTripTable = (trips) => {
         const tripTable = $("#tripTableBody");
+        tripTable.empty();
+
         trips.map((trip) => {
-          console.log(trip);
           tripTable.append(`
-            <tr>
-              <td>${trip.place}</td>
-              <td>${dayjs(trip.createdAt).format("DD MMM YYYY")}</td>
-              <td>
-                ${
-                  trip.status === "PENDING"
-                    ? `<span
-                    class="bg-warning-focus text-warning-main px-24 py-4 rounded-pill fw-medium text-sm"
-                    >${trip.status}</span
-                  >`
-                    : trip.status === "REJECTED"
-                    ? `<span
-                    class="bg-danger-focus text-danger-main px-24 py-4 rounded-pill fw-medium text-sm"
-                    >${trip.status}</span
-                  >`
-                    : `<span
-                    class="bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm"
-                    >${trip.status}</span
-                  >`
-                }
-                
-              </td>
-              <td>$${trip.maxBudget}</td>
-            </tr>
-          `);
+        <tr>
+          <td>${trip.place}</td> 
+          <td>${trip.place}</td> 
+          <td>${dayjs(trip.createdAt).format("DD MMM YYYY")}</td>
+          <td>
+            ${
+              trip.status === "PENDING"
+                ? `<span class="bg-warning-focus text-warning-main px-24 py-4 rounded-pill fw-medium text-sm">${trip.status}</span>`
+                : trip.status === "REJECTED"
+                ? `<span class="bg-danger-focus text-danger-main px-24 py-4 rounded-pill fw-medium text-sm">${trip.status}</span>`
+                : trip.status === "APPROVED"
+                ? `<span class="bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm">${trip.status}</span>`
+                : `<span class="bg-info-focus text-info-main px-24 py-4 rounded-pill fw-medium text-sm">${trip.status}</span>`
+            }
+          </td>
+          <td>$${trip.maxBudget}</td>
+        </tr>
+    `);
         });
       };
+
 
       const handleLogout = async () => {
         await apiClient.post("/auth/logout");
