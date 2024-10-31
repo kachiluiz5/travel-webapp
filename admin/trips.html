@@ -292,10 +292,9 @@ const updateNotification = (notifications) => {
       <tr onclick="showTripInfoPopup('${trip.id}')">
         <td class="text-decoration-underline cursor-pointer">${trip.place}</td>
         <td>${dayjs(trip.createdAt).format("DD MMM YYYY")}</td>
-    
         <td>$${trip.maxBudget}</td>
         <td>${trip.lengthOfStay} days</td>
-            <td>
+        <td>
           <span class="${statusClass} px-24 py-4 rounded-pill fw-medium text-sm">${statusText}</span>
         </td>
       </tr>
