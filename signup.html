@@ -161,10 +161,9 @@
         <h2 id="messagePopupTitle">Thank You for Signing Up!</h2>
 
         <p id="messageContent">
-          We're excited to have you on board! An Experience Curator will be in
-          touch with you via phone within 48 business hours to personalize your
-          journey. A verificatio mail has been sent to your email. Please check
-          your mail for login instructions.
+          Welcome aboard! An Experience Curator will contact you via phone
+          within 48 business hours to personalize your journey. Please verify
+          your account by checking your email for login instructions.
         </p>
         <br />
         <div id="buttonContainer">
@@ -412,7 +411,9 @@
               }
             }
           } catch (error) {
-            toast.error("An error occured while signing up");
+            toast.error(
+              "We've created your account but an error occured while creating your trip. Please check your mail for further instructions"
+            );
           } finally {
             hideLoader();
           }
@@ -425,7 +426,9 @@
           const email = document.getElementById("signInEmail").value;
           const password = document.getElementById("signInPassword").value;
 
-          const toast = new Notyf();
+          const toast = new Notyf({
+            duration: 5000,
+          });
           const dataToSubmit = {
             email,
             password,
