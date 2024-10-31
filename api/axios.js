@@ -58,7 +58,7 @@ apiClient.interceptors.response.use(
 
       return new Promise((resolve, reject) => {
         axios
-          .get("http://localhost:2800/v1/auth/token-refresh")
+          .get("https://api.trustedroutes.com/v1/auth/token-refresh")
           .then(({ data }) => {
             const accessToken = data.data.accessToken;
             localStorage.setItem("accessToken", accessToken);
