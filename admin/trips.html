@@ -37,8 +37,14 @@
   <!-- main css -->
   <link rel="stylesheet" href="assets/css/style.css" />
 
+   <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css"
+    />
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+      <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <style>
     .status-label.bg-success {
@@ -64,6 +70,287 @@
 </head>
 
 <body>
+    <script src="./../utils/db.js"></script>
+    <script src="./../utils/loader.js"></script>
+    <script src="./../api/axios.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.9/plugin/relativeTime.js"></script>
+
+
+
+    <script>
+      document.addEventListener("DOMContentLoaded", async () => {
+        dayjs.extend(dayjs_plugin_relativeTime);
+
+        const toast = new Notyf({
+          duration: 4000,
+        });
+
+        const myProfileRequest = await apiClient.get("/user/me");
+
+        if (myProfileRequest.status === 200) {
+          const { data } = myProfileRequest.data;
+          updateNotification(data.notifications);
+          updateUsername(data.name);
+          updateUserImage(data.name);
+          updateTotalTrips(data.totalTrips);
+          updateTripTable(data.trips);
+        } else {
+          toast.error("An error occurred while fetching your profile.");
+        }
+
+        const adminDashboardDataRequest = await apiClient.get(
+          "/admin/dashboard"
+        );
+
+        if (adminDashboardDataRequest.status === 200) {
+          const { data } = adminDashboardDataRequest.data;
+          updateTotalUsers(data.totalUsers);
+          updateTotalUserTrips(data.totalTrips);
+        } else {
+          toast.error("An error occurred while fetching the dashboard data.");
+        }
+
+        const getTopUsersRequest = await apiClient.get("/admin/high-trips");
+
+        if (getTopUsersRequest.status === 200) {
+          const { data } = getTopUsersRequest.data;
+          updateTopCustomersList(data);
+        } else {
+          toast.error("An error occurred while fetching the top users.");
+        }
+
+        const getRecentTrips = await apiClient.get("/trip/recent?take=10");
+
+        if (getRecentTrips.status === 200) {
+          const { data } = getRecentTrips.data;
+          updateTripTable(data);
+        } else {
+          toast.error("An error occurred while fetching the recent trips.");
+        }
+
+        const getAllUsers = await apiClient.get("/user");
+
+
+        if (getAllUsers.status === 200) {
+          const { data } = getAllUsers.data;
+          console.log(data);
+          updateUsersTable(data);
+        } else {
+          toast.error("An error occurred while fetching the users.");
+        }
+      });
+
+      const updateUsersTable = async (users) => {
+        const userTable = $("#usersTable");
+
+        users.map((user) => {
+          userTable.append(`
+            <tr>
+              <td>${dayjs(user.createdAt).format("DD MMM YYYY")}</td>
+              <td>${user.name}</td>
+              <td>${user.email}</td>
+              <td>${user.role}</td>
+              <td>
+                ${
+                  user.verified !== true
+                    ? `<span
+                    class="bg-warning-focus text-warning-main px-24 py-4 rounded-pill fw-medium text-sm"
+                    >${user.verified}</span
+                  >`
+                    : `<span
+                    class="bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm"
+                    >${user.verified}</span
+                  >`
+                }
+
+              </td>
+
+            </tr>
+          `);
+        });
+      };
+
+const updateNotification = (notifications) => {
+  const totalNotification = $("#totalNotification");
+  totalNotification.text(notifications.length);
+
+  const notificationsBody = $("#notifications");
+  notificationsBody.empty(); // Clear existing notifications before appending new ones (optional but recommended)
+
+  notifications.map((notification) => {
+    let icon, title;
+
+    // Determine icon and title based on notification type
+    switch (notification.type) {
+      case "ACCOUNT_CREATED":
+        icon = '<iconify-icon icon="bi:person-plus-fill" class="icon text-lg"></iconify-icon>';
+        title = "Account Created";
+        break;
+      case "TRIP_CREATED":
+        icon = '<iconify-icon icon="bi:calendar-plus-fill" class="icon text-lg"></iconify-icon>';
+        title = "Trip Created";
+        break;
+      case "TRIP_UPDATED":
+        icon = '<iconify-icon icon="bi:calendar-event-fill" class="icon text-lg"></iconify-icon>';
+        title = "Trip Updated";
+        break;
+      case "TRIP_APPROVED":
+        icon = '<iconify-icon icon="bi:check-circle-fill" class="icon text-lg"></iconify-icon>';
+        title = "Trip Approved";
+        break;
+      case "TRIP_DECLINED":
+        icon = '<iconify-icon icon="bi:x-circle-fill" class="icon text-lg"></iconify-icon>';
+        title = "Trip Declined";
+        break;
+      case "TRIP_COMPLETED":
+        icon = '<iconify-icon icon="bi:check2-circle" class="icon text-lg"></iconify-icon>';
+        title = "Trip Completed";
+        break;
+      default:
+        icon = '<iconify-icon icon="bi:bell-fill" class="icon text-lg"></iconify-icon>';
+        title = "Notification";
+        break;
+    }
+
+    notificationsBody.append(`
+      <a
+        href="javascript:void(0)"
+        class="px-24 py-12 d-flex align-items-start gap-3 mb-2 justify-content-between">
+            <div
+              class="text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3"
+            >
+              <span
+                class="w-44-px h-44-px bg-success-subtle text-success-main rounded-circle d-flex justify-content-center align-items-center flex-shrink-0"
+              >
+                ${icon}
+              </span>
+              <div>
+                <h6 class="text-md fw-semibold mb-4">
+                  ${title}
+                </h6>
+                <p
+                  class="mb-0 text-sm text-secondary-light text-w-200-px"
+                >
+                  ${notification.message}
+                </p>
+              </div>
+            </div>
+            <span class="text-sm text-secondary-light flex-shrink-0"
+              >${dayjs(notification.createdAt).fromNow()}</span
+            >
+      </a>
+    `);
+  });
+};
+
+      const updateUsername = (name) => {
+        const userName = $("#userName");
+        userName.text(name);
+      };
+
+      const updateTotalTrips = (totalTrips) => {
+        const totalTripsElement = $("#totalTrips");
+        totalTripsElement.text(totalTrips);
+      };
+
+      const updateUserImage = (name) => {
+        const profileImage = $("#profileImage");
+        profileImage.attr(
+          "src",
+          `https://api.dicebear.com/7.x/big-smile/svg?seed=${name}`
+        );
+      };
+
+  const updateTripTable = (trips) => {
+  const tripTable = $("#tripTableBody");
+  
+  trips.forEach((trip) => {
+    let statusClass = "";
+    let statusText = trip.status;
+
+    switch (trip.status) {
+      case "PENDING":
+        statusClass = "bg-warning-focus text-warning-main";
+        break;
+      case "APPROVED":
+        statusClass = "bg-info-focus text-info-main"; 
+        break;
+      case "DECLINED":
+        statusClass = "bg-danger-focus text-danger-main";
+        break;
+      case "COMPLETED":
+        statusClass = "bg-success-focus text-success-main";
+        break;
+      default:
+        statusClass = "bg-secondary text-muted"; 
+        statusText = "Unknown";
+    }
+
+    tripTable.append(`
+      <tr onclick="showTripInfoPopup('${trip.id}')">
+        <td class="text-decoration-underline cursor-pointer">${trip.place}</td>
+        <td>${dayjs(trip.createdAt).format("DD MMM YYYY")}</td>
+        <td>$${trip.maxBudget}</td>
+        <td>${trip.lengthOfStay} days</td>
+        <td>
+          <span class="${statusClass} px-24 py-4 rounded-pill fw-medium text-sm">${statusText}</span>
+        </td>
+      </tr>
+    `);
+  });
+};
+
+
+
+
+      const handleLogout = async () => {
+        await apiClient.post("/auth/logout");
+        localStorage.removeItem("accessToken");
+        clearUserData();
+        window.location.href = "/signup.html?action=login";
+      };
+
+      const updateTotalUsers = (totalUsers) => {
+        const totalUsersElement = $("#totalUsers");
+        totalUsersElement.text(totalUsers);
+      };
+
+      const updateTotalUserTrips = (totalTrips) => {
+        const totalTripsElement = $("#totalTrips");
+        totalTripsElement.text(totalTrips);
+      };
+
+      const updateTopCustomersList = (topUsers) => {
+        const topUsersContainer = $("#topCustomersContainer");
+        console.log(topUsers);
+
+        topUsers.map((user) => {
+          topUsersContainer.append(
+            ` <div
+                    class="d-flex align-items-center justify-content-between gap-3 mb-32"
+                  >
+                    <div class="d-flex align-items-center">
+                      <img
+                        src="https://api.dicebear.com/7.x/big-smile/svg?seed=${user.name}"
+                        alt=""
+                        class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden"
+                      />
+                      <div class="flex-grow-1">
+                        <h6 class="text-md mb-0">${user.name}</h6>
+                      </div>
+                    </div>
+                    <span class="text-primary-light text-md fw-medium"
+                      >${user.trips.length} Trips</span
+                    >
+                  </div>`
+          );
+        });
+      };
+  </script>
+
+  <div class="loader" id="loaoder"></div>
   <aside class="sidebar">
     <button type="button" class="sidebar-close-btn">
       <iconify-icon icon="radix-icons:cross-2"></iconify-icon>
@@ -103,6 +390,7 @@
     </div>
   </aside>
 
+
   <main class="dashboard-main">
     <div class="navbar-header">
       <div class="row align-items-center justify-content-between">
@@ -137,30 +425,17 @@
                     </h6>
                   </div>
                   <span
-                    class="text-primary-600 fw-semibold text-lg w-40-px h-40-px rounded-circle bg-base d-flex justify-content-center align-items-center">05</span>
+                      class="text-primary-600 fw-semibold text-lg w-40-px h-40-px rounded-circle bg-base d-flex justify-content-center align-items-center"
+                      id="totalNotification"
+                      >05</span
+                    >
                 </div>
 
-                <div class="max-h-400-px overflow-y-auto scroll-sm pe-4">
-                  <a href="javascript:void(0)"
-                    class="px-24 py-12 d-flex align-items-start gap-3 mb-2 justify-content-between">
-                    <div class="text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3">
-                      <span
-                        class="w-44-px h-44-px bg-success-subtle text-success-main rounded-circle d-flex justify-content-center align-items-center flex-shrink-0">
-                        <iconify-icon icon="bitcoin-icons:verify-outline" class="icon text-xxl"></iconify-icon>
-                      </span>
-                      <div>
-                        <h6 class="text-md fw-semibold mb-4">
-                          Congratulations
-                        </h6>
-                        <p class="mb-0 text-sm text-secondary-light text-w-200-px">
-                          Your profile has been Verified. Your profile has
-                          been Verified
-                        </p>
-                      </div>
-                    </div>
-                    <span class="text-sm text-secondary-light flex-shrink-0">23 Mins ago</span>
-                  </a>
-                </div>
+
+                  <div
+                    class="max-h-400-px overflow-y-auto scroll-sm pe-4"
+                    id="notifications"
+                  ></div>
 
                 <div class="text-center py-12 px-16">
                   <a href="javascript:void(0)" class="text-primary-600 fw-semibold text-md">See All Notification</a>
@@ -172,15 +447,23 @@
             <div class="dropdown">
               <button class="d-flex justify-content-center align-items-center rounded-circle" type="button"
                 data-bs-toggle="dropdown">
-                <img src="assets/images/user.png" alt="image" class="w-40-px h-40-px object-fit-cover rounded-circle" />
+                  <img
+                    src="https://api.dicebear.com/7.x/big-smile/svg?seed=admin"
+                    alt="image"
+                    class="w-40-px h-40-px object-fit-cover rounded-circle"
+                    id="profileImage"
+                  />
               </button>
               <div class="dropdown-menu to-top dropdown-menu-sm">
                 <div
                   class="py-12 px-16 radius-8 bg-primary-50 mb-16 d-flex align-items-center justify-content-between gap-2">
                   <div>
-                    <h6 class="text-lg text-primary-light fw-semibold mb-2">
-                      Shaidul Islam
-                    </h6>
+                      <h6
+                        class="text-lg text-primary-light fw-semibold mb-2"
+                        id="userName"
+                      >
+                        Admin
+                      </h6>
                   </div>
                   <button type="button" class="hover-text-danger">
                     <iconify-icon icon="radix-icons:cross-1" class="icon text-xl"></iconify-icon>
@@ -189,14 +472,15 @@
                 <ul class="to-top-list">
                   <li>
                     <a class="dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-primary d-flex align-items-center gap-3"
-                      href="view-profile.html">
+                      href="./users-list.html">
                       <iconify-icon icon="solar:user-linear" class="icon text-xl"></iconify-icon>
-                      My Profile</a>
+                      My users</a>
                   </li>
 
                   <li>
-                    <a class="dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-danger d-flex align-items-center gap-3"
-                      href="javascript:void(0)">
+                    <a class="dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-danger d-flex align-items-center gap-3 cursor-pointer"
+                    onclick="handleLogout()"
+                    >
                       <iconify-icon icon="lucide:power" class="icon text-xl"></iconify-icon>
                       Log Out</a>
                   </li>
@@ -231,37 +515,23 @@
               <div
                 class="card-header border-bottom bg-base py-16 px-24 d-flex align-items-center justify-content-between">
                 <h6 class="text-lg fw-semibold mb-0">Trips</h6>
-                <a href="javascript:void(0)"
-                  class="text-primary-600 hover-text-primary d-flex align-items-center gap-1">
-                  View All
-                  <iconify-icon icon="solar:alt-arrow-right-linear" class="icon"></iconify-icon>
-                </a>
               </div>
               <div class="card-body p-24">
                 <div class="table-responsive scroll-sm">
                   <table class="table bordered-table mb-0">
                     <thead>
                       <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Date</th>
+                        <th scope="col">Place</th>
+                        <th scope="col">Date Created</th>
+                        <th scope="col">Max Budget</th>
+                        <th scope="col">Length Of Stay</th>
                         <th scope="col">Status</th>
-                        <th scope="col">Amount</th>
-                        <th scope="col">Actions</th>
+
+
                       </tr>
                     </thead>
-                    <tbody>
-                      <tr onclick="showTripInfoPopup(1)">
-                        <td>David Jame</td>
-                        <td>27 Mar 2024</td>
-                        <td id="trip-status-1" class="status-label bg-warning text-dark">Pending</td>
-                        <td>$20,000.00</td>
-                        <td>
-                          <button class="btn btn-primary manage-trip"
-                            onclick="showManageModal(event, 1)">Manage</button>
-                        </td>
-                      </tr>
-                      <!-- Repeat for other trips as needed, with unique IDs for each row -->
-                    </tbody>
+                    <tbody id="tripTableBody">
+                  
                   </table>
                 </div>
               </div>
@@ -284,7 +554,9 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <p><strong>Full Name:</strong> <span id="tripStartDate"></span></p>
+              <p><strong>Full Name:</strong> <span id="tripUser"></span></p>
+              <p><strong>Email:</strong> <a id="tripUserEmail" class="text-decoration-underline"></a></p>
+              <p><strong>Phone number:</strong> <a id="tripUserPhone" class="text-decoration-underline"></a></p>
               <p><strong>Start Date:</strong> <span id="tripStartDate"></span></p>
               <p><strong>End Date:</strong> <span id="tripEndDate"></span></p>
               <p><strong>Location:</strong> <span id="tripLocation"></span></p>
@@ -298,8 +570,11 @@
               <p><strong>Approximate Budget (Per Adult):</strong> <span id="budgetPerAdult"></span></p>
               <p><strong>Interests:</strong> <span id="tripInterests"></span></p>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+            <div class="modal-footer flex align-content-start justify-content-start">
+              <button type="button" class="btn btn-success" id="approveTrip">Approve Trip</button>
+              <button type="button" class="btn btn-primary" id="markAsProcessed">Mark As Processed</button>
+              <button type="button" class="btn btn-danger" id="declineTrip">Decline Trip</button>
             </div>
           </div>
         </div>
@@ -375,30 +650,122 @@
 
 
     <script>
-      function showTripInfoPopup(tripData) {
-        // Populate modal fields
-        document.getElementById('tripStartDate').textContent = tripData.startDate;
-        document.getElementById('tripEndDate').textContent = tripData.endDate;
-        document.getElementById('tripLocation').textContent = tripData.location;
-        document.getElementById('tripType').textContent = tripData.type;
-        document.getElementById('numTravelers').textContent = tripData.numTravelers;
-        document.getElementById('withChildren').textContent = tripData.withChildren ? 'Yes' : 'No';
-        document.getElementById('withPets').textContent = tripData.withPets ? 'Yes' : 'No';
-        document.getElementById('accommodationType').textContent = tripData.accommodation;
-        document.getElementById('starRating').textContent = tripData.starRating;
-        document.getElementById('numBedrooms').textContent = tripData.bedrooms;
-        document.getElementById('budgetPerAdult').textContent = tripData.budget;
-        document.getElementById('tripInterests').textContent = tripData.interests;
+      async function showTripInfoPopup(tripId) {
+          const tripInfoRequest = await apiClient.get(`/trip/${tripId}`);
+          const userInfoRequest = await apiClient.get(`/user/${tripInfoRequest.data.data.userId}`);
 
-        // Show the modal
+          if(userInfoRequest.status === 200) {
+            document.getElementById('tripUser').textContent = userInfoRequest.data.data.name;
+            document.getElementById('tripUserPhone').textContent = userInfoRequest.data.data.phoneNumber;
+            document.getElementById('tripUserEmail').textContent = userInfoRequest.data.data.email;
+            tripUserEmail.href = `mailto:${userInfoRequest.data.data.email}`;
+            tripUserPhone.href=`tel:${userInfoRequest.data.data.phoneNumber}`;  
+           
+          } else {
+            toast.error("An error occurred while fetching the user information.");
+          }
+
+          if (tripInfoRequest.status === 200) {
+            const { data:tripData } = tripInfoRequest.data;
+        
+            document.getElementById('tripStartDate').textContent = tripData?.startDate ? dayjs(tripData?.startDate).format("MMMM D, YYYY") : "Not specified" ;
+            document.getElementById('tripEndDate').textContent = tripData?.endDate ? dayjs(tripData?.endDate).format("MMMM D, YYYY") : "Not specified";
+            document.getElementById('tripLocation').textContent = tripData.place;
+            document.getElementById('tripType').textContent = tripData.type;
+            document.getElementById('numTravelers').textContent = tripData.totalPeopleTravellingWith ? tripData.totalPeopleTravellingWith : "Unknown";
+            document.getElementById('withChildren').textContent = tripData.travellingWithChildren ? 'Yes' : 'No';
+            document.getElementById('withPets').textContent = tripData.travellingWithPets ? 'Yes' : 'No';
+            document.getElementById('accommodationType').textContent = tripData.accomodationType;
+            document.getElementById('starRating').textContent = tripData?.accomodationRating ? tripData.accomodationRating + " stars" : "Not Specified";
+            document.getElementById('numBedrooms').textContent = tripData.totalBedrooms ? tripData.totalBedrooms : "Not Specified";
+            document.getElementById('budgetPerAdult').textContent = "$" + tripData.maxBudget ;
+            document.getElementById('tripInterests').textContent = tripData.intrests?.map(interest => interest).join(', ');
+
+
+
         const tripModal = new bootstrap.Modal(document.getElementById('tripInfoModal'));
+
+            approveTrip.addEventListener('click', () => {
+              approveDeclineCompleteTrip('APPROVED', tripId, tripModal);
+            });
+
+            markAsProcessed.addEventListener('click', () => {
+              approveDeclineCompleteTrip('COMPLETED', tripId, tripModal);
+            });
+
+            declineTrip.addEventListener('click', () => {
+              approveDeclineCompleteTrip('DECLINED', tripId, tripModal);
+            });
+
         tripModal.show();
+        
+
+           // showTripInfoModal(data);
+          } else {
+            toast.error("An error occurred while fetching the trip information.");
+          }
+
       }
 
-      // Example usage
+
+     const approveDeclineCompleteTrip = async (action, tripId, tripModal) =>{
+      
+      const toast = new Notyf({
+        duration: 4000,
+      });
+
+    
+      const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: "btn btn-primary",
+          cancelButton: "btn btn-danger"
+        },
+        buttonsStyling: true
+      });
+      swalWithBootstrapButtons.fire({
+        title: "Are you sure?",
+        text: `You want to mark this trip as ${action.toLowerCase()}`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, proceed",
+        cancelButtonText: "No",
+        reverseButtons: true
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+     
+        try {
+          const tripInfoRequest = await apiClient.post(`/trip/action?tripId=${tripId}`, {
+            action
+          });
+
+          if(tripInfoRequest.status === 200){
+            const { data } = tripInfoRequest.data;
+            toast.success(tripInfoRequest.data.message ?? "Trip processed successfully.");
+
+            setTimeout(() => {
+              location.href= "/admin/trips.html";
+            }, 2000);
+          } else {
+            toast.error("An error occurred while processing the trip.");
+          }
+        } catch (error) {
+            toast.error(error.response.data.message ?? "An error occurred while processing the trip.");
+        }
+
+
+        } else if (
+          /* Read more about handling dismissals below */
+          result.dismiss === Swal.DismissReason.cancel
+        ) {
+          //tripModal.hide();
+        }
+      });
+    
+     
+     }
+     
       document.querySelectorAll('.manage-trip').forEach(button => {
         button.addEventListener('click', function () {
-          // Example data - replace with dynamic data as needed
           const tripData = {
             startDate: '2024-03-27',
             endDate: '2024-04-10',

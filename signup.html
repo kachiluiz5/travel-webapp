@@ -180,9 +180,9 @@
         <h2 id="messagePopupTitle">Thank You for Signing Up!</h2>
 
         <p id="messageContent">
-          We're excited to have you on board! An Experience Curator will be in
-          touch with you via phone within 48 business hours to personalize your
-          journey.
+          Welcome aboard! An Experience Curator will contact you via phone
+          within 48 business hours to personalize your journey. Please verify
+          your account by checking your email for login instructions.
         </p>
         <br />
         <div id="buttonContainer">
@@ -424,16 +424,18 @@
                 const data = createTripResponse.data;
                 showMessagePopup();
               } else {
-                toast.error("An error occured while creating your trip");
+                toast.error(
+                  "We've created your account but an error occured while creating your trip. Please check your mail for further instructions"
+                );
               }
             }
           } catch (error) {
-            toast.error("An error occured while signing up");
+            toast.error(
+              "We've created your account but an error occured while creating your trip. Please check your mail for further instructions"
+            );
           } finally {
             hideLoader();
           }
-
-          //showMessagePopup();
         });
 
       document
@@ -443,7 +445,9 @@
           const email = document.getElementById("signInEmail").value;
           const password = document.getElementById("signInPassword").value;
 
-          const toast = new Notyf();
+          const toast = new Notyf({
+            duration: 5000,
+          });
           const dataToSubmit = {
             email,
             password,
@@ -477,9 +481,7 @@
             hideLoader();
           }
         });
-      // Trigger sign-in form behavior
 
-      // Close popup when clicking outside of it
       window.onclick = function (event) {
         var messagePopup = document.getElementById("messagePopup");
         var signInPopup = document.getElementById("signInPopup");
@@ -506,5 +508,12 @@
       });
     </script>
     <script src="assets/js/main.js"></script>
+    <script>
+      const urlParams = new URLSearchParams(window.location.search);
+
+      if (urlParams.get("action") === "login") {
+        showLoginForm();
+      }
+    </script>
   </body>
 </html>

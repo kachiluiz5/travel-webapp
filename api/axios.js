@@ -1,9 +1,9 @@
 const apiClient = axios.create({
-  baseURL: "http://localhost:2800/v1",
+  baseURL: "https://api.trustedroutes.com/v1",
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "http://127.0.0.1:5500",
+    "Access-Control-Allow-Origin": "https://trustedroutes.com",
   },
 });
 
@@ -58,7 +58,7 @@ apiClient.interceptors.response.use(
 
       return new Promise((resolve, reject) => {
         axios
-          .get("http://localhost:2800/v1/auth/token-refresh")
+          .get("https://api.trustedroutes.com/v1/auth/token-refresh")
           .then(({ data }) => {
             const accessToken = data.data.accessToken;
             localStorage.setItem("accessToken", accessToken);
@@ -73,7 +73,7 @@ apiClient.interceptors.response.use(
           .catch((err) => {
             processQueue(err, null);
             localStorage.removeItem("accessToken");
-            window.location.href = "/signup.html";
+            window.location.href = "/signup.html?action=login";
             reject(err);
           })
           .finally(() => {
