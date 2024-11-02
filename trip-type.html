@@ -23,8 +23,10 @@
           <div class="progress" style="width: 0%"></div>
         </div>
 
-        <h1>What kind of trip are you planning?</h1>
-        <p class="subtitle">Select one.</p>
+        <h1 style="font-size: 28px; margin-bottom: 16px" class="progress-h1">
+          When are you going?
+        </h1>
+        <p class="progress-text">Select one.</p>
         <div class="trip-types">
           <button class="trip-type" data-type="solo">
             <span class="trip-type-icon"
@@ -60,7 +62,7 @@
           <div
             style="display: flex; justify-content: center; position: relative"
           >
-            <p>
+            <p style="margin-bottom: 16px">
               How many people are traveling with you?
               <span class="tooltip-container">
                 <svg
@@ -101,7 +103,7 @@
           <div
             style="display: flex; justify-content: center; position: relative"
           >
-            <p>
+            <p style="margin-bottom: 16px">
               Are you traveling with children?
               <span class="tooltip-container">
                 <svg
@@ -134,7 +136,9 @@
               class="children-option"
               data-children="yes"
               id="childrenYesButton"
-            >
+            > 
+            <span class="checkmark">✓</span>
+
               Yes<span class="checkmark">✓</span>
             </button>
             <button
@@ -142,6 +146,8 @@
               data-children="no"
               id="childrenNoButton"
             >
+            <span class="checkmark">✓</span>
+
               No<span class="checkmark">✓</span>
             </button>
           </div>
@@ -150,7 +156,7 @@
         <br />
         <div class="pets-question">
           <div style="display: flex; justify-content: center">
-            <p>
+            <p style="margin-bottom: 16px">
               Are you traveling with pets?
               <span class="tooltip-container">
                 <svg
@@ -245,6 +251,7 @@
         console.log("Next button clicked");
       });
     </script>
+
     <script src="assets/js/main.js"></script>
     <script>
       updateProgress(2); // Set the progress to 3/3 (100%)
@@ -331,6 +338,34 @@
         const progressPercentage = (step / totalSteps) * 100;
         progressBar.style.width = progressPercentage + "%";
       }
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Select elements for Solo Trip and Pets (No)
+        const soloTripButton = document.querySelector(
+          ".trip-type[data-type='solo']"
+        );
+        const petsNoButton = document.querySelector(
+          ".pets-option[data-pets='no']"
+        );
+
+        // Function to set the default selection
+        function setDefaultSelections() {
+          // Set Solo Trip as selected
+          if (soloTripButton) {
+            soloTripButton.classList.add("selected");
+          }
+
+          // Set Pets (No) as selected
+          if (petsNoButton) {
+            petsNoButton.classList.add("selected");
+          }
+        }
+
+        // Run the function on page load
+        setDefaultSelections();
+      });
     </script>
   </body>
 </html>

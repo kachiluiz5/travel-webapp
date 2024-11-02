@@ -10,6 +10,10 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
     <script src="./api/axios.js"></script>
 
@@ -73,13 +77,29 @@
         font-size: 48px;
         margin-bottom: 20px;
       }
+
+      .go-back {
+        margin-bottom: 30px;
+      }
+
+      .go-back i {
+        border: 1px solid black;
+        padding: 15px 18px;
+        border-radius: 50%;
+      }
     </style>
   </head>
   <body>
     <script src="./utils/db.js"></script>
+
     <div class="main">
       <div class="loader" id="loader"></div>
+
       <div class="signup-container">
+        <div class="go-back" id="goBackButton">
+          <i class="fa-solid fa-angle-left"></i>
+        </div>
+
         <h1 style="text-align: left; margin-bottom: 10px">Create An Account</h1>
 
         <form id="signupForm">
@@ -168,7 +188,6 @@
         <div id="buttonContainer">
           <button onclick="showLoginForm()" type="submit">Login</button>
         </div>
-
       </div>
     </div>
 
@@ -474,6 +493,16 @@
 
       document.addEventListener("DOMContentLoaded", function () {
         checkIfAuthenticated();
+      });
+    </script>
+
+    <script>
+      // Select the go-back button element
+      const goBackButton = document.getElementById("goBackButton");
+
+      // Add a click event listener to the go-back button
+      goBackButton.addEventListener("click", () => {
+        window.history.back(); // Go back to the previous page
       });
     </script>
     <script src="assets/js/main.js"></script>

@@ -1,8 +1,11 @@
 * {
   margin: 0;
   padding: 0;
-  font-family: Arial, sans-serif;
   box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
 }
 
 :root {
@@ -15,6 +18,99 @@
   --accent-color: #2596be;
   --accent-color-dark: rgb(37, 150, 190);
   --gold: #ad7a31;
+}
+
+h1 {
+  font-size: 2.5rem; /* 40px */
+  font-weight: 700;
+  line-height: 1.2;
+  color: #000000;
+}
+
+h2 {
+  font-size: 2rem; /* 32px */
+  font-weight: 600;
+  line-height: 1.3;
+  color: #000000;
+
+}
+
+h3 {
+  font-size: 1.75rem; /* 28px */
+  font-weight: 500;
+  line-height: 1.4;
+  color: #000000;
+
+}
+
+h4 {
+  font-size: 1.5rem; /* 24px */
+  font-weight: 500;
+  line-height: 1.4;
+  color: #000000;
+
+}
+
+p {
+  font-size: 1rem; /* 16px */
+  font-weight: 400;
+  line-height: 1.6;
+  color: #757575;
+}
+
+.progress-h1{
+  margin-bottom: 16px;
+  text-align: center;
+}
+.progress-text{
+  margin-bottom: 48px;
+  text-align: center;
+
+}
+/* Medium screens (tablets, 768px and up) */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2rem; /* 32px */
+  }
+
+  h2 {
+    font-size: 1.75rem; /* 28px */
+  }
+
+  h3 {
+    font-size: 1.5rem; /* 24px */
+  }
+
+  h4 {
+    font-size: 1.25rem; /* 20px */
+  }
+
+  p {
+    font-size: 0.9375rem; /* 15px */
+  }
+}
+
+/* Small screens (mobile devices, 480px and below) */
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.73rem; /* 28px */
+  }
+
+  h2 {
+    font-size: 1.5rem; /* 24px */
+  }
+
+  h3 {
+    font-size: 1.25rem; /* 20px */
+  }
+
+  h4 {
+    font-size: 1.125rem; /* 18px */
+  }
+
+  p {
+    font-size: 0.875rem; /* 14px */
+  }
 }
 
 /* Loader overlay */
@@ -75,18 +171,16 @@ body::-webkit-scrollbar-track {
   border-radius: 10px;
 }
 
-h1 {
+/* h1 {
   text-align: center;
   color: #333;
-  font-size: 28px;
-  font-weight: 800;
 }
 
 .p-head {
   text-align: center;
   color: #666;
   margin-bottom: 20px;
-}
+} */
 
 .main {
   margin: 0 auto;
@@ -103,7 +197,7 @@ h1 {
 
 .search-container {
   width: 100%;
-  max-width: 500px;
+  /* max-width: 500px; */
   margin: auto;
   position: relative;
   z-index: 1001;
@@ -277,7 +371,7 @@ h1 {
 .button {
   padding: 10px 20px;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
 }
 
@@ -289,7 +383,7 @@ h1 {
 .button-next {
   background-color: #2596be;
   color: white;
-  border-radius: 17px;
+  border-radius: 10px;
 }
 
 .search-overlay {
@@ -375,7 +469,7 @@ h1 {
   background-color: #000000;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
 }
 .nav-buttons button:hover {
@@ -400,9 +494,9 @@ h1 {
   .location-details {
     font-size: 11px;
   }
-  h1 {
+  /* h1 {
     font-size: 24px;
-  }
+  } */
   .destinations {
     grid-template-columns: repeat(2, 1fr);
     max-width: 100%;
@@ -439,7 +533,7 @@ h1 {
 .interest {
   background-color: #fff;
   border: 1px solid #ddd;
-  border-radius: 20px;
+  border-radius: 10px;
   padding: 8px 16px;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -501,9 +595,7 @@ h1 {
 }
 
 @media (max-width: 480px) {
-  .add-intrest-main h1 {
-    font-size: 24px;
-  }
+
   .add-intrest-main p {
     font-size: 14px;
   }
@@ -638,14 +730,16 @@ button[type="submit"] {
   max-width: 800px;
   margin: 0 auto;
   position: relative;
+  border-radius: 5px;
 }
 
 .progress-bar {
   width: 100%;
-  height: 4px;
+  height: 8px;
   background-color: #ddd;
   position: relative;
-  margin-bottom: 30px;
+  margin-bottom: 50px;
+  border-radius: 5px;
 }
 
 .progress {
@@ -653,21 +747,11 @@ button[type="submit"] {
   height: 100%;
   background-color: #1883aa;
   transition: width 0.3s ease;
+  border-radius: 10px;
 }
 
 /* ccalender */
 
-button#next-month {
-  padding: 5px 10px;
-  border-radius: 50%;
-  border: 0px;
-}
-
-button#prev-month {
-  padding: 5px 10px;
-  border-radius: 50%;
-  border: 0px;
-}
 .date-selector {
   background-color: #fff;
   padding: 16px;
@@ -686,6 +770,23 @@ button#prev-month {
   align-items: center;
   margin-bottom: 8px;
 }
+
+.calendar-header  button#prev-month{
+  padding: 10px 13px;
+  border-radius: 50%;
+  border: none;
+}
+
+.calendar-header  button#next-month{
+  padding: 10px 13px;
+  border-radius: 50%;
+  border: none;
+}
+
+.next-date-mobile{
+  visibility: hidden;
+}
+
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -722,7 +823,9 @@ button#prev-month {
   border-radius: 12px;
   background-color: #fff;
   cursor: pointer;
+  width: 188px;
 }
+
 .month-button.selected {
   background-color: var(--accent-color);
   color: white;
@@ -758,6 +861,8 @@ button#prev-month {
 .toggle-view a:hover {
   text-decoration: underline;
 }
+
+
 @media (max-width: 768px) {
   .calendar-container {
     flex-direction: column;
@@ -768,6 +873,16 @@ button#prev-month {
 
   .calendar-day.in-range {
     border-radius: 30px;
+  }
+
+  .next-date-mobile{
+    visibility: visible;
+  }
+  .month-selector {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
   }
 }
 
@@ -794,10 +909,6 @@ button#prev-month {
   cursor: pointer;
 }
 
-h1 {
-  font-size: 24px;
-  margin: 0 0 10px 0;
-}
 
 .subtitle {
   color: var(--secondary-color);
@@ -969,11 +1080,11 @@ h1 {
   font-size: 24px;
   cursor: pointer;
 }
-
+/* 
 h1 {
   font-size: 24px;
   margin: 0 0 10px 0;
-}
+} */
 
 .subtitle {
   color: var(--secondary-color);
@@ -1173,10 +1284,10 @@ h1 {
   cursor: pointer;
 }
 
-h1 {
+/* h1 {
   font-size: 24px;
   margin: 0 0 10px 0;
-}
+} */
 
 .subtitle {
   color: var(--secondary-color);
