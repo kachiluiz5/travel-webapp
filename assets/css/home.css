@@ -39,6 +39,15 @@ p {
   line-height: 1.6;
 }
 
+.progress-h1{
+  margin-bottom: 16px;
+  text-align: center;
+}
+.progress-text{
+  margin-bottom: 48px;
+  text-align: center;
+}
+
 :root {
     --primary-color: #000;
     --secondary-color: #666;
