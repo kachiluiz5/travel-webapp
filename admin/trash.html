@@ -41,258 +41,8 @@
     <link rel="stylesheet" href="assets/css/lib/audioplayer.css" />
     <!-- main css -->
     <link rel="stylesheet" href="assets/css/style.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css"
-    />
   </head>
   <body>
-    <script src="./../utils/db.js"></script>
-    <script src="./../utils/loader.js"></script>
-    <script src="./../api/axios.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.9/plugin/relativeTime.js"></script>
-
-    <script>
-      document.addEventListener("DOMContentLoaded", async () => {
-        dayjs.extend(dayjs_plugin_relativeTime);
-
-        const toast = new Notyf({
-          duration: 4000,
-        });
-
-        const myProfileRequest = await apiClient.get("/user/me");
-
-        if (myProfileRequest.status === 200) {
-          const { data } = myProfileRequest.data;
-          updateNotification(data.notifications);
-          updateUsername(data.name);
-          updateUserImage(data.name);
-          updateTotalTrips(data.totalTrips);
-        } else {
-          toast.error("An error occurred while fetching your profile.");
-        }
-
-        const adminDashboardDataRequest = await apiClient.get(
-          "/admin/dashboard"
-        );
-
-        if (adminDashboardDataRequest.status === 200) {
-          const { data } = adminDashboardDataRequest.data;
-          updateTotalUsers(data.totalUsers);
-          updateTotalUserTrips(data.totalTrips);
-        } else {
-          toast.error("An error occurred while fetching the dashboard data.");
-        }
-
-        const getTopUsersRequest = await apiClient.get("/admin/high-trips");
-
-        if (getTopUsersRequest.status === 200) {
-          const { data } = getTopUsersRequest.data;
-          updateTopCustomersList(data);
-        } else {
-          toast.error("An error occurred while fetching the top users.");
-        }
-
-        const getAllUsers = await apiClient.get("/user");
-
-        if (getAllUsers.status === 200) {
-          const { data } = getAllUsers.data;
-          updateUsersTable(data);
-        } else {
-          toast.error("An error occurred while fetching the users.");
-        }
-      });
-
-      const updateUsersTable = async (users) => {
-        const userTable = $("#usersTable");
-
-        users.map((user) => {
-          userTable.append(`
-            <tr>
-              <td>${dayjs(user.createdAt).format("DD MMM YYYY")}</td>
-              <td>${user.name}</td>
-              <td>${user.email}</td>
-              <td>${user.role}</td>
-              <td>
-                ${
-                  user.verified !== true
-                    ? `<span
-                    class="bg-warning-focus text-warning-main px-24 py-4 rounded-pill fw-medium text-sm"
-                    >${user.verified}</span
-                  >`
-                    : `<span
-                    class="bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm"
-                    >${user.verified}</span
-                  >`
-                }
-
-              </td>
-              <td class="text-center text-neutral-700 text-xl">
-                  <div class="dropdown">
-                      <button type="button" data-bs-toggle="dropdown" aria-expanded="false"> 
-                          <iconify-icon icon="ph:dots-three-outline-vertical-fill" class="icon"></iconify-icon> 
-                      </button>
-                      <ul class="dropdown-menu p-12 border bg-base shadow">
-                          <li><a class="dropdown-item px-16 py-8 rounded text-secondary-light bg-hover-neutral-200 text-hover-neutral-900" href="javascript:void(0)">Action</a></li>
-                          <li><a class="dropdown-item px-16 py-8 rounded text-secondary-light bg-hover-neutral-200 text-hover-neutral-900" href="javascript:void(0)">Another action</a></li>
-                          <li><a class="dropdown-item px-16 py-8 rounded text-secondary-light bg-hover-neutral-200 text-hover-neutral-900" href="javascript:void(0)">Something else here</a></li>
-                      </ul>
-                  </div>
-              </td>
-
-            </tr>
-          `);
-        });
-      };
-
-      const updateNotification = (notifications) => {
-        const totalNotification = $("#totalNotification");
-        totalNotification.text(notifications.length);
-
-        const notificationsBody = $("#notifications");
-        notificationsBody.empty(); // Clear existing notifications before appending new ones (optional but recommended)
-
-        notifications.map((notification) => {
-          let icon, title;
-
-          // Determine icon and title based on notification type
-          switch (notification.type) {
-            case "ACCOUNT_CREATED":
-              icon =
-                '<iconify-icon icon="bi:person-plus-fill" class="icon text-lg"></iconify-icon>';
-              title = "Account Created";
-              break;
-            case "TRIP_CREATED":
-              icon =
-                '<iconify-icon icon="bi:calendar-plus-fill" class="icon text-lg"></iconify-icon>';
-              title = "Trip Created";
-              break;
-            case "TRIP_UPDATED":
-              icon =
-                '<iconify-icon icon="bi:calendar-event-fill" class="icon text-lg"></iconify-icon>';
-              title = "Trip Updated";
-              break;
-            case "TRIP_APPROVED":
-              icon =
-                '<iconify-icon icon="bi:check-circle-fill" class="icon text-lg"></iconify-icon>';
-              title = "Trip Approved";
-              break;
-            case "TRIP_DECLINED":
-              icon =
-                '<iconify-icon icon="bi:x-circle-fill" class="icon text-lg"></iconify-icon>';
-              title = "Trip Declined";
-              break;
-            case "TRIP_COMPLETED":
-              icon =
-                '<iconify-icon icon="bi:check2-circle" class="icon text-lg"></iconify-icon>';
-              title = "Trip Completed";
-              break;
-            default:
-              icon =
-                '<iconify-icon icon="bi:bell-fill" class="icon text-lg"></iconify-icon>';
-              title = "Notification";
-              break;
-          }
-
-          notificationsBody.append(`
-      <a
-        href="javascript:void(0)"
-        class="px-24 py-12 d-flex align-items-start gap-3 mb-2 justify-content-between">
-            <div
-              class="text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3"
-            >
-              <span
-                class="w-44-px h-44-px bg-success-subtle text-success-main rounded-circle d-flex justify-content-center align-items-center flex-shrink-0"
-              >
-                ${icon}
-              </span>
-              <div>
-                <h6 class="text-md fw-semibold mb-4">
-                  ${title}
-                </h6>
-                <p
-                  class="mb-0 text-sm text-secondary-light text-w-200-px"
-                >
-                  ${notification.message}
-                </p>
-              </div>
-            </div>
-            <span class="text-sm text-secondary-light flex-shrink-0"
-              >${dayjs(notification.createdAt).fromNow()}</span
-            >
-      </a>
-    `);
-        });
-      };
-
-      const updateUsername = (name) => {
-        const userName = $("#userName");
-        userName.text(name);
-      };
-
-      const updateTotalTrips = (totalTrips) => {
-        const totalTripsElement = $("#totalTrips");
-        totalTripsElement.text(totalTrips);
-      };
-
-      const updateUserImage = (name) => {
-        const profileImage = $("#profileImage");
-        profileImage.attr(
-          "src",
-          `https://api.dicebear.com/7.x/big-smile/svg?seed=${name}`
-        );
-      };
-
-      const handleLogout = async () => {
-        await apiClient.post("/auth/logout");
-        localStorage.removeItem("accessToken");
-        clearUserData();
-        window.location.href = "/signup.html?action=login";
-      };
-
-      const updateTotalUsers = (totalUsers) => {
-        const totalUsersElement = $("#totalUsers");
-        totalUsersElement.text(totalUsers);
-      };
-
-      const updateTotalUserTrips = (totalTrips) => {
-        const totalTripsElement = $("#totalTrips");
-        totalTripsElement.text(totalTrips);
-      };
-
-      const updateTopCustomersList = (topUsers) => {
-        const topUsersContainer = $("#topCustomersContainer");
-
-        topUsers.map((user) => {
-          topUsersContainer.append(
-            ` <div
-                    class="d-flex align-items-center justify-content-between gap-3 mb-32"
-                  >
-                    <div class="d-flex align-items-center">
-                      <img
-                        src="https://api.dicebear.com/7.x/big-smile/svg?seed=${user.name}"
-                        alt=""
-                        class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden"
-                      />
-                      <div class="flex-grow-1">
-                        <h6 class="text-md mb-0">${user.name}</h6>
-                      </div>
-                    </div>
-                    <span class="text-primary-light text-md fw-medium"
-                      >${user.trips.length} Trips</span
-                    >
-                  </div>`
-          );
-        });
-      };
-    </script>
     <aside class="sidebar">
       <button type="button" class="sidebar-close-btn">
         <iconify-icon icon="radix-icons:cross-2"></iconify-icon>
@@ -346,6 +96,7 @@
         </ul>
       </div>
     </aside>
+
 
     <main class="dashboard-main">
       <div class="navbar-header">
@@ -469,7 +220,7 @@
 
                     <li>
                       <a
-                        class="dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-danger d-flex align-items-center gap-3"
+                        class="dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-danger d-flex align-items-center gap-3 cursor-pointer"
                         onclick="handleLogout()"
                       >
                         <iconify-icon
@@ -487,11 +238,12 @@
           </div>
         </div>
       </div>
+
       <div class="dashboard-main-body">
         <div
           class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-24"
         >
-          <h6 class="fw-semibold mb-0">Users</h6>
+          <h6 class="fw-semibold mb-0">Trash</h6>
           <ul class="d-flex align-items-center gap-2">
             <li class="fw-medium">
               <a
@@ -506,7 +258,7 @@
               </a>
             </li>
             <li>-</li>
-            <li class="fw-medium">Users</li>
+            <li class="fw-medium">Trash</li>
           </ul>
         </div>
 
@@ -548,10 +300,11 @@
                 class="form-select form-select-sm w-auto ps-12 py-6 radius-12 h-40-px"
               >
                 <option>Status</option>
-                <option>Active</option>
-                <option>Inactive</option>
+                <option>Restore</option>
+                <option>Delete</option>
               </select>
             </div>
+
           </div>
           <div class="card-body p-24">
             <div class="table-responsive scroll-sm">
@@ -560,18 +313,159 @@
                   <tr>
                     <th scope="col">
                       <div class="d-flex align-items-center gap-10">
-                        Join Date
+                        <div
+                          class="form-check style-check d-flex align-items-center"
+                        >
+                          <input
+                            class="form-check-input radius-4 border input-form-dark"
+                            type="checkbox"
+                            name="checkbox"
+                            id="selectAll"
+                          />
+                        </div>
+                        S.L
                       </div>
                     </th>
-                    <th scope="col">Fullname</th>
+                    <th scope="col">Join Date</th>
+                    <th scope="col">Name</th>
                     <th scope="col">Email</th>
-                    <th scope="col">Role</th>
-                    <th scope="col">Verified</th>
-                    <th scope="col">Action</th>
+                    <th scope="col" class="text-center">Restore</th>
+                    <th scope="col" class="text-center">Action</th>
                   </tr>
                 </thead>
-                <tbody id="usersTable"></tbody>
+                <tbody>
+
+                  <tr>
+                    <td>
+                      <div class="d-flex align-items-center gap-10">
+                        <div
+                          class="form-check style-check d-flex align-items-center"
+                        >
+                          <input
+                            class="form-check-input radius-4 border border-neutral-400"
+                            type="checkbox"
+                            name="checkbox"
+                          />
+                        </div>
+                        01
+                      </div>
+                    </td>
+                    <td>25 Jan 2024</td>
+                    <td>
+                      <div class="d-flex align-items-center">
+
+                        <div class="flex-grow-1">
+                          <span
+                            class="text-md mb-0 fw-normal text-secondary-light"
+                            >Kathryn Murphy</span
+                          >
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <span class="text-md mb-0 fw-normal text-secondary-light"
+                        >osgoodwy@gmail.com</span
+                      >
+                    </td>
+
+                    <td class="text-center">
+                      <button type="button" class="btn rounded-pill btn-outline-primary-600 radius-8 px-20 py-11">Restore</button>
+                    </td>
+                    <td class="text-center">
+                      <div
+                        class="d-flex align-items-center gap-10 justify-content-center"
+                      >
+
+                        <button
+                          type="button"
+                          class="bg-success-focus text-success-600 bg-hover-success-200 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle"
+                        >
+                          <iconify-icon
+                            icon="lucide:edit"
+                            class="menu-icon"
+                          ></iconify-icon>
+                        </button>
+                        <button
+                          type="button"
+                          class="remove-item-btn bg-danger-focus bg-hover-danger-200 text-danger-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle"
+                        >
+                          <iconify-icon
+                            icon="fluent:delete-24-regular"
+                            class="menu-icon"
+                          ></iconify-icon>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+
+                </tbody>
               </table>
+            </div>
+
+            <div
+              class="d-flex align-items-center justify-content-between flex-wrap gap-2 mt-24"
+            >
+              <span>Showing 1 to 10 of 12 entries</span>
+              <ul
+                class="pagination d-flex flex-wrap align-items-center gap-2 justify-content-center"
+              >
+                <li class="page-item">
+                  <a
+                    class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md"
+                    href="javascript:void(0)"
+                    ><iconify-icon
+                      icon="ep:d-arrow-left"
+                      class=""
+                    ></iconify-icon
+                  ></a>
+                </li>
+                <li class="page-item">
+                  <a
+                    class="page-link text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md bg-primary-600 text-white"
+                    href="javascript:void(0)"
+                    >1</a
+                  >
+                </li>
+                <li class="page-item">
+                  <a
+                    class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px"
+                    href="javascript:void(0)"
+                    >2</a
+                  >
+                </li>
+                <li class="page-item">
+                  <a
+                    class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md"
+                    href="javascript:void(0)"
+                    >3</a
+                  >
+                </li>
+                <li class="page-item">
+                  <a
+                    class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md"
+                    href="javascript:void(0)"
+                    >4</a
+                  >
+                </li>
+                <li class="page-item">
+                  <a
+                    class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md"
+                    href="javascript:void(0)"
+                    >5</a
+                  >
+                </li>
+                <li class="page-item">
+                  <a
+                    class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md"
+                    href="javascript:void(0)"
+                  >
+                    <iconify-icon
+                      icon="ep:d-arrow-right"
+                      class=""
+                    ></iconify-icon>
+                  </a>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -582,7 +476,9 @@
           <div class="col-auto">
             <p class="mb-0">© 2024. All Rights Reserved.</p>
           </div>
-          <div class="col-auto"></div>
+          <div class="col-auto">
+
+          </div>
         </div>
       </footer>
     </main>
