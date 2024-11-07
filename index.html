@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="assets/css/home.css" />
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
 
     <link
       rel="stylesheet"
@@ -207,276 +210,276 @@
       color: white;
       border-radius: 17px;
     }
-    
-/* Search Trip Styles */
-.logo-mobile{
-  width: 200px;
-}
 
-@media (max-width: 480px) {
-  .logo-mobile{
-    width: 140px;
-  }
-}
+    /* Search Trip Styles */
+    .logo-mobile {
+      width: 200px;
+    }
 
-.search-container {
-  width: 100%;
-  max-width: 500px;
-  margin: auto;
-  position: relative;
-  z-index: 1001;
-}
+    @media (max-width: 480px) {
+      .logo-mobile {
+        width: 140px;
+      }
+    }
 
-.search-wrapper {
-  position: relative;
-  width: 100%;
-}
+    .search-container {
+      width: 100%;
+      max-width: 500px;
+      margin: auto;
+      position: relative;
+      z-index: 1001;
+    }
 
-.search-bar {
-  width: 100%;
-  height: 50px;
-  padding: 10px 40px;
-  border: 1px solid #ddd;
-  border-radius: 20px;
-  font-size: 16px;
-  outline: none;
-  box-sizing: border-box;
-  transition: border-radius 0.3s ease;
-}
+    .search-wrapper {
+      position: relative;
+      width: 100%;
+    }
 
-.search-bar.active {
-  border-bottom: 2px solid #2596be;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-}
+    .search-bar {
+      width: 100%;
+      height: 50px;
+      padding: 10px 40px;
+      border: 1px solid #ddd;
+      border-radius: 20px;
+      font-size: 16px;
+      outline: none;
+      box-sizing: border-box;
+      transition: border-radius 0.3s ease;
+    }
 
-.search-icon {
-  position: absolute;
-  left: 15px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #888;
-  pointer-events: none;
-}
+    .search-bar.active {
+      border-bottom: 2px solid #2596be;
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+    }
 
-.search-results {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background-color: white;
-  border-radius: 0 0 20px 20px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  max-height: 300px;
-  overflow-y: auto;
-  display: none;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-}
+    .search-icon {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #888;
+      pointer-events: none;
+    }
 
-.search-results::-webkit-scrollbar {
-  width: 6px;
-}
+    .search-results {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background-color: white;
+      border-radius: 0 0 20px 20px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      max-height: 300px;
+      overflow-y: auto;
+      display: none;
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+    }
 
-.search-results::-webkit-scrollbar-thumb {
-  background-color: #888;
-  border-radius: 10px;
-}
+    .search-results::-webkit-scrollbar {
+      width: 6px;
+    }
 
-.result-item {
-  padding: 10px;
-  border-bottom: 1px solid #eee;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
+    .search-results::-webkit-scrollbar-thumb {
+      background-color: #888;
+      border-radius: 10px;
+    }
 
-.result-item:last-child {
-  border-bottom: none;
-}
+    .result-item {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
 
-.result-item:hover {
-  background-color: #f5f5f5;
-}
+    .result-item:last-child {
+      border-bottom: none;
+    }
 
-.location-icon {
-  margin-right: 10px;
-  color: #666;
-  flex-shrink: 0;
-  padding: 10px;
-  border: 2px solid grey;
-  border-radius: 5px;
-  background-color: #f0f0f0;
-}
+    .result-item:hover {
+      background-color: #f5f5f5;
+    }
 
-.location-info {
-  flex-grow: 1;
-  min-width: 0;
-}
+    .location-icon {
+      margin-right: 10px;
+      color: #666;
+      flex-shrink: 0;
+      padding: 10px;
+      border: 2px solid grey;
+      border-radius: 5px;
+      background-color: #f0f0f0;
+    }
 
-.location-name {
-  font-weight: bold;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+    .location-info {
+      flex-grow: 1;
+      min-width: 0;
+    }
 
-.location-details {
-  font-size: 12px;
-  color: #666;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+    .location-name {
+      font-weight: bold;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
-.destinations {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 20px;
-  justify-content: center;
-  max-width: 600px;
-  margin: auto;
-}
+    .location-details {
+      font-size: 12px;
+      color: #666;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
-.destination {
-  text-align: center;
-}
+    .destinations {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+      justify-content: center;
+      max-width: 600px;
+      margin: auto;
+    }
 
-.destination a {
-  text-decoration: none;
-  color: inherit;
-}
+    .destination {
+      text-align: center;
+    }
 
-.destination img {
-  width: 100%;
-  height: 120px;
-  object-fit: cover;
-  border-radius: 10px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
+    .destination a {
+      text-decoration: none;
+      color: inherit;
+    }
 
-.destination img:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-}
+    .destination img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 10px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
 
-.destination img:active {
-  transform: scale(0.95);
-  transition: transform 0.1s ease;
-}
+    .destination img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
 
-.destination h3 {
-  margin: 10px 0 5px;
-  font-size: 16px;
-  color: #333;
-}
+    .destination img:active {
+      transform: scale(0.95);
+      transition: transform 0.1s ease;
+    }
 
-.destination p {
-  margin: 0;
-  font-size: 14px;
-  color: #666;
-}
+    .destination h3 {
+      margin: 10px 0 5px;
+      font-size: 16px;
+      color: #333;
+    }
 
-.spacer-top-bottom {
-  margin-bottom: 20px;
-}
+    .destination p {
+      margin: 0;
+      font-size: 14px;
+      color: #666;
+    }
 
-.button-container {
-  position: fixed;
-  bottom: 20px;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: space-between;
-  padding: 0 20px;
-}
+    .spacer-top-bottom {
+      margin-bottom: 20px;
+    }
 
-.button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
+    .button-container {
+      position: fixed;
+      bottom: 20px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 20px;
+    }
 
-.button-back {
-  background-color: #f0f0f0;
-  color: #333;
-}
+    .button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
 
-.button-next {
-  background-color: #2596be;
-  color: white;
-  border-radius: 17px;
-}
+    .button-back {
+      background-color: #f0f0f0;
+      color: #333;
+    }
 
-.search-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(5px);
-  display: none;
-  justify-content: center;
-  align-items: flex-start;
-  padding-top: 100px;
-  z-index: 1000;
-}
+    .button-next {
+      background-color: #2596be;
+      color: white;
+      border-radius: 17px;
+    }
 
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.9); /* Darker overlay */
-  display: none;
-  z-index: 1000;
-}
+    .search-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(5px);
+      display: none;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 100px;
+      z-index: 1000;
+    }
 
-.popup-modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  display: none;
-  z-index: 1002;
-  text-align: center;
-}
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9); /* Darker overlay */
+      display: none;
+      z-index: 1000;
+    }
 
-.popup-modal h2 {
-  margin: 0;
-  font-size: 20px;
-}
+    .popup-modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      display: none;
+      z-index: 1002;
+      text-align: center;
+    }
 
-.airplane {
-  width: 50px;
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  animation: flyout 3s forwards;
-}
+    .popup-modal h2 {
+      margin: 0;
+      font-size: 20px;
+    }
 
-@keyframes flyout {
-  0% {
-    bottom: 20px;
-    transform: translate(-50%, 0) rotate(0);
-  }
-  50% {
-    transform: translate(-50%, -50px) rotate(20deg);
-  }
-  100% {
-    bottom: 100%;
-    transform: translate(200vw, -100px) rotate(30deg);
-  }
-}
+    .airplane {
+      width: 50px;
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: flyout 3s forwards;
+    }
+
+    @keyframes flyout {
+      0% {
+        bottom: 20px;
+        transform: translate(-50%, 0) rotate(0);
+      }
+      50% {
+        transform: translate(-50%, -50px) rotate(20deg);
+      }
+      100% {
+        bottom: 100%;
+        transform: translate(200vw, -100px) rotate(30deg);
+      }
+    }
 
     .search-overlay {
       position: fixed;
@@ -562,7 +565,7 @@
       <div class="header-overlay">
         <header>
           <div class="logo">
-             <img src="assets/images/logo/logo.png" class="logo-mobile" alt="">
+            <img src="assets/images/logo/logo.png" class="logo-mobile" alt="" />
           </div>
           <div style="display: flex">
             <h5 style="font-size: 22px; color: white; margin-right: 10px">
@@ -590,13 +593,13 @@
         <div class="hero-content">
           <h1>PLAN A TRIP</h1>
           <a href="search-trip.html">
-            <button class="cta-button">Speak with an Experienced Curator</button>
+            <button class="cta-button">
+              Speak with an Experienced Curator
+            </button>
           </a>
         </div>
       </div>
     </div>
-
-    
 
     <!-- nav -->
     <nav id="sideNav">
@@ -678,8 +681,12 @@
 
     <div class="main">
       <div class="search-trip-container">
-        <h1 class="search-trip-1" style="margin-bottom: 20px;">Where do you want to go?</h1>
-        <p class="progress-text">Search or get inspired by popular destinations.</p>
+        <h1 class="search-trip-1" style="margin-bottom: 20px">
+          Where do you want to go?
+        </h1>
+        <p class="progress-text">
+          Search or get inspired by popular destinations.
+        </p>
         <div class="search-container">
           <div class="search-wrapper">
             <i class="fas fa-search search-icon"></i>

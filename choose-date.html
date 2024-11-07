@@ -19,9 +19,16 @@
           <div class="progress" style="width: 0%"></div>
         </div>
 
-        <h1 style="font-size: 28px; margin-bottom: 16px;" class="progress-h1">When are you going?</h1>
+        <h1 style="font-size: 28px; margin-bottom: 16px" class="progress-h1">
+          When are you going?
+        </h1>
         <div id="exact-dates">
-          <p class="info progress-text" style="text-align: center; margin-bottom: 48px;" >Choose a date range, up to 30 days.</p>
+          <p
+            class="info progress-text"
+            style="text-align: center; margin-bottom: 48px"
+          >
+            Choose a date range, up to 30 days.
+          </p>
           <div class="calendar-container">
             <div class="calendar">
               <div class="calendar-header">
@@ -36,12 +43,15 @@
                 <span></span>
                 <span id="current-month-2"></span>
                 <button id="next-month">&gt;</button>
-
               </div>
               <div class="calendar-grid" id="calendar-2"></div>
             </div>
           </div>
-          <p id="date-range-info" class="info" style="margin-top: 20px; text-align: center;"></p>
+          <p
+            id="date-range-info"
+            class="info"
+            style="margin-top: 20px; text-align: center"
+          ></p>
           <div class="toggle-view">
             <a href="#" id="toggle-to-month">I don't know my dates yet</a>
           </div>
@@ -240,7 +250,6 @@
             month: null,
             days: null,
           });
-
         } else if (selectedStartDate) {
           dateRangeInfo.textContent = `Start date: ${formatDate(
             selectedStartDate
