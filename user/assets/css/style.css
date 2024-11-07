@@ -12664,20 +12664,7 @@ td.fc-header-center {
   height: 80px;
 }
 
-.chat-main-profile .img::after {
-  position: absolute;
-  content: "";
-  bottom: 4px;
-  inset-inline-end: 9px;
-  width: 12px;
-  height: 12px;
-  background-color: var(--success-main);
-  border-radius: 50%;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-  -ms-border-radius: 50%;
-  -o-border-radius: 50%;
-}
+
 
 .chat-main-profile .img img {
   width: 80px;
