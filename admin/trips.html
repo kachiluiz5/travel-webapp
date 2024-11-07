@@ -297,6 +297,17 @@ const updateNotification = (notifications) => {
         <td>
           <span class="${statusClass} px-24 py-4 rounded-pill fw-medium text-sm">${statusText}</span>
         </td>
+        <td class="text-center text-neutral-700 text-xl">
+        <div class="dropdown">
+          <button type="button" data-bs-toggle="dropdown" aria-expanded="false"> 
+            <iconify-icon icon="ph:dots-three-outline-vertical-fill" class="icon"></iconify-icon> 
+          </button>
+          <ul class="dropdown-menu p-12 border bg-base shadow">
+            <li><a class="dropdown-item px-16 py-8 rounded text-secondary-light bg-hover-neutral-200 text-hover-neutral-900" href="javascript:void(0)">Request Rework</a></li>
+              <li><a class="dropdown-item px-16 py-8 rounded text-secondary-light bg-hover-neutral-200 text-hover-neutral-900" href="javascript:void(0)">Delete</a></li>
+          </ul>
+          </div>
+        </td>
       </tr>
     `);
   });
@@ -534,6 +545,7 @@ const updateNotification = (notifications) => {
                         <th scope="col">Length Of Stay</th>
                         <th scope="col">Status</th>
 
+                        <th scope="col">Actions</th>
 
                       </tr>
                     </thead>

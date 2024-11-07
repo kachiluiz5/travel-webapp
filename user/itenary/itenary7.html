@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelBuddy - Your Smart Itinerary Planner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <link href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #50e3c2;
+            --background-color: #f8f9fa;
+            --text-color: #333;
+            --card-background: #fff;
+            --accent-color: #ff6b6b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background-color: var(--card-background);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background-color: var(--background-color);
+            border: none;
+            border-radius: 25px;
+            margin: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .tab.active {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 10px rgba(74, 144, 226, 0.3);
+        }
+
+        #map-view {
+            height: 400px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        input, select, button {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+        }
+
+        input[type="text"], input[type="number"] {
+            flex-grow: 1;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #3a7bc8;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(74, 144, 226, 0.3);
+        }
+
+        ul {
+            list-style-type: none;
+        }
+
+        li {
+            background-color: var(--card-background);
+            margin-bottom: 15px;
+            padding: 20px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: move;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        li:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        li.completed {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+
+        .item-details {
+            flex-grow: 1;
+        }
+
+        .item-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .edit-btn, .delete-btn, .complete-btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            color: white;
+        }
+
+        .edit-btn {
+            background-color: var(--secondary-color);
+        }
+
+        .delete-btn {
+            background-color: var(--accent-color);
+        }
+
+        .complete-btn {
+            background-color: #6c5ce7;
+        }
+
+        .budget-summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .budget-total {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .over-budget {
+            color: var(--accent-color);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: var(--card-background);
+            margin: 10% auto;
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            transform: translateY(-50px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .modal.active .modal-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close:hover {
+            color: var(--text-color);
+        }
+
+        #share-options {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        #share-options button {
+            margin: 10px;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            margin-left: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .tab {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+
+            #map-view {
+                height: 300px;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 5% auto;
+            }
+
+            form {
+                flex-direction: column;
+            }
+
+            input, select, button {
+                width: 100%;
+            }
+
+            .budget-summary {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .budget-total {
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>TravelBuddy</h1>
+            <h2>Your Smart Itinerary Planner</h2>
+        </header>
+        <main>
+            <div class="tabs">
+                <button class="tab active" data-view="list">List View</button>
+                <button class="tab" data-view="calendar">Calendar View</button>
+                <button class="tab" data-view="map">Map View</button>
+            </div>
+            <section id="list-view" class="card">
+                <h2>Your Itinerary</h2>
+                <ul id="itinerary-list"></ul>
+            </section>
+            <section id="calendar-view" class="card" style="display: none;">
+                <div id="calendar"></div>
+            </section>
+            <section id="map-view" class="card" style="display: none;"></section>
+            <section class="card">
+                <h2>Add New Adventure</h2>
+                <form id="add-item-form">
+                    <input type="text" id="item-name" placeholder="Adventure name" required>
+                    <input type="text" id="item-location" placeholder="Location">
+                    <input type="date" id="item-date" required>
+                    <select id="item-time" required>
+                        <option value="">Select time</option>
+                        <option value="morning">Morning</option>
+                        <option value="afternoon">Afternoon</option>
+                        <option value="evening">Evening</option>
+                        <option value="custom">Custom Time</option>
+                    </select>
+                    <input type="time" id="item-custom-time" style="display: none;">
+                    <input type="number" id="item-duration" placeholder="Duration (minutes)" min="0" step="5">
+                    <input type="number" id="item-cost" placeholder="Cost" min="0" step="0.01">
+                    <button type="submit">Add to Itinerary</button>
+                </form>
+            </section>
+            <section class="card budget-summary">
+                <h2>Budget Overview</h2>
+                <div>
+                    <label for="total-budget">Total Budget: </label>
+                    <input type="number" id="total-budget" min="0" step="0.01">
+                </div>
+                <div class="budget-total">Total Spent: $<span id="total-spent">0.00</span></div>
+            </section>
+            <section class="card">
+                <h2>Share Your Journey</h2>
+                <div id="share-options">
+                    <button id="export-pdf">Export as PDF</button>
+                    <button id="share-link">Share Link</button>
+                    <button id="share-email">Share via Email</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="edit-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Edit Adventure</h2>
+            <form id="edit-item-form">
+                <input type="text" id="edit-name" required>
+                <input type="text" id="edit-location">
+                <input type="date" id="edit-date" required>
+                <select id="edit-time" required>
+                    <option value="morning">Morning</option>
+                    <option value="afternoon">Afternoon</option>
+                    <option value="evening">Evening</option>
+                    <option value="custom">Custom Time</option>
+                </select>
+                <input type="time" id="edit-custom-time" style="display: none;">
+                <input type="number" id="edit-duration" placeholder="Duration (minutes)" min="0" step="5">
+                <input type="number" id="edit-cost" placeholder="Cost" min="0" step="0.01">
+                <button type="submit">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toast-message"></span>
+        <button class="toast-close">&times;</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('add-item-form');
+            const itemList = document.getElementById('itinerary-list');
+            const totalBudgetInput = document.getElementById('total-budget');
+            const totalSpentSpan = document.getElementById('total-spent');
+            const timeSelect = document.getElementById('item-time');
+            const  customTimeInput = document.getElementById('item-custom-time');
+            const editModal = document.getElementById('edit-modal');
+            const editForm = document.getElementById('edit-item-form');
+            const closeModal = document.querySelector('.close');
+            const tabs = document.querySelectorAll('.tab');
+            const views = document.querySelectorAll('#list-view, #calendar-view, #map-view');
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toast-message');
+            const toastClose = document.querySelector('.toast-close');
+            let itinerary = JSON.parse(localStorage.getItem('itinerary')) || [];
+            let totalBudget = parseFloat(localStorage.getItem('totalBudget')) || 0;
+            let map, calendar;
+
+            totalBudgetInput.value = totalBudget;
+
+            function showToast(message) {
+                toastMessage.textContent = message;
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            }
+
+            toastClose.addEventListener('click', () => {
+                toast.classList.remove('show');
+            });
+
+            function initMap() {
+                map = L.map('map-view').setView([0, 0], 2);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+            }
+
+            function initCalendar() {
+                const calendarEl = document.getElementById('calendar');
+                calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'dayGridMonth',
+                    events: itinerary.map(item => ({
+                        title: item.name,
+                        start: `${item.date}T${item.time === 'custom' ? item.customTime : '00:00:00'}`
+                    }))
+                });
+                calendar.render();
+            }
+
+            function updateViews() {
+                updateMap();
+                updateCalendar();
+            }
+
+            function updateMap() {
+                if (map) {
+                    map.eachLayer(layer => {
+                        if (layer instanceof L.Marker) {
+                            map.removeLayer(layer);
+                        }
+                    });
+
+                    itinerary.forEach(item => {
+                        if (item.location) {
+                            // This is a simplified approach. In a real application, you'd use a geocoding service.
+                            const [lat, lng] = item.location.split(',').map(coord => parseFloat(coord.trim()));
+                            if (!isNaN(lat) && !isNaN(lng)) {
+                                L.marker([lat, lng]).addTo(map)
+                                    .bindPopup(`<b>${item.name}</b><br>${item.date} ${item.time}`);
+                            }
+                        }
+                    });
+                }
+            }
+
+            function updateCalendar() {
+                if (calendar) {
+                    calendar.removeAllEvents();
+                    calendar.addEventSource(itinerary.map(item => ({
+                        title: item.name,
+                        start: `${item.date}T${item.time === 'custom' ? item.customTime : '00:00:00'}`
+                    })));
+                }
+            }
+
+            function renderItinerary() {
+                itemList.innerHTML = '';
+                itinerary.forEach((item, index) => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        <div class="item-details">
+                            <strong>${item.name}</strong> - ${item.location ? item.location + ' | ' : ''}
+                            ${item.date} | ${item.time}${item.duration ? ' | ' + item.duration + ' min' : ''}
+                            ${item.cost ? ' | $' + parseFloat(item.cost).toFixed(2) : ''}
+                        </div>
+                        <div class="item-actions">
+                            <button class="edit-btn" data-index="${index}">Edit</button>
+                            <button class="complete-btn" data-index="${index}">${item.completed ? 'Undo' : 'Complete'}</button>
+                            <button class="delete-btn" data-index="${index}">Delete</button>
+                        </div>
+                    `;
+                    if (item.completed) {
+                        li.classList.add('completed');
+                    }
+                    itemList.appendChild(li);
+                });
+
+                localStorage.setItem('itinerary', JSON.stringify(itinerary));
+                updateBudgetSummary();
+                updateViews();
+            }
+
+            function updateBudgetSummary() {
+                const totalSpent = itinerary.reduce((sum, item) => sum + (parseFloat(item.cost) || 0), 0);
+                totalSpentSpan.textContent = totalSpent.toFixed(2);
+                totalSpentSpan.parentElement.classList.toggle('over-budget', totalSpent > totalBudget);
+            }
+
+            new Sortable(itemList, {
+                animation: 150,
+                ghostClass: 'sortable-ghost',
+                onEnd: () => {
+                    const newOrder = Array.from(itemList.children).map(li => {
+                        const index = li.querySelector('.edit-btn').getAttribute('data-index');
+                        return itinerary[index];
+                    });
+                    itinerary = newOrder;
+                    renderItinerary();
+                },
+            });
+
+            timeSelect.addEventListener('change', () => {
+                customTimeInput.style.display = timeSelect.value === 'custom' ? 'inline-block' : 'none';
+            });
+
+            totalBudgetInput.addEventListener('change', () => {
+                totalBudget = parseFloat(totalBudgetInput.value) || 0;
+                localStorage.setItem('totalBudget', totalBudget);
+                updateBudgetSummary();
+            });
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('item-name').value;
+                const location = document.getElementById('item-location').value;
+                const date = document.getElementById('item-date').value;
+                const time = document.getElementById('item-time').value;
+                const customTime = document.getElementById('item-custom-time').value;
+                const duration = document.getElementById('item-duration').value;
+                const cost = document.getElementById('item-cost').value;
+                
+                itinerary.push({ 
+                    name, 
+                    location, 
+                    date,
+                    time: time === 'custom' ? customTime : time,
+                    customTime: time === 'custom' ? customTime : '',
+                    duration, 
+                    cost, 
+                    completed: false 
+                });
+                renderItinerary();
+                form.reset();
+                showToast('New adventure added to your itinerary!');
+            });
+
+            itemList.addEventListener('click', (e) => {
+                const target = e.target;
+                const li = target.closest('li');
+                const index = Array.from(itemList.children).indexOf(li);
+
+                if (target.classList.contains('delete-btn')) {
+                    itinerary.splice(index, 1);
+                    renderItinerary();
+                    showToast('Adventure removed from your itinerary.');
+                } else if (target.classList.contains('complete-btn')) {
+                    itinerary[index].completed = !itinerary[index].completed;
+                    renderItinerary();
+                    showToast(itinerary[index].completed ? 'Adventure marked as completed!' : 'Adventure marked as incomplete.');
+                } else if (target.classList.contains('edit-btn')) {
+                    const item = itinerary[index];
+                    document.getElementById('edit-name').value = item.name;
+                    document.getElementById('edit-location').value = item.location;
+                    document.getElementById('edit-date').value = item.date;
+                    document.getElementById('edit-time').value = item.time;
+                    document.getElementById('edit-custom-time').value = item.customTime;
+                    document.getElementById('edit-duration').value = item.duration;
+                    document.getElementById('edit-cost').value = item.cost;
+                    editModal.style.display = 'block';
+                    editModal.classList.add('active');
+                    editForm.setAttribute('data-index', index);
+                }
+            });
+
+            editForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const index = parseInt(editForm.getAttribute('data-index'));
+                itinerary[index] = {
+                    name: document.getElementById('edit-name').value,
+                    location: document.getElementById('edit-location').value,
+                    date: document.getElementById('edit-date').value,
+                    time: document.getElementById('edit-time').value,
+                    customTime: document.getElementById('edit-custom-time').value,
+                    duration: document.getElementById('edit-duration').value,
+                    cost: document.getElementById('edit-cost').value,
+                    completed: itinerary[index].completed
+                };
+                renderItinerary();
+                editModal.style.display = 'none';
+                editModal.classList.remove('active');
+                showToast('Adventure updated successfully!');
+            });
+
+            closeModal.addEventListener('click', () => {
+                editModal.style.display = 'none';
+                editModal.classList.remove('active');
+            });
+
+            window.addEventListener('click', (e) => {
+                if (e.target === editModal) {
+                    editModal.style.display = 'none';
+                    editModal.classList.remove('active');
+                }
+            });
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    const viewToShow = tab.getAttribute('data-view');
+                    views.forEach(view => {
+                        view.style.display = view.id === `${viewToShow}-view` ? 'block' : 'none';
+                    });
+                    if (viewToShow === 'map' && !map) {
+                        initMap();
+                    }
+                    if (viewToShow === 'calendar' && !calendar) {
+                        initCalendar();
+                    }
+                    updateViews();
+                });
+            });
+
+            document.getElementById('export-pdf').addEventListener('click', () => {
+                showToast('PDF export functionality would be implemented here.');
+            });
+
+            document.getElementById('share-link').addEventListener('click', () => {
+                const link = `${window.location.origin}${window.location.pathname}?itinerary=${encodeURIComponent(JSON.stringify(itinerary))}`;
+                navigator.clipboard.writeText(link).then(() => {
+                    showToast('Itinerary link copied to clipboard!');
+                }, () => {
+                    showToast('Failed to copy link. Please try again.');
+                });
+            });
+
+            document.getElementById('share-email').addEventListener('click', () => {
+                const subject = encodeURIComponent('Check out my TravelBuddy itinerary!');
+                const body = encodeURIComponent('Here\'s my exciting itinerary:\n\n' + itinerary.map(item => 
+                    `${item.name} - ${item.date} ${item.time}`
+                ).join('\n'));
+                window.location.href = `mailto:?subject=${subject}&body=${body}`;
+            });
+
+            renderItinerary();
+        });
+    </script>
+</body>
+</html>

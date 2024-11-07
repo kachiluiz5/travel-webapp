@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Advanced Elegant Itinerary</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: #34495e;
+            margin-bottom: 20px;
+        }
+
+        .add-item, .itinerary, .budget-summary {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        input, select, button {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        input[type="text"], input[type="number"] {
+            flex-grow: 1;
+        }
+
+        button {
+            background-color: #3498db;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #ecf0f1;
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: move;
+        }
+
+        li.completed {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+
+        .item-details {
+            flex-grow: 1;
+        }
+
+        .item-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .edit-btn, .delete-btn, .complete-btn {
+            background-color: #e74c3c;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .edit-btn {
+            background-color: #f39c12;
+        }
+
+        .complete-btn {
+            background-color: #2ecc71;
+        }
+
+        .edit-btn:hover {
+            background-color: #d35400;
+        }
+
+        .delete-btn:hover {
+            background-color: #c0392b;
+        }
+
+        .complete-btn:hover {
+            background-color: #27ae60;
+        }
+
+        .budget-summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .budget-summary h2 {
+            margin-bottom: 0;
+        }
+
+        .budget-total {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .over-budget {
+            color: #e74c3c;
+        }
+
+        .edit-form {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .edit-form.active {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Your Advanced Elegant Itinerary</h1>
+        </header>
+        <main>
+            <section class="add-item">
+                <h2>Add New Item</h2>
+                <form id="add-item-form">
+                    <input type="text" id="item-name" placeholder="Item name" required>
+                    <input type="text" id="item-location" placeholder="Location">
+                    <select id="item-time" required>
+                        <option value="">Select time</option>
+                        <option value="morning">Morning</option>
+                        <option value="afternoon">Afternoon</option>
+                        <option value="evening">Evening</option>
+                        <option value="custom">Custom Time</option>
+                    </select>
+                    <input type="time" id="item-custom-time" style="display: none;">
+                    <input type="number" id="item-duration" placeholder="Duration (minutes)" min="0" step="5">
+                    <input type="number" id="item-cost" placeholder="Cost" min="0" step="0.01">
+                    <button type="submit">Add to Itinerary</button>
+                </form>
+            </section>
+            <section class="budget-summary">
+                <h2>Budget Summary</h2>
+                <div>
+                    <label for="total-budget">Total Budget: </label>
+                    <input type="number" id="total-budget" min="0" step="0.01">
+                </div>
+                <div class="budget-total">Total Spent: $<span id="total-spent">0.00</span></div>
+            </section>
+            <section class="itinerary">
+                <h2>Your Itinerary</h2>
+                <ul id="itinerary-list"></ul>
+            </section>
+        </main>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('add-item-form');
+            const itemList = document.getElementById('itinerary-list');
+            const totalBudgetInput = document.getElementById('total-budget');
+            const totalSpentSpan = document.getElementById('total-spent');
+            let itinerary = JSON.parse(localStorage.getItem('itinerary')) || [];
+            let totalBudget = parseFloat(localStorage.getItem('totalBudget')) || 0;
+
+            const timeSelect = document.getElementById('item-time');
+            const customTimeInput = document.getElementById('item-custom-time');
+
+            timeSelect.addEventListener('change', () => {
+                customTimeInput.style.display = timeSelect.value === 'custom' ? 'inline-block' : 'none';
+            });
+
+            totalBudgetInput.value = totalBudget;
+            totalBudgetInput.addEventListener('change', () => {
+                totalBudget = parseFloat(totalBudgetInput.value) || 0;
+                localStorage.setItem('totalBudget', totalBudget);
+                updateBudgetSummary();
+            });
+
+            function updateBudgetSummary() {
+                const totalSpent = itinerary.reduce((sum, item) => sum + (parseFloat(item.cost) || 0), 0);
+                totalSpentSpan.textContent = totalSpent.toFixed(2);
+                totalSpentSpan.parentElement.classList.toggle('over-budget', totalSpent > totalBudget);
+            }
+
+            function renderItinerary() {
+                itemList.innerHTML = '';
+                itinerary.forEach((item, index) => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        <div class="item-details">
+                            <strong>${item.name}</strong> - ${item.location ? item.location + ' | ' : ''}
+                            ${item.time}${item.duration ? ' | ' + item.duration + ' min' : ''}
+                            ${item.cost ? ' | $' + parseFloat(item.cost).toFixed(2) : ''}
+                        </div>
+                        <div class="item-actions">
+                            <button class="edit-btn" data-index="${index}">Edit</button>
+                            <button class="complete-btn" data-index="${index}">${item.completed ? 'Undo' : 'Complete'}</button>
+                            <button class="delete-btn" data-index="${index}">Delete</button>
+                        </div>
+                        <form class="edit-form">
+                            <input type="text" class="edit-name" value="${item.name}" required>
+                            <input type="text" class="edit-location" value="${item.location || ''}">
+                            <select class="edit-time" required>
+                                <option value="morning" ${item.time === 'morning' ? 'selected' : ''}>Morning</option>
+                                <option value="afternoon" ${item.time === 'afternoon' ? 'selected' : ''}>Afternoon</option>
+                                <option value="evening" ${item.time === 'evening' ? 'selected' : ''}>Evening</option>
+                                <option value="custom" ${!['morning', 'afternoon', 'evening'].includes(item.time) ? 'selected' : ''}>Custom Time</option>
+                            </select>
+                            <input type="time" class="edit-custom-time" value="${item.customTime || ''}" style="display: none;">
+                            <input type="number" class="edit-duration" value="${item.duration || ''}" min="0" step="5" placeholder="Duration (min)">
+                            <input type="number" class="edit-cost" value="${item.cost || ''}" min="0" step="0.01" placeholder="Cost">
+                            <button type="submit" class="save-btn">Save</button>
+                            <button type="button" class="cancel-btn">Cancel</button>
+                        </form>
+                    `;
+                    if (item.completed) {
+                        li.classList.add('completed');
+                    }
+                    itemList.appendChild(li);
+                });
+
+                localStorage.setItem('itinerary', JSON.stringify(itinerary));
+                updateBudgetSummary();
+            }
+
+            new Sortable(itemList, {
+                animation: 150,
+                ghostClass: 'sortable-ghost',
+                onEnd: () => {
+                    const newOrder = Array.from(itemList.children).map(li => {
+                        const index = li.querySelector('.edit-btn').getAttribute('data-index');
+                        return itinerary[index];
+                    });
+                    itinerary = newOrder;
+                    renderItinerary();
+                },
+            });
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('item-name').value;
+                const location = document.getElementById('item-location').value;
+                const time = document.getElementById('item-time').value;
+                const customTime = document.getElementById('item-custom-time').value;
+                const duration = document.getElementById('item-duration').value;
+                const cost = document.getElementById('item-cost').value;
+                
+                itinerary.push({ 
+                    name, 
+                    location, 
+                    time: time === 'custom' ? customTime : time,
+                    customTime: time === 'custom' ? customTime : '',
+                    duration, 
+                    cost, 
+                    completed: false 
+                });
+                renderItinerary();
+                form.reset();
+            });
+
+            itemList.addEventListener('click', (e) => {
+                const target = e.target;
+                const index = target.getAttribute('data-index');
+
+                if (target.classList.contains('delete-btn')) {
+                    itinerary.splice(index, 1);
+                    renderItinerary();
+                } else if (target.classList.contains('complete-btn')) {
+                    itinerary[index].completed = !itinerary[index].completed;
+                    renderItinerary();
+                } else if (target.classList.contains('edit-btn')) {
+                    const li = target.closest('li');
+                    const editForm = li.querySelector('.edit-form');
+                    editForm.classList.add('active');
+
+                    const editTimeSelect = editForm.querySelector('.edit-time');
+                    const editCustomTimeInput = editForm.querySelector('.edit-custom-time');
+                    editTimeSelect.addEventListener('change', () => {
+                        editCustomTimeInput.style.display = editTimeSelect.value === 'custom' ? 'inline-block' : 'none';
+                    });
+
+                    if (!['morning', 'afternoon', 'evening'].includes(itinerary[index].time)) {
+                        editCustomTimeInput.style.display = 'inline-block';
+                    }
+                }
+            });
+
+            itemList.addEventListener('submit', (e) => {
+                if (e.target.classList.contains('edit-form')) {
+                    e.preventDefault();
+                    const li = e.target.closest('li');
+                    const index = li.querySelector('.edit-btn').getAttribute('data-index');
+                    const editForm = e.target;
+
+                    itinerary[index] = {
+                        name: editForm.querySelector('.edit-name').value,
+                        location: editForm.querySelector('.edit-location').value,
+                        time: editForm.querySelector('.edit-time').value,
+                        customTime: editForm.querySelector('.edit-custom-time').value,
+                        duration: editForm.querySelector('.edit-duration').value,
+                        cost: editForm.querySelector('.edit-cost').value,
+                        completed: itinerary[index].completed
+                    };
+
+                    renderItinerary();
+                }
+            });
+
+            itemList.addEventListener('click', (e) => {
+                if (e.target.classList.contains('cancel-btn')) {
+                    const editForm = e.target.closest('.edit-form');
+                    editForm.classList.remove('active');
+                }
+            });
+
+            renderItinerary();
+        });
+    </script>
+</body>
+</html>
