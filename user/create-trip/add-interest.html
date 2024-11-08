@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Interest Selection</title>
+    <link rel="stylesheet" href="../assets/css/main.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css"
+    />
+  </head>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+    <script src="./utils/db.js"></script>
+    <div class="main add-intrest-main">
+      <div class="add-interest-container">
+        <!-- progressbar -->
+        <div class="progress-bar">
+          <div class="progress" style="width: 0%"></div>
+        </div>
+
+        <h1 style="font-size: 28px; margin-bottom: 16px" class="progress-h1">
+          Tell us what you're interested in
+        </h1>
+        <p class="progress-text">Select all that apply.</p>
+
+        <div class="interests-container" id="interestsContainer">
+          <!-- Interests will be dynamically added here -->
+        </div>
+
+        <div id="addInterestModal" class="modal">
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2
+              style="font-size: 20px; margin-bottom: 16px"
+              class="progress-h1"
+            >
+              Add a new interest
+            </h2>
+            <input
+              type="text"
+              id="newInterest"
+              placeholder="Enter your interest"
+            />
+            <button id="addNewInterest">Add Interest</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <button
+        onclick="window.location.href='trip-pricing.html'; updateProgress(5);"
+      >
+        Back
+      </button>
+      <a href="signup.html"
+        ><button style="background-color: #2596be; color: #fff">Next</button></a
+      >
+    </div>
+
+    <script>
+      const interests = [
+        "Great Food",
+        "Beach Time",
+        "Nightlife and Entertainment",
+        "Golfing",
+        "Adventure Activities",
+        "Wildlife",
+        "Cultural Experiences (Language, dancing, cooking with a local, etc)",
+        "Excursions & Day Trips",
+        "Spa and Wellness",
+        "Water Sports",
+        "Shopping",
+        "Multi-City visits",
+      ];
+
+      const interestsContainer = document.getElementById("interestsContainer");
+      const modal = document.getElementById("addInterestModal");
+      const closeModal = document.getElementsByClassName("close")[0];
+      const newInterestInput = document.getElementById("newInterest");
+      const addNewInterestButton = document.getElementById("addNewInterest");
+
+      function createInterestElement(interest) {
+        const div = document.createElement("div");
+        div.className = "interest";
+        div.textContent = interest;
+        div.onclick = () => {
+          div.classList.toggle("selected");
+          appendToUserData({
+            interests: Array.from(
+              document.querySelectorAll(".interest.selected")
+            ).map((el) => el.textContent),
+          });
+        };
+        return div;
+      }
+
+      interests.forEach((interest) => {
+        interestsContainer.appendChild(createInterestElement(interest));
+      });
+
+      // Add the "Add interest" button
+      const addInterestButton = createInterestElement("+ Add interest");
+      addInterestButton.classList.add("add-interest");
+      addInterestButton.onclick = () => (modal.style.display = "block");
+      interestsContainer.appendChild(addInterestButton);
+
+      closeModal.onclick = () => (modal.style.display = "none");
+
+      window.onclick = (event) => {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      };
+
+      addNewInterestButton.onclick = () => {
+        const newInterest = newInterestInput.value.trim();
+        if (newInterest) {
+          interestsContainer.insertBefore(
+            createInterestElement(newInterest),
+            addInterestButton
+          );
+          newInterestInput.value = "";
+          modal.style.display = "none";
+        }
+      };
+
+      document.querySelector(".nav-buttons button:last-child").onclick = () => {
+        const selectedInterests = Array.from(
+          document.querySelectorAll(".interest.selected")
+        ).map((el) => el.textContent);
+        console.log("Selected interests:", selectedInterests);
+        // Here you would typically send this data to your backend or move to the next step
+      };
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        updateProgress(6); // Set progress to 5th step (71.4%)
+      });
+
+      function updateProgress(step) {
+        const progressBar = document.querySelector(".progress");
+        const totalSteps = 7;
+        const progressPercentage = (step / totalSteps) * 100;
+        progressBar.style.width = progressPercentage + "%";
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trip Planner</title>
+    <link rel="stylesheet" href="../assets/css/main.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css"
+    />
+  </head>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+    <script src="./utils/db.js"></script>
+    <div class="main">
+      <div class="family-container">
+        <div class="progress-bar">
+          <div class="progress" style="width: 0%"></div>
+        </div>
+
+        <h1 style="font-size: 28px; margin-bottom: 16px" class="progress-h1">
+          When are you going?
+        </h1>
+        <p class="progress-text">Select one.</p>
+        <div class="trip-types">
+          <button class="trip-type" data-type="solo">
+            <span class="trip-type-icon"
+              ><i class="fa-regular fa-user"></i
+            ></span>
+            Solo Trip
+            <span class="checkmark">✓</span>
+          </button>
+          <button class="trip-type" data-type="partner">
+            <span class="trip-type-icon"
+              ><i class="fa-regular fa-heart"></i
+            ></span>
+            Couples Trip
+            <span class="checkmark">✓</span>
+          </button>
+          <button class="trip-type" data-type="friends">
+            <span class="trip-type-icon"
+              ><i class="fa-solid fa-user-group"></i
+            ></span>
+            Friends Trip
+            <span class="checkmark">✓</span>
+          </button>
+          <button class="trip-type" data-type="family">
+            <span class="trip-type-icon"
+              ><i class="fa-solid fa-users"></i
+            ></span>
+            Family Trip
+            <span class="checkmark">✓</span>
+          </button>
+        </div>
+
+        <div class="people-question" style="display: none">
+          <div
+            style="display: flex; justify-content: center; position: relative"
+          >
+            <p style="margin-bottom: 16px">
+              How many people are traveling with you?
+              <span class="tooltip-container">
+                <svg
+                  viewBox="0 0 24 24"
+                  width="16px"
+                  height="16px"
+                  class="tooltip-icon"
+                >
+                  <path
+                    d="M11 10v7h2v-7zm-.034-2.952a1.25 1.25 0 0 0-.216.692A1.24 1.24 0 0 0 12 9a1.25 1.25 0 1 0-1.034-1.952"
+                  ></path>
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2M4 12a8 8 0 1 1 16 0 8 8 0 0 1-16 0"
+                  ></path>
+                </svg>
+                <span class="tooltip-text">
+                  Enter the total number of people, including yourself.
+                </span>
+              </span>
+            </p>
+          </div>
+          <div style="display: flex; justify-content: center">
+            <input
+              type="number"
+              min="1"
+              max="50"
+              value="1"
+              class="people-input"
+              id="peopleInput"
+            />
+          </div>
+        </div>
+
+        <!-- Hidden by default -->
+        <div class="children-question" style="display: none">
+          <div
+            style="display: flex; justify-content: center; position: relative"
+          >
+            <p style="margin-bottom: 16px">
+              Are you traveling with children?
+              <span class="tooltip-container">
+                <svg
+                  viewBox="0 0 24 24"
+                  width="16px"
+                  height="16px"
+                  class="tooltip-icon"
+                >
+                  <path
+                    d="M11 10v7h2v-7zm-.034-2.952a1.25 1.25 0 0 0-.216.692A1.24 1.24 0 0 0 12 9a1.25 1.25 0 1 0-1.034-1.952"
+                  ></path>
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2M4 12a8 8 0 1 1 16 0 8 8 0 0 1-16 0"
+                  ></path>
+                </svg>
+                <span class="tooltip-text"
+                  >We'll scan the reviews and recommendations of travelers with
+                  children to highlight family-friendly options.</span
+                >
+              </span>
+            </p>
+          </div>
+          <div
+            class="children-options"
+            style="display: flex; justify-content: center"
+          >
+            <button
+              class="children-option"
+              data-children="yes"
+              id="childrenYesButton"
+            >
+              <span class="checkmark">✓</span>
+
+              Yes<span class="checkmark">✓</span>
+            </button>
+            <button
+              class="children-option"
+              data-children="no"
+              id="childrenNoButton"
+            >
+              <span class="checkmark">✓</span>
+
+              No<span class="checkmark">✓</span>
+            </button>
+          </div>
+        </div>
+
+        <br />
+        <div class="pets-question">
+          <div style="display: flex; justify-content: center">
+            <p style="margin-bottom: 16px">
+              Are you traveling with pets?
+              <span class="tooltip-container">
+                <svg
+                  viewBox="0 0 24 24"
+                  width="16px"
+                  height="16px"
+                  class="tooltip-icon"
+                >
+                  <path
+                    d="M11 10v7h2v-7zm-.034-2.952a1.25 1.25 0 0 0-.216.692A1.24 1.24 0 0 0 12 9a1.25 1.25 0 1 0-1.034-1.952"
+                  ></path>
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2M4 12a8 8 0 1 1 16 0 8 8 0 0 1-16 0"
+                  ></path>
+                </svg>
+                <span class="tooltip-text">
+                  We'll scan the reviews and recommendations for pet-friendly
+                  options.
+                </span>
+              </span>
+            </p>
+          </div>
+          <div
+            class="pets-options"
+            style="display: flex; justify-content: center"
+          >
+            <button class="pets-option" data-pets="yes" id="petYesButton">
+              Yes<span class="checkmark">✓</span>
+            </button>
+            <button class="pets-option" data-pets="no" id="petNoButton">
+              No<span class="checkmark">✓</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <button
+        onclick="window.location.href='choose-date.html'; updateProgress(2);"
+      >
+        Back
+      </button>
+      <button
+        onclick="window.location.href='location-rating.html'; updateProgress(4);"
+      >
+        Next
+      </button>
+    </div>
+
+    <script>
+      const tripTypes = document.querySelectorAll(".trip-type");
+      const petsOptions = document.querySelectorAll(".pets-option");
+      const childrenOptions = document.querySelectorAll(".children-option");
+
+      function selectOption(options, selectedOption) {
+        options.forEach((option) => {
+          option.classList.remove("selected");
+        });
+        selectedOption.classList.add("selected");
+      }
+
+      tripTypes.forEach((type) => {
+        type.addEventListener("click", () => {
+          selectOption(tripTypes, type);
+        });
+      });
+
+      petsOptions.forEach((option) => {
+        option.addEventListener("click", () => {
+          selectOption(petsOptions, option);
+        });
+      });
+
+      childrenOptions.forEach((option) => {
+        option.addEventListener("click", () => {
+          selectOption(childrenOptions, option);
+        });
+      });
+
+      document.querySelector(".close-button").addEventListener("click", () => {
+        console.log("Close button clicked");
+      });
+
+      document.querySelector(".back-button").addEventListener("click", () => {
+        console.log("Back button clicked");
+      });
+
+      document.querySelector(".next-button").addEventListener("click", () => {
+        console.log("Next button clicked");
+      });
+    </script>
+
+    <script>
+      updateProgress(2); // Set the progress to 3/3 (100%)
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const tripTypes = document.querySelectorAll(".trip-type");
+        const childrenQuestion = document.querySelector(".children-question");
+        const peopleQuestion = document.querySelector(".people-question");
+
+        tripTypes.forEach((button) => {
+          button.addEventListener("click", function () {
+            const tripType = this.getAttribute("data-type");
+
+            // Show "Are you traveling with children?" for family and friends
+            if (tripType === "family" || tripType === "friends") {
+              childrenQuestion.style.display = "block";
+              peopleQuestion.style.display = "block"; // Show people question
+            } else {
+              childrenQuestion.style.display = "none";
+              peopleQuestion.style.display = "none"; // Hide people question for other trips
+            }
+            appendToUserData({
+              tripType: tripType.toUpperCase(),
+            });
+          });
+        });
+
+        const peopleInput = document.getElementById("peopleInput");
+
+        // peopleInput.addEventListener("change", function (e) {
+        //   appendToUserData({
+        //     totalPeopleTravellingWith: e.target.value || null,
+        //   });
+        // });
+
+        peopleInput.addEventListener("input", function () {
+          appendToUserData({
+            totalPeopleTravellingWith: parseInt(this.value),
+          });
+        });
+
+        const childrenYesButton = document.getElementById("childrenYesButton");
+        const childrenNoButton = document.getElementById("childrenNoButton");
+
+        childrenYesButton.addEventListener("click", function () {
+          appendToUserData({
+            travellingWithChildren: "yes",
+          });
+        });
+
+        childrenNoButton.addEventListener("click", function () {
+          appendToUserData({
+            travellingWithChildren: "no",
+          });
+        });
+
+        const petYesButton = document.getElementById("petYesButton");
+        const petNoButton = document.getElementById("petNoButton");
+
+        petYesButton.addEventListener("click", function () {
+          appendToUserData({
+            travellingWithPets: "yes",
+          });
+        });
+
+        petNoButton.addEventListener("click", function () {
+          appendToUserData({
+            travellingWithPets: "no",
+          });
+        });
+      });
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        updateProgress(3); // Set progress to 3rd step (42.84%)
+      });
+
+      function updateProgress(step) {
+        const progressBar = document.querySelector(".progress");
+        const totalSteps = 7;
+        const progressPercentage = (step / totalSteps) * 100;
+        progressBar.style.width = progressPercentage + "%";
+      }
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Select elements for Solo Trip and Pets (No)
+        const soloTripButton = document.querySelector(
+          ".trip-type[data-type='solo']"
+        );
+        const petsNoButton = document.querySelector(
+          ".pets-option[data-pets='no']"
+        );
+
+        // Function to set the default selection
+        function setDefaultSelections() {
+          // Set Solo Trip as selected
+          if (soloTripButton) {
+            soloTripButton.classList.add("selected");
+          }
+
+          // Set Pets (No) as selected
+          if (petsNoButton) {
+            petsNoButton.classList.add("selected");
+          }
+        }
+
+        // Run the function on page load
+        setDefaultSelections();
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Location Search Bar</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../assets/css/main.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css"
+    />
+    <script src="./api/axios.js"></script>
+    <head>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+      />
+    </head>
+  </head>
+
+  <body>
+    <script src="./utils/db.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+    <div class="main">
+      <div class="search-trip-container">
+        <h1 class="progress-h1">Where do you want to go?</h1>
+        <p class="progress-text">
+          Search or get inspired by popular destinations.
+        </p>
+        <div class="search-container">
+          <div class="search-wrapper">
+            <i class="fas fa-search search-icon"></i>
+            <input
+              type="text"
+              class="search-bar"
+              placeholder="Search by city or town"
+            />
+          </div>
+          <div class="search-results"></div>
+        </div>
+
+        <div class="spacer-top-bottom"></div>
+        <div class="destinations">
+          <div class="destination" data-location="Punta Cana">
+            <img src="assets/images/caption1.jpg" alt="Punta Cana" />
+            <h3>Punta Cana</h3>
+          </div>
+          <div class="destination" data-location="Santo Domingo">
+            <img src="assets/images/caption2.jpg" alt="Santo Domingo" />
+            <h3>Santo Domingo</h3>
+          </div>
+          <div class="destination" data-location="La Romana">
+            <img src="assets/images/caption3.jpg" alt="La Romana" />
+            <h3>La Romana</h3>
+          </div>
+          <div class="destination" data-location="Puerto Plata">
+            <img src="assets/images/caption4.jpg" alt="Puerto Plata" />
+            <h3>Puerto Plata</h3>
+          </div>
+          <div class="destination" data-location="Santiago">
+            <img src="assets/images/caption5.jpg" alt="Santiago" />
+            <h3>Santiago</h3>
+          </div>
+          <div class="destination" data-location="Jarabacoa">
+            <img src="assets/images/caption2.jpg" alt="Jarabacoa" />
+            <h3>Jarabacoa</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="overlay"></div>
+    <div class="popup-modal">
+      <h2 id="popup-message"></h2>
+      <img
+        src="assets/images/icon/airplane.png"
+        class="airplane"
+        alt="Airplane"
+        style="width: 110px"
+      />
+    </div>
+
+    <script>
+      const searchBar = document.querySelector(".search-bar");
+      const searchResults = document.querySelector(".search-results");
+      const overlay = document.querySelector(".overlay");
+      const popupModal = document.querySelector(".popup-modal");
+      const popupMessage = document.getElementById("popup-message");
+
+      const cities = [
+        {
+          name: "Santo Domingo",
+          details: "National District, Dominican Republic",
+        },
+        { name: "Santiago", details: "Santiago Province, Dominican Republic" },
+        {
+          name: "Punta Cana",
+          details: "La Altagracia Province, Dominican Republic",
+        },
+        {
+          name: "La Romana",
+          details: "La Romana Province, Dominican Republic",
+        },
+        {
+          name: "Puerto Plata",
+          details: "Puerto Plata Province, Dominican Republic",
+        },
+        { name: "Jarabacoa", details: "La Vega Province, Dominican Republic" },
+      ];
+
+      searchBar.addEventListener("focus", () => {
+        searchResults.style.display = "block";
+        searchBar.classList.add("active");
+        overlay.style.display = "flex"; // Show the search overlay
+      });
+
+      searchBar.addEventListener("input", (e) => {
+        const query = e.target.value.toLowerCase();
+        searchResults.innerHTML = "";
+
+        const filteredCities = cities.filter((city) =>
+          city.name.toLowerCase().includes(query)
+        );
+
+        filteredCities.forEach((city) => {
+          const resultItem = document.createElement("div");
+          resultItem.classList.add("result-item");
+
+          const icon = document.createElement("i");
+          icon.classList.add("fas", "fa-map-marker-alt", "location-icon");
+
+          const locationInfo = document.createElement("div");
+          locationInfo.classList.add("location-info");
+
+          const locationName = document.createElement("div");
+          locationName.classList.add("location-name");
+          locationName.textContent = city.name;
+
+          const locationDetails = document.createElement("div");
+          locationDetails.classList.add("location-details");
+          locationDetails.textContent = city.details;
+
+          locationInfo.appendChild(locationName);
+          locationInfo.appendChild(locationDetails);
+          resultItem.appendChild(icon);
+          resultItem.appendChild(locationInfo);
+          searchResults.appendChild(resultItem);
+
+          resultItem.addEventListener("click", () => {
+            searchResults.style.display = "none"; // Hide search results
+            overlay.style.display = "none"; // Hide the search overlay
+            showPopup(city.name);
+          });
+        });
+
+        if (filteredCities.length === 0) {
+          searchResults.innerHTML =
+            '<p style="padding: 10px;">No results found</p>';
+        }
+      });
+
+      document.querySelectorAll(".destination").forEach((destination) => {
+        destination.addEventListener("click", () => {
+          const location = destination.getAttribute("data-location");
+          searchResults.style.display = "none"; // Hide search results
+          overlay.style.display = "none"; // Hide the search overlay
+          showPopup(location);
+        });
+      });
+
+      function showPopup(location) {
+        popupMessage.textContent = `You are going to ${location} 😎`;
+        overlay.style.display = "block"; // Show the overlay for the popup
+        popupModal.style.display = "block"; // Show the popup modal
+
+        saveUserData({
+          place: location,
+        });
+        setTimeout(() => {
+          overlay.style.display = "none"; // Hide the overlay after animation
+          popupModal.style.display = "none"; // Hide the popup modal
+          window.location.href = "choose-date.html"; // Redirect after delay
+        }, 3000);
+      }
+
+      overlay.addEventListener("click", () => {
+        searchResults.style.display = "none";
+        searchBar.classList.remove("active");
+        overlay.style.display = "none"; // Hide the overlay
+        popupModal.style.display = "none"; // Hide the popup modal
+      });
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        updateProgress(1); // Set progress to 1st step (14.28%)
+      });
+
+      function updateProgress(step) {
+        const progressBar = document.querySelector(".progress");
+        const totalSteps = 7; // Total steps is 7
+        const progressPercentage = (step / totalSteps) * 100;
+        progressBar.style.width = progressPercentage + "%";
+      }
+    </script>
+  </body>
+</html>
