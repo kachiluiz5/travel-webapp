@@ -7,14 +7,39 @@
     <link rel="stylesheet" href="../assets/css/main.css" />
     <link
       rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
+
+    <link
+      rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css"
     />
+
+    <style>
+      .close-icon {
+        position: absolute;
+        top: 16px;
+        right: 26px;
+        font-size: 34px;
+        color: #333;
+        text-decoration: none;
+      }
+
+      .close-icon:hover {
+        color: #555;
+      }
+    </style>
   </head>
   <body>
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
     <script src="./utils/db.js"></script>
     <div class="main add-intrest-main">
       <div class="add-interest-container">
+        <!-- Close Icon to go back to the dashboard -->
+        <a href="../index.html" class="close-icon">
+          <i class="fas fa-times"></i>
+        </a>
+
         <!-- progressbar -->
         <div class="progress-bar">
           <div class="progress" style="width: 0%"></div>

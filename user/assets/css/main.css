@@ -1897,3 +1897,19 @@
     font-size: 24px !important;
     text-anchor: middle;
   }
+
+
+/* close btn */
+
+  .close-icon {
+    position: absolute;
+    top: 16px;
+    right: 26px;
+    font-size: 34px;
+    color: #333;
+    text-decoration: none;
+  }
+
+  .close-icon:hover {
+    color: #555;
+  }
